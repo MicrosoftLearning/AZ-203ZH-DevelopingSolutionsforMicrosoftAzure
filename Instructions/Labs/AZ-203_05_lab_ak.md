@@ -1,794 +1,759 @@
+﻿---
+实验室：
+    标题：“实验室：监视部署到 Azure 的服务”
+    类型：“答案”
+    模块：“模块 5：监视、排除故障并优化 Azure 解决方案”
 ---
-lab:
-    title: 'Lab: Monitoring services deployed to Azure'
-    type: 'Answer Key'
-    module: 'Module 5: Monitor, troubleshoot, and optimize Azure solutions '
----
 
-# Lab: Monitoring services deployed to Azure
-# Student lab answer key
+# 实验室：监视部署到 Azure 的服务
+# 学生实验室答案
 
-## Microsoft Azure user interface
+## Microsoft Azure 用户界面
 
-Given the dynamic nature of Microsoft cloud tools, you might experience Azure user interface (UI) changes after the development of this training content. These changes might cause the lab instructions and steps to not match up.
+鉴于 Microsoft 云工具的动态特性，Azure 用户界面 (UI) 在此培训内容开发后可能会发生更改。这些更改可能会导致实验室说明和步骤不匹配。
 
-Microsoft updates this training course as soon as the community brings needed changes to our attention. However, because cloud updates occur frequently, you might encounter UI changes before this training content is updated. **If this occurs, adapt to the changes and work through them in the labs as needed.**
+一旦 Microsoft 通过社区注意到必要更改，将会立即更新此培训课程。但由于云更新频繁，你可能会在此培训内容更新前遇到 UI 更改。**如果发生这种情况，请根据需要适更改并在实验室中完成这些更改。**
 
-## Instructions
+## 说明
 
-### Before you start
+### 开始前
 
-#### Sign in to the lab virtual machine
+#### 登录实验室虚拟机
 
-Sign in to your **Windows 10** virtual machine by using the following credentials:
+  - 使用以下凭据登录到 **Windows 10** 虚拟机：
     
--   **Username**: Admin
-
--   **Password**: Pa55w.rd
-
-> **Note**: Lab virtual machine sign-in instructions will be provided to you by your instructor.
-
-#### Review installed applications
-
-Observe the taskbar located at the bottom of your **Windows 10** desktop. The taskbar contains the icons for the applications that you will use in this lab:
+      - **用户名**：Admin
     
--   Microsoft Edge
+      - **密码**：Pa55w.rd
 
--   File Explorer
+> > **注**：讲师将为你提供实验室虚拟机登录说明。
 
--   Visual Studio Code
+#### 查看已安装的应用
 
--   Windows PowerShell
+  - 观察位于 **Windows 10** 桌面底部的任务栏。任务栏包含将在本实验室中使用的应用程序图标：
+    
+      - Microsoft Edge
+    
+      - 文件资源管理器
+    
+      - Visual Studio Code
+    
+      - Windows PowerShell
 
-#### Download the lab files
+#### 下载实验室文件
 
-1.  On the taskbar, select the **Windows PowerShell** icon.
+1.  在任务栏上，选择 **Windows PowerShell** 图标。
 
-1.  In the PowerShell command prompt, change the current working directory to the **Allfiles (F):\\** path:
+2.  在 PowerShell 命令提示符中，将当前工作目录更改为 **Allfiles (F):\\** 路径：
 
     ```
     cd F:
     ```
 
-1.  Within the command prompt, enter the following command and press Enter to clone the **microsoftlearning/AZ-203-DevelopingSolutionsforMicrosoftAzure** project hosted on GitHub into the **Allfiles (F):\\** drive:
+3.  在命令提示符中，输入以下命令并按 Enter 键以将 GitHub 上托管的 **microsoftlearning/AZ-203-DevelopingSolutionsForAzure** 项目克隆到 **Labfiles** 目录：
 
     ```
     git clone --depth 1 --no-checkout https://github.com/microsoftlearning/AZ-203-DevelopingSolutionsForMicrosoftAzure .
     ```
 
-1.  Within the command prompt, enter the following command and press **Enter** to check out the lab files necessary to complete the **AZ-203T05** lab:
+4.  在命令提示符中，输入以下命令并按 **Enter** 键以签出完成 **AZ-203.02** 实验室所必需的实验室文件：
 
     ```
     git checkout master -- Allfiles/*
     ```
 
-1.  Close the currently running **Windows PowerShell** command prompt application.
+5.  关闭当前正在运行的 **Windows PowerShell** 命令提示应用程序。
 
-### Exercise 1: Create and configure Azure resources
+### 练习 1：创建和配置 Azure 资源
 
-#### Task 1: Open the Azure portal
+#### 任务 1：打开 Azure 门户
 
-1.  On the taskbar, select the **Microsoft Edge** icon.
+1.  在任务栏上，选择 **Microsoft Edge** 图标。
 
-1.  In the open browser window, navigate to the [**Azure portal**](https://portal.azure.com) (portal.azure.com).
+2.  在打开的浏览器窗口中，导航到 [**Azure 门户**](https://portal.azure.com) (portal.azure.com)。
 
-1.  At the sign-in page, enter the **email address** for your Microsoft account.
+3.  在登录页面，输入 Microsoft 帐户的 **电子邮件地址**。
 
-1.  Select **Next**.
+4.  选择“**下一步**”。
 
-1.  Enter the **password** for your Microsoft account.
+5.  输入 Microsoft 帐户的**密码**。
 
-1.  Select **Sign in**.
+6.  选择“**登录**”。
 
-> **Note**: If this is your first time signing in to the **Azure portal**, a dialog box will display an offer to tour the portal. Select **Get Started** to skip the tour and begin using the portal.
+> **注**：如果这是你第一次登录 **Azure 门户**，则会显示提供门户教程的对话框。选择“**开始使用**”以跳过教程并开始使用门户。
 
-#### Task 2: Create an Application Insights resource
+#### 任务 2：创建 Application Insights 资源
 
-1.  In the left navigation pane of the portal, select **+ Create a resource**.
+1.  在门户的左侧导航窗格，单击“**+ 创建资源**”。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** field.
+2.  在“**新建**”边栏选项卡顶部，找到“**搜索市场**”字段。
 
-1.  In the search field, enter **Insights** and press Enter.
+3.  在搜索字段中，输入 **Insights**，然后按 Enter 键。
 
-1.  In the **Everything** search results blade, select the **Application Insights** result.
+4.  在“**全部内容**”搜索结果边栏选项卡中，选择“**Application Insights**”结果。
 
-1.  In the **Application Insights** blade, select **Create**.
+5.  在“**Application Insights**”边栏选项卡中，选择“**创建**”。
 
-1.  In the second **Application Insights** blade, perform the following actions:
+6.  在第二个“**Application Insights**”边栏选项卡中，执行以下操作：
     
-    1.  Leave the **Subscription** field set to its default value.
+    1.  在“**名称**”字段中，输入 **instrm\[*your name in lowercase*\]**。
     
-    1.  In the **Resource group** section, select **Create new**, and then enter **MonitoredAssets**.
+    2.  在“**应用程序类型**”列表中，选择“**ASP.NET 应用程序**”。
     
-    1.  In the **Name** field, enter **instrm\[*your name in lowercase*\]**.
-
-    1.  In the **Location** list, select **(US) East US**.
+    3.  将“**订阅**”字段保留设置为默认值。
     
-    1.  Select **Review + create**
+    4.  在“**资源组**”部分，选择“**新建**”，然后输入 **MonitoredAssets**。
     
-    1.  Review the options that you entered in the previous steps.
+    5.  在“**位置**”拉列表中，选择“**美国东部**”。
     
-    1. Select **Create**.
+    6.  选择“**创建**”。
 
-1.  Wait for the creation task to complete before you move forward with this lab.
+7.  等待创建任务完成后，再继续本实验室。
 
-1.  In the left navigation pane of the portal, select **Resource groups**.
+8.  在门户左侧的导航窗格中，选择“**资源组**”。
 
-1.  In the **Resource groups** blade, select the **MonitoredAssets** resource group that you created earlier in this lab.
+9.  在“**资源组**”边栏选项卡中，选择你之前在本实验室中创建的 **MonitoredAssets** 资源组。
 
-1. In the **MonitoredAssets** blade, select the **instrm\*** Application Insights account that you created earlier in this lab.
+10. 在“**MonitoredAssets**”边栏选项卡中，选择你之前在本实验室中创建的 **instrm\*** Application Insights。
 
-1. In the **Application Insights** blade, on the left side of the blade, within the **Configure** category,, select the **Properties** link.
+11. 在“**Application Insights**”边栏选项卡中，在边栏选项卡左侧的“**配置**”类别选择“**属性**”链接。
 
-1. In the **Properties** section, observe the value of the **Instrumentation Key** field. This key is used by client applications to connect to Application Insights.
+12. 在“**属性**”部分，观察“**检测密钥**”字段的值。客户端应用程序使用此密钥连接到 Application Insights。
 
-#### Task 3: Create an API App resource
+#### 任务 3：创建 API 应用资源
 
-1.  In the left navigation pane of the portal, select **+ Create a resource**.
+1.  在门户的左侧导航窗格，单击“**+ 创建资源**”。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** field.
+2.  在“**新建**”边栏选项卡顶部，找到“**搜索市场**”字段。
 
-1.  In the search field, enter **API** and press Enter.
+3.  在搜索字段中，输入 **API**，然后按 Enter 键。
 
-1.  In the **Everything** search results blade, select the **API App** result.
+4.  在“**全部内容**”搜索结果边栏选项卡中，选择“**API 应用**”结果。
 
-1.  In the **API App** blade, select **Create**.
+5.  在“**API 应用**”边栏选项卡中，选择“**创建**”。
 
-1.  In the second **API App** blade, perform the following actions:
+6.  在第二个“**API 应用**”边栏选项卡中，执行以下操作：
     
-    1.  In the **App name** field, enter **smpapi\[*your name in lowercase*\]**.
+    1.  在“**应用名称**”字段中，输入 **smpapi\[*your name in lowercase*\]**。
     
-    1.  Leave the **Subscription** field set to its default value.
+    2.  将“**订阅**”字段保留设置为默认值。
     
-    1.  In the **Resource group** section, select **Use existing**, and then select **MonitoredAssets**.
+    3.  在“**资源组**”部分，选择“**使用现有**”，然后选择“**MonitoredAssets**”。
     
-    1.  Select the **App Service plan/Location** field.
+    4.  选择“**应用服务计划/位置**”字段。
 
-1.  In the **App Service plan** blade, select **Create new**.
+7.  在“**应用服务计划**”边栏选项卡中，选择“**新建**”。
 
-1.  In the **New App Service Plan** blade, perform the following actions:
+8.  在“**新建应用服务计划**”边栏选项卡中，执行以下操作：
     
-    1.  In the **App Service plan** field, enter **MonitoredPlan**.
+    5.  在“**应用服务计划**”字段中，输入 **MonitoredPlan**。
     
-    1.  In the **Location** list, select the **East US** location.
+    6.  在“**位置**”列表中，选择“**美国东部**”位置。
     
-    1.  Set the **Pricing tier** field to the value **S1 Standard**.
+    7.  将“**定价层**”字段设置为值 **(S1)**。
     
-    1.  Select **OK**.
+    8.  选择“**确定**”。
 
-1.  Back in the **Api App** blade, select the **Application Insights** field.
+9.  回到“**API 应用**”边栏选项卡，选择“**Application Insights**”按钮。
 
-1. In the **Application Insights** blade, perform the following actions:
+10. 在“**Application Insights**”边栏选项卡中，执行以下操作：
     
-    1.  In the **Application Insights** section, select **Enable**.
+    9.  在“**Application Insights 站点扩展**”部分，选择“**启用**”。
     
-    1. In the **Change your resource** section, select **Select existing resource** and then select the **instrm\*** Application Insights account that you created earlier in this lab.
+    10. 在“**链接到 Application Insights 资源**”部分，选择“**选择现有资源**”，然后选择之前在本实验室中创建的 **instrm\*** Application Insights 帐户。
     
-    1. In the **Instrument your application** section, select the **.NET Core** tab and then select **Recommended**.
-
-    1. In the **Profiler** section, select **On**.
-
-    1. In the **Snapshot debugger** section, select **On**.
-
-    1. In the **SQL Commands** section, select **On**.
+    11. 在“**检测应用程序**”部分，选择“ **NET Core**”选项卡，然后选择“**推荐**”。
     
-    1. Select **Apply**.
+    12. 选择“**应用**”。
 
-1. Back in the **Api App** blade, select **Create**.
+11. 返回“**API 应用**”边栏选项卡，选择“**创建**”。
 
-1. Wait for the creation task to complete before you move forward with this lab.
+12. 等待创建任务完成后，再继续本实验室。
 
-1. In the left navigation pane of the portal, select **Resource groups**.
+13. 在门户左侧的导航窗格中，选择“**资源组**”。
 
-1. In the **Resource groups** blade, select the **MonitoredAssets** resource group that you created earlier in this lab.
+14. 在“**资源组**”边栏选项卡中，选择你之前在本实验室中创建的 **MonitoredAssets** 资源组。
 
-1. In the **MonitoredAssets** blade, select the **smpapi\*** API app you that created earlier in this lab.
+15. 在“**MonitoredAssets**”边栏选项卡中，选择你之前在本实验室中创建的 **smpapi\*** API 应用。
 
-1. In the **App Service** blade, on the left side of the blade, within the **Settings** category, select the **Configuration** link.
+16. 在“**应用服务**”边栏选项卡中，在边栏选项卡左侧的“**设置**”类别选择“**应用程序设置**”链接。
 
-1.  In the **Configuration** section, perform the following actions:
+17. 在“**应用程序设置**”部分，向下滚动，直到找到 API 的“**应用程序设置**”列表。
+
+18. 选择“**显示值**”以查看与你的 API 相关的机密。
+
+19. 观察与 **APPINSIGHTS\_INSTRUMENTATIONKEY** 密钥相对应的值。构建 API 应用资源时会自动设置此值。
+
+20. 在“**应用服务**”边栏选项卡中，在边栏选项卡左侧的“**设置**”类别选择“**应用属性**”链接。
+
+21. 在“**属性**”部分，记录“**URL**”字段的值。稍后你将在本实验室中使用此值来对 API 发出请求。
+
+#### 任务 4：配置 API 应用自动缩放选项
+
+1.  在“**应用服务**”边栏选项卡中，在边栏选项卡左侧的“**设置**”类别选择“**横向扩展**”链接。
+
+2.  在“**横向扩展部分**”部分中，执行以下操作：
     
-    1.  Select the **Application settings** tab.
-
-    1.  Select **Show Values** to view the secrets associated with your API.
-
-    1.  Observe the value corresponding to the **APPINSIGHTS\_INSTRUMENTATIONKEY** key. This value was set automatically when you built your API App resource.
-
-1. In the **App Service** blade, on the left side of the blade within the **Settings** category, select the **Properties** link.
-
-1. In the **Properties** section, record the value of the **URL** field. You will use this value later in the lab to make requests against the API.
-
-#### Task 4: Configure API App auto-scale options
-
-1.  In the **App Service** blade, on the left side of the blade, within the **Settings** category, select the **Scale out (App Service Plan)** link.
-
-1.  In the **Scale out** section, perform the following actions:
+    1.  选择“**启用横向扩展**”。
     
-    1.  Select **Enable autoscale**.
+    2.  在“**自动缩放设置名称**”字段中，输入 **ComputeScaler**。
     
-    1.  In the **Autoscale setting name** field, enter **ComputeScaler**.
+    3.  在“**资源组**”列表中，选择“**MonitoredAssets**”。
     
-    1.  In the **Resource group** list, select **MonitoredAssets**.
+    4.  在“**缩放模式**”部分中，选择“**根据指标缩放**”。
     
-    1.  In the **Scale mode** section, select **Scale based on a metric**.
+    5.  在“**实例限制**”部分的“**最小**”字段，输入 **2**。
     
-    1.  In the **Minimum** field within the **Instance limits** section, enter **2**.
+    6.  在“**实例限制**”部分的“**最大**”字段，输入 **8**。
     
-    1.  In the **Maximum** field within the **Instance limits** section, enter **8**.
+    7.  在“**实例限制**”部分的“**默认值**”字段，输入 **3**。
     
-    1.  In the **Default** field within the **Instance limits** section, enter **3**.
+    8.  选择“**+ 添加规则**”。在显示的“**缩放规则**”窗口中，将所有字段保留设置为默认值，然后选择“**添加**”。
     
-    1.  Select **+ Add a rule**. In the **Scale rule** window that appears, leave all fields set to their default values and then select **Add**.
+    9.  在该部分顶部，单击“**保存**”。
+
+3.  等待保存操作完成后再继续本实验室。
+
+#### 回顾
+
+在本练习中，你创建了所有将用于本实验室其余部分的资源。
+
+### 练习 2：构建和部署 ASP.NET Core Web API 应用程序
+
+#### 任务 1：构建 .NET Core Web API 项目
+
+1.  在任务栏上，选择 **Visual Studio Code** 图标。
+
+2.  在“**文件**”菜单上，选择“**打开文件夹**”。
+
+3.  在打开的“文件资源管理器”窗格中，转到 **Allfiles (F):\\Labfiles\\05\\Starter\\Api**，然后选择“**选择文件夹**”。
+
+4.  在“Visual Studio Code”窗口中，访问上下文菜单或右键单击“**资源管理器**”窗格，然后选择“**在终端中打开**”。
+
+5.  在打开的命令提示符中，输入以下命令并按 Enter 键以在当前目录中创建一个名为 **SimpleApi** 的 .NET Core Web API 应用程序：
+
+dotnet new webapi --output .--name SimpleApi
+
+6.  在命令提示符中，输入以下命令并按 Enter 键以将 **2.6.1** 版本的 **Microsoft.ApplicationInsights.AspNetCore** 程序包从 NuGet 添加到当前项目：
+
+dotnet add package Microsoft.ApplicationInsights.AspNetCore --version 2.6.1
+
+7.  在命令提示符中，输入以下命令并按 Enter 键以构建 .NET Core Web 应用程序：
+
+dotnet build
+
+#### 任务 2：更新应用程序代码以禁用 HTTPS 并使用 Application Insights
+
+1.  在“**Visual Studio Code**”窗口左侧的“**Explorer**”窗格中，双击 **Program.cs** 文件以在编辑器中打开该文件。
+
+2.  在编辑器的 **Program** 类中，在第 **20** 行找到以下代码块：
+
+public static IWebHostBuilder CreateWebHostBuilder(string\[\] args) =\>
+
+WebHost.CreateDefaultBuilder(args)
+
+.UseStartup\<Startup\>();
+
+3.  使用启用项目 **Application Insights** 遥测的以下代码块替换该代码块：
+
+public static IWebHostBuilder CreateWebHostBuilder(string\[\] args) =\>
+
+WebHost.CreateDefaultBuilder(args)
+
+.UseStartup\<Startup\>()
+
+.UseApplicationInsights();
+
+4.  **保存** **Program.cs** 文件。
+
+5.  在“**Visual Studio Code**”窗口左侧的“**Explorer**”窗格中，双击 **Startup.cs** 文件以在编辑器中打开该文件。
+
+6.  在编辑器的 **Program** 类中，在第 **44** 行找到并删除以下代码行：
+
+app.UseHttpsRedirection();
+
+> > **注**：这行代码强制 API 应用使用 HTTPS。对于本实验室而言，这不是必要的。
+
+7.  **保存** **Startup.cs** 文件。
+
+<!-- end list -->
+
+8.  找到屏幕底部的命令提示符。在命令提示符中，输入以下命令并按 Enter 键以构建 .NET Core Web 应用程序。
+
+dotnet build
+
+#### 任务 3：本地测试 API 应用程序
+
+1.  找到屏幕底部的命令提示符。在命令提示符中，输入以下命令并按 Enter 键以执行 .NET Core Web 应用程序。
+
+dotnet run
+
+2.  在任务栏上，选择 **Microsoft Edge** 图标。
+
+3.  在打开的浏览器窗口中，导航到在端口 **5000** 的 **localhost** 托管的测试应用程序的 **/api/values** 相对路径。
     
-    1.  At the top of the section, select **Save**.
+    **注**：完整的 URL 为 http://localhost:5000/api/values
 
-1.  Wait for the save operation to complete before you move forward with this lab.
-
-#### Review
-
-In this exercise, you created the resources that you will use for the remainder of the lab.
-
-### Exercise 2: Build and deploy an .NET Core Web API application
-
-#### Task 1: Build a .NET Core Web API project
-
-1.  On the taskbar, select the **Visual Studio Code** icon.
-
-1.  On the **File** menu, select **Open Folder**.
-
-1.  In the File Explorer pane that opens, go to **Allfiles (F):\\Allfiles\\Labs\\05\\Starter\\Api**, and then select **Select Folder**.
-
-1.  In the Visual Studio Code window, access the context menu or right-click the **Explorer** pane and then select **Open in Terminal**.
-
-1.  In the open command prompt, enter the following command and press Enter to create a new .NET Core Web API application named **SimpleApi** in the current directory:
-
-    ```
-    dotnet new webapi --output . --name SimpleApi
-    ```
-
-1.  In the command prompt, enter the following command and press Enter to add the **2.7.1** version of the **Microsoft.ApplicationInsights.AspNetCore** package from NuGet to the current project:
-
-    ```
-    dotnet add package Microsoft.ApplicationInsights.AspNetCore --version 2.7.1
-    ```
-
-1.  In the command prompt, enter the following command and press Enter to build the .NET Core web application:
-
-    ```
-    dotnet build
-    ```
+4.  在同一浏览器窗口中，导航到在端口 **5000** 的 **localhost** 托管的测试应用程序的 **/api/values** 相对路径。
     
-#### Task 2: Update application code to disable HTTPS and use Application Insights
+    **注**：完整的 URL 为 http://localhost:5000/api/values/7
 
-1.  On the left side of the **Visual Studio Code** window, in the **Explorer** pane, double-click the **Program.cs** file to open the file in the editor.
+5.  关闭显示 http://localhost:5000/api/values/7 地址的浏览器窗口。
 
-1.  In the editor, in the **Program** class, locate the following block of code at line **20**:
+6.  关闭当前正在运行的 **Visual Studio Code** 应用程序。
 
-    ```
-    public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
-    ```
-1.  Replace that block of code with the following block of code that enables **Application Insights** telemetry for the project:
+#### 任务 4：在 Application Insights 中查看指标
 
-    ```
-    public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseApplicationInsights();
-    ```
+1.  返回显示 **Azure 门户** 的当前打开的浏览器窗口。
 
-1.  **Save** the **Program.cs** file.
+2.  在门户左侧，选择“**资源组**”。
 
-1.  On the left side of the **Visual Studio Code** window, in the **Explorer** pane, double-click the **Startup.cs** file to open the file in the editor.
+3.  在“**资源组**”边栏选项卡中，找到并选择你之前在本实验室中创建的 **MonitoredAssets** 资源组。
 
-1.  In the editor, in the **Program** class, locate and delete the following line of code at line **43**:
+4.  在“**MonitoredAssets**”边栏选项卡中，选择你之前在本实验室中创建的 **instrm\*** Application Insights。
 
-    ```
-    app.UseHttpsRedirection();
-    ```
+5.  在“**Application Insights**”边栏选项卡中，在位于边栏选项卡中心的磁贴中，观察显示的磁贴。具体来说，观察已发生的 **服务器** **请求** 数量以及平均 **服务器响应时间**。
 
-    > **Note**: This line of code forces the API App to use HTTPS. For this lab, this is unnecessary.
+#### 任务 5：将应用程序部署到 API 应用
 
-1.  **Save** the **Startup.cs** file.
+1.  在任务栏上，选择 **Visual Studio Code** 图标。
 
-1.  Locate the command prompt at the bottom of the screen. In the command prompt, enter the following command and press Enter to build the .NET Core web application.
+2.  在“**文件**”菜单上，选择“**打开文件夹**”。
 
-    ```
-    dotnet build
-    ```
+3.  在打开的“文件资源管理器”窗格中，转到 **Allfiles (F):\\Labfiles\\Starter\\Api**，然后选择“**选择文件夹**”。
 
-#### Task 3: Test an API application locally
+4.  在“Visual Studio Code”窗口中，访问上下文菜单或右键单击“**Explorer**”窗格，然后选择“**在终端中打开**”。
 
-1.  Locate the command prompt at the bottom of the screen. In the command prompt, enter the following command and press Enter to execute the .NET Core web application.
+5.  在打开的命令提示符中，输入以下命令并按 Enter 键以登录 Azure CLI：
 
-    ```
-    dotnet run
-    ```
-1.  On the taskbar, select the **Microsoft Edge** icon.
+az login
 
-1.  In the open browser window, navigate to the **/api/values** relative path of your test application hosted at **localhost** on port **5000**.
+6.  在显示的窗口中，执行以下操作：
     
-    > **Note**: The full URL is http://localhost:5000/api/values
-
-1.  In the same browser window, navigate to the **/api/values/7** relative path of your test application hosted at **localhost** on port **5000**.
+    1.  输入 Microsoft 帐户的 **电子邮件地址**。
     
-    >  **Note**: The full URL is http://localhost:5000/api/values/7
-
-1.  Close the browser window displaying the http://localhost:5000/api/values/7 address.
-
-1.  Close the currently running **Visual Studio Code** application.
-
-#### Task 4: View metrics in Application Insights
-
-1.  Return to your currently open browser window displaying the **Azure portal**.
-
-1.  On the left side of the portal, select **Resource groups**.
-
-1.  In the **Resource groups** blade, locate and select the **MonitoredAssets** resource group that you created earlier in this lab.
-
-1.  In the **MonitoredAssets** blade, select the **instrm\*** Application Insights account that you created earlier in this lab.
-
-1.  In the **Application Insights** blade, in the tiles located in the center of the blade, observe the metrics displayed. Specifically, observe the number of **server** **requests** that have occurred and the average **server response time**.
-
-#### Task 5: Deploy an application to API App
-
-1.  On the taskbar, select the **Visual Studio Code** icon.
-
-1.  On the **File** menu, select **Open Folder**.
-
-1.  In the File Explorer pane that opens, go to **Allfiles (F):\\Allfiles\\Labs\\Starter\\Api**, and then select **Select Folder**.
-
-1.  In the Visual Studio Code window, access the context menu or right-click the **Explorer** pane, and then select **Open in Terminal**.
-
-1.  In the open command prompt, enter the following command and press Enter to sign in to the Azure CLI:
-
-    ```
-    az login
-    ```
-
-1.  In the browser window that appears, perform the following actions:
+    2.  选择“**下一步**”。
     
-    1.  Enter the **email address** for your Microsoft account.
+    3.  输入 Microsoft 帐户的 **密码**。
     
-    1.  Select **Next**.
+    4.  选择“**登录**”。
+
+7.  返回当前打开的“**命令提示符**”应用程序。等待登录过程完成。
+
+8.  在命令提示符下，输入以下命令并按 Enter 键以列出 **MonitoredAssets** 资源组中的所有 **应用**：
+
+az webapp list --resource-group MonitoredAssets
+
+9.  输入以下命令并按 Enter 键以查找具有前缀 **smpapi\*** 的**应用**：
+
+az webapp list --resource-group MonitoredAssets --query "\[?starts\_with(name, 'smpapi')\]"
+
+10. 输入以下命令并按 Enter 键以仅打印具有前缀 **smpapi\*** 的单应用的名称：
+
+az webapp list --resource-group MonitoredAssets --query "\[?starts\_with(name, 'smpapi')\].{Name:name}" --output tsv
+
+11. 输入以下命令并按 Enter 键以将当前目录更改为包含部署文件的 **Allfiles (F):\\Labfiles\\05\\Starter** 目录：
+
+cd F:\\Labfiles\\05\\Starter\\
+
+12. 输入以下命令并按 Enter 键以将 **api.zip** 文件部署到之前在此实验室中创建的 **API 应用**：
+
+az webapp deployment source config-zip --resource-group MonitoredAssets --src api.zip --name \<name-of-your-api-app\>
+
+> > **注**：用你之前在本实验室中创建的 API 应用名称替换 **\<name-of-your-api-app\>** 占位符。你最近在之前步骤中查询了此应用的名称。
+
+13. 等待部署完成后再继续本实验室。
+
+14. 关闭当前正在运行的 **Visual Studio Code** 应用程序。
+
+15. 在门户左侧的导航窗格中，选择“**资源组**”。
+
+16. 在“**资源组**”边栏选项卡中，选择你之前在本实验室中创建的 **MonitoredAssets** 资源组。
+
+17. 在“**ManagedPlatform**”边栏选项卡中，选择你之前在此实验室中创建的 **imgapi\*** API 应用。
+
+18. 在“**应用服务**”边栏选项卡中，选择边栏选项卡顶部的“**浏览**”。
+
+19. 将打开一个新的浏览器窗口或标签页并返回“**404（未找到）**”错误。在浏览器地址栏中，通过在当前 URL 末尾追加后缀 **/api/values** 并按 Enter 键来更新 URL。
+
+> > **注**：例如，如果你的 URL 为 http://smpapistudent.azurewebsites.net，则新的 URL 为 http://smpapistudent.azurewebsites.net/api/values。
+
+20. 观察作为使用 API 结果返回的 JSON 数组。
+
+#### 回顾
+
+在本练习中，你使用 ASP.NET Core 创建了一个 API，并将其配置为将应用程序指标流式传输到 Application Insights。然后，你使用 Application Insights 仪表板查看有关 API 应用以及应用中运行的 API 的性能详细信息。
+
+### 练习 3：使用 .NET Core 构建客户端应用程序
+
+#### 任务 1：构建 .NET Core 控制台项目
+
+1.  在任务栏上，选择 **Visual Studio Code** 图标。
+
+2.  在“**文件**”菜单上，选择“**打开文件夹**”。
+
+3.  在打开的“文件资源管理器”窗格中，转到 **Allfiles (F):\\Labfiles\\Starter\\Console**，然后选择“**选择文件夹**”。
+
+4.  在“Visual Studio Code”窗口中，访问上下文菜单或右键单击“**Explorer**”窗格，然后选择“**在终端中打开**”。
+
+5.  在打开的命令提示符中，输入以下命令并按 Enter 键以在当前目录中创建一个名为**SimpleConsole** 的 .NET Core 控制台应用程序：
+
+dotnet new console --output .--name SimpleConsole
+
+6.  在命令提示符中，输入以下命令并按 Enter 键以将 **2.2.29** 版本的 **Microsoft.Net.Http** 程序包从 NuGet 添加到当前项目：
+
+dotnet add package Microsoft.Net.Http --version 2.2.29
+
+7.  在命令提示符中，输入以下命令并按 Enter 键以将 **7.0.2** 版本的 **Polly** 程序包从 NuGet 添加到当前项目：
+
+dotnet add package Polly --version 7.0.2
+
+8.  在命令提示符中，输入以下命令并按 Enter 键以构建 .NET Core Web 应用程序：
+
+dotnet build
+
+#### 任务 2：添加 HTTP 客户端代码
+
+1.  在“**Visual Studio Code**”窗口左侧的“**Explorer**”窗格中，双击 **Program.cs** 文件以在编辑器中打开该文件。
+
+2.  在编辑器中，为 **System.Net.Http** 命名空间添加以下 **using** 块：
+
+using System.Net.Http;
+
+3.  在编辑器中，为 **System.Threading.Tasks** 命名空间添加以下 **using** 块：
+
+using System.Threading.Tasks;
+
+4.  在 **SimpleConsole** 命名空间中，找到第 **7** 行的以下类：
+
+class Program
+
+{
+
+static void Main(string\[\] args)
+
+{
+
+Console.WriteLine("Hello World\!");
+
+}
+
+}
+
+5.  使用以下实现替换整个 **Program** 类：
+
+class Program
+
+{
+
+private const string \_api = "";
+
+private static HttpClient \_client = new HttpClient(){ BaseAddress = new Uri(\_api) };
+
+static void Main(string\[\] args)
+
+{
+
+Run().Wait();
+
+}
+
+static async Task Run()
+
+{
+
+}
+
+}
+
+6.  找到第 **9** 行的 **\_api** 常数：
+
+private const string \_api = "";
+
+7.  通过将变量值设置为之前在此实验室中记录的 API 应用 **URL** 更新 **\_api** 常数：
+
+> > **注**：例如，如果你的 URL 为 http://smpapistudent.azurewebsites.net，新的代码行将为：private const string \_api = "http://smpapistudent.azurewebsites.net"；
+
+8.  在 **Run** 方法中，添加以下代码行以异步调用传入相对路径 **/api/values/**, 的 **HttpClient.GetStringAsync** 方法：
+
+string response = await \_client.GetStringAsync("/api/values/");
+
+9.  在 **Run** 方法中，添加另一行代码以将响应从 **GET** 要求写出到控制台：
+
+Console.WriteLine(response);
+
+10. 你的 **Program.cs** 文件现在应具有以下代码：
+
+using System;
+
+using System.Net.Http;
+
+using System.Threading.Tasks;
+
+namespace SimpleConsole
+
+{
+
+class Program
+
+{
+
+private const string \_api = "http://\<your-api-name\>.azurewebsites.net ";
+
+private static HttpClient \_client = new HttpClient(){ BaseAddress = new Uri(\_api) };
+
+static void Main(string\[\] args)
+
+{
+
+Run().Wait();
+
+}
+
+static async Task Run()
+
+{
+
+string response = await \_client.GetStringAsync("/api/values/");
+
+Console.WriteLine(response);
+
+}
+
+}
+
+}
+
+11. **保存** **Program.cs** 文件。
+
+#### 任务 3：本地测试控制台应用程序
+
+1.  在屏幕底部的命令提示符中，输入以下命令并按 Enter 键以执行 .NET Core Web 应用程序。
+
+dotnet run
+
+2.  观察应用程序在 Azure 中成功调用 API 应用并返回之前在本实验室中观察到的相同 JSON 数组。结果应类似于以下 JSON 内容：
+
+\["value1","value2"\]
+
+3.  返回显示 **Azure 门户**的当前打开的浏览器窗口。
+
+4.  在门户左侧，选择“**资源组**”。
+
+5.  在“**资源组**”边栏选项卡中，找到并选择你之前在本实验室中创建的 **MonitoredAssets** 资源组。
+
+6.  在“**ManagedPlatform**”边栏选项卡中，选择你之前在此实验室中创建的 **imgapi\*** API 应用。
+
+7.  在“**应用服务**”边栏选项卡中，选择边栏选项卡顶部的“**停止**”以停止 API 应用执行。
+
+8.  在“**停止 Web 应用**”确认对话框中，选择“**是**”。
+
+9.  在任务栏上，选择 **Visual Studio Code** 图标。
+
+10. 在“**文件**”菜单上，选择“**打开文件夹**”。
+
+11. 在打开的“文件资源管理器”窗格中，转到 **Allfiles (F):\\Labfiles\\Starter\\Console**，然后选择“**选择文件夹**”。
+
+12. 在“Visual Studio Code”窗口中，访问上下文菜单或右键单击“**Explorer**”窗格，然后选择“**在终端中打开**”。
+
+13. 在打开的命令提示符中，输入以下命令并按 Enter 键以执行 .NET Core Web 应用程序。
+
+dotnet run
+
+14. 观察应用程序执行失败并显示一条类似于以下异常消息的 **HttpRequestException** 消息：
+
+System.Net.Http.HttpRequestException: Response status code does not indicate
+
+success: 403 (Site Disabled).
+
+at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+
+at System.Net.Http.HttpClient.GetStringAsyncCore(Task\`1 getTask)
+
+at SimpleConsole.Program.Run() in F:\\Labfiles\\Starter\\Console\\Program.cs:line 20
+
+> > **注**：发生此异常是因为 API 应用不再可用。
+
+#### 任务 4：使用 Polly 添加重试逻辑
+
+1.  在“**Visual Studio Code**”窗口左侧的“**Explorer**”窗格中，双击 **PollyHandler.cs** 文件以在编辑器中打开该文件。
+
+2.  在 **PollyHandler** 类中，观察第 **13-24** 行。这些代码行使用 **NET Foundation** 的 **Polly** 库创建每五分钟重试一次失败的 HTTP 请求的重试策略。
+
+3.  在“**Visual Studio Code**”窗口左侧的“**Explorer**”窗格中，双击 **Program.cs** 文件以在编辑器中打开该文件。
+
+4.  找到第 **10** 行的 **\_client** 常数：
+
+private static HttpClient \_client = new HttpClient(){ BaseAddress = new Uri(\_api) };
+
+5.  将 **HttpClient** 构造函数更新为使用新的 **PollyHandler** 类实例来更新 **\_client** 常数：
+
+private static HttpClient \_client = new HttpClient(new PollyHandler()){ BaseAddress = new Uri(\_api) };
+
+6.  **保存** **Program.cs** 文件。
+
+#### 任务 5：验证重试逻辑
+
+1.  在屏幕底部的命令提示符中，输入以下命令并按 Enter 键以执行 .NET Core Web 应用程序。
+
+dotnet run
+
+2.  观察 HTTP 请求执行继续失败并每五秒重试一次。应用程序失败时，你将在控制台看到以下消息：
+
+尝试失败
+
+3.  让控制台应用程序保持运行。它会无限尝试访问 API 应用程序，直到成功为止。
+
+4.  返回显示 **Azure 门户**的当前打开的浏览器窗口。
+
+5.  在门户左侧，选择“**资源组**”。
+
+6.  在“**资源组**”边栏选项卡中，找到并选择你之前在本实验室中创建的 **MonitoredAssets** 资源组。
+
+7.  在“**ManagedPlatform**”边栏选项卡中，选择你之前在此实验室中创建的 **imgapi\*** API 应用。
+
+8.  在“**应用服务**”边栏选项卡中，选择边栏选项卡顶部的“**开始**”以继续 API 应用。
+
+9.  在“**停止 Web 应用**”确认对话框中，选择“**是**”。
+
+10. 返回当前正在运行的 **Visual Studio Code** 应用程序。
+
+11. 观察应用程序最终在 Azure 中成功调用 API 应用并返回之前在本实验室中观察到的相同 JSON 数组。结果应与以下 JSON 内容类似：
+
+\["value1","value2"\]
+
+12. 关闭当前正在运行的 **Visual Studio Code** 应用程序。
+
+#### 回顾
+
+在本练习中，你使用条件重试逻辑创建了一个控制台应用程序来访问 API。无论 API 应用是否可用，应用程序都会继续工作。
+
+### 练习 4：加载测试 API 应用
+
+#### 任务 1：在 API 应用上运行性能测试
+
+1.  返回显示 **Azure 门户**的当前打开的浏览器窗口。
+
+2.  在门户左侧，选择“**资源组**”。
+
+3.  在“**资源组**”边栏选项卡中，找到并选择你之前在本实验室中创建的 **MonitoredAssets** 资源组。
+
+4.  在“**ManagedPlatform**”边栏选项卡中，选择你之前在此实验室中创建的 **imgapi\*** API 应用。
+
+<!-- end list -->
+
+4.  在“**应用服务**”边栏选项卡中，在边栏选项卡左侧的“**开发工具**”类别选择“**性能测试**”链接。
+
+<!-- end list -->
+
+5.  在“**性能测试**”部分顶部，选择“**新建**”。
+
+6.  在“**新建性能测试**”边栏选项卡中，执行以下操作：
     
-    1.  Enter the **password** for your Microsoft account.
+    1.  在“**名称**”字段中，输入 **LoadTest**。
     
-    1.  Select **Sign in**.
-
-1.  Return to the currently open **command prompt** application. Wait for the sign-in process to finish.
-
-1.  At the command prompt, enter the following command and press Enter to list all the **apps** in your **MonitoredAssets** resource group:
-
-    ```
-    az webapp list --resource-group MonitoredAssets
-    ```
-
-1.  Enter the following command and press Enter to find the **apps** that have the prefix **smpapi\***:
-
-    ```
-    az webapp list --resource-group MonitoredAssets --query "[?starts_with(name, 'smpapi')]"
-    ```
-
-1. Enter the following command and press Enter to print out only the name of the single app that has the prefix **smpapi\***:
-
-    ```
-    az webapp list --resource-group MonitoredAssets --query "[?starts_with(name, 'smpapi')].{Name:name}" --output tsv
-    ```
-
-1. Enter the following command and press Enter to change the current directory to the **Allfiles (F):\\Allfiles\\Labs\\05\\Starter** directory that contains the deployment files:
-
-    ```
-    cd F:\Allfiles\Labs\05\Starter\
-    ```
-
-1. Enter the following command and press Enter to deploy the **api.zip** file to the **API app** that you created earlier in this lab:
-
-    ```
-    az webapp deployment source config-zip --resource-group MonitoredAssets --src api.zip --name <name-of-your-api-app>
-    ```
-
-    > **Note**: Replace the **\<name-of-your-api-app\>** placeholder with the name of the API app that you created earlier in this lab. You recently queried this app’s name in the previous steps.
-
-1. Wait for the deployment to complete before you move forward with this lab.
-
-1. Close the currently running **Visual Studio Code** application.
-
-1. In the left navigation pane of the portal, select **Resource groups**.
-
-1. In the **Resource groups** blade, select the **MonitoredAssets** resource group that you created earlier in this lab.
-
-1. In the **MonitoredAssets** blade, select the **smpapi\*** API app that you created earlier in this lab.
-
-1. In the **App Service** blade, select **Browse** at the top of the blade.
-
-1. A new browser window or tab will open and return a **404 (Not Found)** error. In the browser address bar, update the URL by appending the suffix **/api/values** to the end of the current URL and then press Enter.
-
-    > **Note**: For example, if your URL is http://smpapistudent.azurewebsites.net, the new URL would be http://smpapistudent.azurewebsites.net/api/values.
-
-1. Observe the JSON array that is returned as a result of using the API.
-
-#### Review
-
-In this exercise, you created an API by using ASP.NET Core and configured it to stream application metrics to Application Insights. You then used the Application Insights dashboard to view performance details about your API App and the API running in the app.
-
-### Exercise 3: Build a client application by using .NET Core
-
-#### Task 1: Build a .NET Core console project
-
-1.  On the taskbar, select the **Visual Studio Code** icon.
-
-1.  On the **File** menu, select **Open Folder**.
-
-1.  In the File Explorer pane that opens, go to **Allfiles (F):\\Allfiles\\Starter\\Console**, and then select **Select Folder**.
-
-1.  In the Visual Studio Code window, access the context menu or right-click the **Explorer** pane, and then select **Open in Terminal**.
-
-1.  In the open command prompt, enter the following command and press Enter to create a new .NET Core console application named **SimpleConsole** in the current directory:
-
-    ```
-    dotnet new console --output . --name SimpleConsole
-    ```
-
-1.  In the command prompt, enter the following command and press Enter to add the **7.1.0** version of the **Polly** package from NuGet to the current project:
-
-    ```
-    dotnet add package Polly --version 7.1.0
-    ```
-
-1.  In the command prompt, enter the following command and press Enter to build the .NET Core web application:
-
-    ```
-    dotnet build
-    ```
-
-#### Task 2: Add HTTP client code
-
-1.  On the left side of the **Visual Studio Code** window, in the **Explorer** pane, double-click the **Program.cs** file to open the file in the editor.
-
-1.  In the editor, add the following **using** block for the **System.Net.Http** namespace:
-
-    ```
-    using System.Net.Http;
-    ```
-
-1.  In the editor, add the following **using** block for the **System.Threading.Tasks** namespace:
-
-    ```
-    using System.Threading.Tasks;
-    ```
-
-1.  In the **SimpleConsole** namespace, locate the following class at line **7**:
-
-    ```
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
-    }
-    ```
-
-1.  Replace the entire **Program** class with the following implementation:
-
-    ```
-    class Program
-    {
-        private const string _api = "";
-        private static HttpClient _client = new HttpClient(){ BaseAddress = new Uri(_api) };
+    2.  在“**生成负载位置**”列表中，选择“**美国东部（Web 应用位置）**”。
     
-        static void Main(string[] args)
-        {
-            Run().Wait();
-        }
+    3.  在“**用户负载**”字段，输入 **1000**。
     
-        static async Task Run()
-        {
+    4.  在“**持续时间**”字段，输入 **10**。
     
-        }
-    }
-    ```
+    5.  选择“**配置测试使用**”。
 
-1.  Locate the **\_api** constant at line **9**:
-
-    ```
-    private const string _api = "";
-    ```
-
-1.  Update the **\_api** constant by setting the value of the variable to the **URL** of the API app you recorded earlier in this lab:
-
-    > **Note**: For example, if your URL is http://smpapistudent.azurewebsites.net, the new line of code will be: private const string \_api = "http://smpapistudent.azurewebsites.net";
-
-1.  Within the **Run** method, add the following line of code to asynchronously invoke the **HttpClient.GetStringAsync** method passing in a string for the relative path of **/api/values/**:
-
-    ```
-    string response = await _client.GetStringAsync("/api/values/");
-    ```
-
-1.  Within the **Run** method, add an additional line of code to write out the response from the **GET** request to the console:
-
-    ```
-    Console.WriteLine(response);
-    ```
-
-1. Your **Program.cs** file should now have the following code:
-
-    ```
-    using System;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-
-    namespace SimpleConsole
-    {
-        class Program
-        {
-            private const string _api = "http://<your-api-name>.azurewebsites.net/";
-            private static HttpClient _client = new HttpClient(){ BaseAddress = new Uri(_api) };
-        
-            static void Main(string[] args)
-            {
-                Run().Wait();
-            }
-        
-            static async Task Run()
-            {
-                string response = await _client.GetStringAsync("/api/values/");
-                Console.WriteLine(response);    
-            }
-        }
-    }
-    ```
-
-1. **Save** the **Program.cs** file.
-
-#### Task 3: Test a console application locally
-
-1.  At the bottom of the screen, in the command prompt, enter the following command and press Enter to execute the .NET Core web application.
-
-    ```
-    dotnet run
-    ```
-
-1.  Observe that the application successfully invokes the API app in Azure and returns the same JSON array that you observed earlier in this lab. Your result should appear similar to the following JSON content:
-
-    ```
-    ["value1","value2"]
-    ```
-
-1.  Return to your currently open browser window displaying the **Azure portal**.
-
-1.  On the left side of the portal, select **Resource groups**.
-
-1.  In the **Resource groups** blade, locate and select the **MonitoredAssets** resource group that you created earlier in this lab.
-
-1.  In the **MonitoredAssets** blade, select the **smpapi\*** API app that you created earlier in this lab.
-
-1.  In the **App Service** blade, select **Stop** at the top of the blade to halt the execution of the API app.
-
-1.  In the **Stop web app** confirmation dialog box, select **Yes**.
-
-1.  On the taskbar, select the **Visual Studio Code** icon.
-
-1. On the **File** menu, select **Open Folder**.
-
-1. In the File Explorer pane that opens, go to **Allfiles (F):\\Allfiles\\Labs\\05\\Starter\\Console**, and then select **Select Folder**.
-
-1. In the Visual Studio Code window, access the context menu or right-click the **Explorer** pane, and then select **Open in Terminal**.
-
-1. In the open command prompt, enter the following command and press Enter to execute the .NET Core web application.
-
-    ```
-    dotnet run
-    ```
-
-1. Observe that the application execution fails and displays a **HttpRequestException** message that is similar to the following exception message:
-
-    ```
-    System.Net.Http.HttpRequestException: Response status code does not indicate
-
-    success: 403 (Site Disabled).
-
-    at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
-
-    at System.Net.Http.HttpClient.GetStringAsyncCore(Task\`1 getTask)
-
-    at SimpleConsole.Program.Run() in F:\Allfiles\Labs\05\Starter\Console\Program.cs:line 20
-    ```
-
-    > **Note**: This exception occurs because the API app is no longer available.
-
-#### Task 4: Add retry logic by using Polly
-
-1.  On the left side of the **Visual Studio Code** window, in the **Explorer** pane double-click the **PollyHandler.cs** file to open the file in the editor.
-
-1.  Within the **PollyHandler** class, observe lines **13-24**. These lines of code use the **Polly** library from the **.NET Foundation** to create a retry policy that will retry a failed HTTP request every five minutes.
-
-1.  On the left side of the **Visual Studio Code** window, in the **Explorer** pane, double-click the **Program.cs** file to open the file in the editor.
-
-1.  Locate the **\_client** constant at line **10**:
-
-    ```
-    private static HttpClient _client = new HttpClient(){ BaseAddress = new Uri(_api) }; 
-    ```
-
-1.  Update the **\_client** constant by updating the **HttpClient** constructor to use a new instance of the **PollyHandler** class:
-
-    ```
-    private static HttpClient _client = new HttpClient(new PollyHandler()){ BaseAddress = new Uri(_api) };
-    ```
-
-1.  **Save** the **Program.cs** file.
-
-#### Task 5: Validate retry logic
-
-1.  At the bottom of the screen, in the command prompt, enter the following command and press Enter to execute the .NET Core web application.
-
-    ```
-    dotnet run
-    ```
-
-1.  Observe that the HTTP request execution continues to fail and is re-attempted every five seconds. You will observe the following message in the console while the application is failing:
-
-    ```
-    Failed Attempt
-    ```
-
-1.  Leave the console application running. It will attempt to access the API app infinitely until it is successful.
-
-1.  Return to your currently open browser window displaying the **Azure portal**.
-
-1.  On the left side of the portal, select **Resource groups**.
-
-1.  In the **Resource groups** blade, locate and select the **MonitoredAssets** resource group that you created earlier in this lab.
-
-1.  In the **MonitoredAssets** blade, select the **smpapi\*** API app that you created earlier in this lab.
-
-1.  In the **App Service** blade, select **Start** at the top of the blade to resume the API app.
-
-1.  In the **Stop web app** confirmation dialog box, select **Yes**.
-
-1. Return to the currently running **Visual Studio Code** application.
-
-1. Observe that the application finally successfully invokes the API app in Azure and returns the same JSON array that you observed earlier in this lab. Your result should resemble the following JSON content:
-
-    ```
-    ["value1","value2"]
-    ```
-
-1. Close the currently running **Visual Studio Code** application.
-
-#### Review
-
-In this exercise, you created a console application to access your API by using conditional retry logic. The application continued to work regardless of whether the API App was available.
-
-### Exercise 4: Load test API app
-
-#### Task 1: Run a performance test on an API app
-
-1.  Return to your currently open browser window displaying the **Azure portal**.
-
-1.  On the left side of the portal, select **Resource groups**.
-
-1.  In the **Resource groups** blade, locate and select the **MonitoredAssets** resource group that you created earlier in this lab.
-
-1.  In the **MonitoredAssets** blade, select the **smpapi\*** API app that you created earlier in this lab.
-
-1.  In the **App Service** blade, on the left side of the blade within the **Development Tools** category, select **Performance test**.
-
-1.  In the **Performance test** section, at the top of the section, select **New**.
-
-1.  In the **New performance test** blade, perform the following actions:
+7.  在“**配置测试使用**”边栏选项卡中，执行以下操作：
     
-    1.  In the **Name** field, enter **LoadTest**.
+    6.  在“**测试类型**”列表中，选择“**手动测试**”。
     
-    1.  In the **Generate Load From** list, select **East US (Web app Location)**.
+    7.  在 **URL** 字段中，通过在当前 URL 末尾追加后缀 **/api/values** 来更新 URL。
+
+> > **注**：例如，如果你的 URL 为 http://smpapistudent.azurewebsites.net，则新的 URL 为 http://smpapistudent.azurewebsites.net/api/values。
+
+8.  选择“**完成**”。
+
+<!-- end list -->
+
+8.  返回“**新建性能测试**”边栏选项卡，选择“**运行测试**”。
+
+9.  返回“**性能测试**”部分，在“**最近运行**”列表中，选择“**LoadTest**”。
+
+10. 在“**LoadTest**”边栏选项卡中，等待测试开始再继续此实验室。
+
+> > **注**：大部分加载测试需要大约 10 到 15 分钟来收集资源并启动。你可以在此边栏选项卡等待，因为负载测试启动时，其会自动更新。
+
+11. 等待负载测试完成再继续本实验室。观察实时图表随着 API 应用使用量增加更新。
+
+> > **注**：负载测试将需要在本实验室之前步骤指定的 10 分钟时间。
+
+#### 任务 2：在性能测试后使用 Azure Monitor 指标
+
+1.  在 Azure 门户的左侧导航窗格，单击“**所有服务**”。
+
+2.  在“**所有服务**”边栏选项卡中，选择“**监视器**”。
+
+3.  在“**监视器**”边栏选项卡中，在边栏选项卡左侧，选择“**指标**”。
+
+4.  在“**指标**”部分，执行以下操作：
     
-    1.  In the **User Load** field, enter **1000**.
+    1.  在“**资源**”部分，选择“**选择资源**”。
     
-    1.  In the **Duration** field, enter **10**.
+    2.  在显示的“**选择资源**”窗口，在“**资源组**”列表中，选择“**MonitoredAssets**”。然后，在“**资源**”列表中，选择 **instrm\*** Application Insights 帐户选项。最后，选择“**应用**”关闭窗口并确认选择。
     
-    1.  Select **Configure Test Using**.
-
-1.  In the **Configure test using** blade, perform the following actions:
+    3.  在“**指标命名空间**”列表的“**标准**”类别中，选择“**标准指标**”。
     
-    1.  In the **Test Type** list, select **Manual Test**.
+    4.  在“**指标**”列表的“**性能计数器**”类别中，选择“**处理 CPU**”。
     
-    1.  In the **URL** field, update the URL by appending the suffix **/api/values** to the end of the current URL.
-
-        > **Note**: For example, if your URL is http://smpapistudent.azurewebsites.net, the new URL would be http://smpapistudent.azurewebsites.net/api/values.
-
-    1.  Select **Done**.
-
-1.  Back in the **New performance test** blade, select **Run test**.
-
-1.  Back in the **Performance test** section, in the list of **Recent runs,** select **LoadTest**.
-
-1. In the **LoadTest** blade, wait for the test to start before you proceed with the lab.
-
-    > **Note**: Most load tests take about 10 to 15 minutes to gather the resources and start. You can wait at this blade because it will automatically refresh when the load testing is started.
-
-1. Wait for the load test to finish before you proceed with the lab. Observe the live chart updating as your API app experiences increased usage.
-
-    > **Note**: The load test will take the 10 minutes you specified in the previous steps of the lab.
-
-#### Task 2: Use Azure Monitor metrics after performance test
-
-1.  In the left navigation pane of the Azure portal, select **All services**.
-
-1.  In the **All services** blade, select **Monitor**.
-
-1.  In the **Monitor** blade, on the left side of the blade, select **Metrics**.
-
-1.  In the **Metrics** section, perform the following actions:
+    5.  在“**聚合**”列表中，选择“**平均**”。
     
-    1.  In the **Resource** section, select **Select a resource**.
+    6.  在该部分顶部，选择“**过去 24 小时（自动）**”。在显示窗口的“**时间范围**”类别中，选择“**过去 30 分钟**”，然后选择“**应用**”以保存选择。
     
-    1.  In the **Select a resource** window that appears, in the **Resource group** list, select **MonitoredAssets**. Then, in the **Resource** list, select the **instrm\*** Application Insights account option. Finally, select **Apply** to close the window and confirm your selection.
+    7.  在该部分顶部，单击“**折线图**”。在显示的菜单中，选择“**分区图**”。
+
+5.  观察新创建的图表。
+
+6.  在该部分顶部，单击“**添加指标**”。
+
+7.  在里面“**指标**部分”，使用列表中的新指标项目执行以下操作：
     
-    1.  In the **Metric Namespace** list, in the **Standard** category, select **Standard metrics (preview)**.
+    8.  在“**指标命名空间**”列表的“**标准**”类别中，选择“**基于日志的指标**”。
     
-    1.  In the **Metric** list, in the **Performance Counter** category, select **Process CPU**.
+    9.  在“**指标**”列表的“**服务器**”类别中，选择“**服务器响应时间**”。
     
-    1.  In the **Aggregation** list, select **Avg**.
-    
-    1.  At the top of the section, select **Last 24 hours (Automatic - 5 minutes)**. In the window that appears, in the **Time range** category, select **Last 30 minutes** and then select **Apply** to save your selection.
-    
-    1.  At the top of the section, select **Line chart**. In the menu that appears, select **Area chart**.
+    10. 在“**聚合**”列表中，选择“**平均**”。
 
-1.  Observe your newly created chart.
+8.  观察更新后的图表。观察图表中显示的信息。你可以随着应用程序负载增加，观察服务器响应时间与 CPU 时间的关系。
 
-1.  At the top of the section, select **Add metric**.
+#### 回顾
 
-1.  In the **Metrics** section, perform the following actions with the new metric item in the list:
-    
-    1.  In the **Metric Namespace** list, in the **Standard** category, select **Log-based metrics**.
-    
-    1.  In the **Metric** list, in the **Server** category, select **Server response time**.
-    
-    1. In the **Aggregation** list, select **Avg**.
+在本练习中，你使用 Azure 中的可用工具对 API 应用程序执行了性能（负载）测试。执行负载测试后，你可以使用 Azure Monitor 界面中的指标来衡量 API 应用的行为。
 
-1.  Observe your updated chart. Observe the information displayed in your chart. You can observe how the server response time correlates with the CPU time as load on the application increased.
+### 练习 5：清理订阅 
 
-#### Review
+#### 任务 1：打开 Cloud Shell
 
-In this exercise, you performed a performance (load) test of your API app by using the tools available to you in Azure. After you performed the load test, you were able to measure your API app’s behavior by using metrics in the Azure Monitor interface.
+1.  在 Azure 门户的顶部，选择 **Cloud Shell** 图标打开一个新的 Shell 实例。
 
-### Exercise 5: Clean up subscription 
+2.  在门户底部的 **Cloud Shell** 命令提示符下，输入以下命令并按 Enter 键以列出订阅中的所有资源组。
 
-#### Task 1: Open Cloud Shell
+az group list
 
-1.  At the top of the Azure portal, select the **Cloud Shell** icon to open a new shell instance.
+3.  输入以下命令，然后按 Enter 键查看删除资源组的可能命令列表：
 
-1.  At the bottom of the portal in the **Cloud Shell** command prompt, type the following command and press Enter to list all resource groups in the subscription:
+az group delete --help
 
-    ```
-    az group list
-    ```
+#### 任务 2：删除资源组
 
-1.  Type the following command and press Enter to view a list of possible commands to delete a resource group:
+1.  输入以下命令，然后按 Enter 键删除 **MonitoredAssets** 资源组：
 
-    ```
-    az group delete --help
-    ```
+az group delete --name MonitoredAssets --no-wait --yes
 
-#### Task 2: Delete resource groups
+2.  关闭门户底部的“**Cloud Shell**”窗格。
 
-1.  Type the following command and press Enter to delete the **MonitoredAssets** resource group:
+#### 任务 3：关闭活动应用程序
 
-    ```
-    az group delete --name MonitoredAssets --no-wait --yes
-    ```
-    
-1.  Close the **Cloud Shell** pane at the bottom of the portal.
+1.  关闭当前正在运行的 **Microsoft Edge** 应用程序。
 
-#### Task 3: Close active applications
+2.  关闭当前正在运行的 **Visual Studio Code** 应用程序。
 
-1.  Close the currently running **Microsoft Edge** application.
+#### 回顾
 
-1.  Close the currently running **Visual Studio Code** application.
-
-#### Review
-
-In this exercise, you cleaned up your subscription by removing the **resource groups** used in this lab.
+在本练习中，你通过移除本实验室中使用过的 **资源组** 来清理订阅。

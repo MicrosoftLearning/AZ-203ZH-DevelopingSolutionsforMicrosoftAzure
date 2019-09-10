@@ -1,1531 +1,1010 @@
+﻿---
+实验室：
+    标题：“实验室：构造多语言数据解决方案”
+    类型：“答案”
+    模块：“模块 3：开发 Azure 存储”
 ---
-lab:
-    title: 'Lab: Constructing a polyglot data solution'
-    type: 'Answer Key'
-    module: 'Module 3: Develop for Azure Storage'
----
 
-# Lab: Constructing a polyglot data solution
-# Student lab answer key
+# 实验室：构造多语言数据解决方案
+# 学生实验室答案
 
-## Microsoft Azure user interface
+## Microsoft Azure 用户界面
 
-Given the dynamic nature of Microsoft cloud tools, you might experience Azure user interface (UI) changes following the development of this training content. These changes might cause the lab instructions and steps to not match up correctly.
+鉴于 Microsoft 云工具的动态特性，Azure 用户界面 (UI) 在此培训内容开发之后可能会发生更改。这些更改可能会导致实验室说明和步骤不能正确匹配。
 
-Microsoft updates this training course as soon as the community brings needed changes to our attention. However, because cloud updates occur frequently, you might encounter UI changes before this training content is updated. **If this occurs, adapt to the changes and work through them in the labs as needed.**
+一旦 Microsoft 通过社区注意到必要更改，将会立即更新此培训课程。但由于云更新频繁，你可能会在此培训内容更新前遇到 UI 更改。**如果发生这种情况，请根据需要适更改并在实验室中完成这些更改。**
 
-## Instructions
+## 说明
 
-### Before you start
+### 开始前
 
-#### Sign in to the lab virtual machine
+#### 登录实验室虚拟机
 
-Sign in to your **Windows 10** virtual machine using the following credentials:
+  - 使用以下凭据登录到 **Windows 10** 虚拟机：
     
--   **Username**: Admin
-
--   **Password**: Pa55w.rd
-
-> **Note**: Lab virtual machine sign in instructions will be provided to you by your instructor.
-
-#### Review installed applications
-
-Observe the taskbar located at the bottom of your **Windows 10** desktop. The taskbar contains the icons for the applications you will use in this lab:
+      - **用户名**：Admin
     
--   Microsoft Edge
+      - **密码**：Pa55w.rd
 
--   File Explorer
+> > **注**：讲师将为你提供实验室虚拟机登录说明。
 
--   Visual Studio Code
+#### 查看已安装的应用
 
-#### Download the lab files
+  - 观察位于 **Windows 10** 桌面底部的任务栏。任务栏包含将在本实验室中使用的应用程序图标：
+    
+      - Microsoft Edge
+    
+      - 文件资源管理器
+    
+      - Visual Studio Code
 
-1.  On the taskbar, select the **Windows PowerShell** icon.
+#### 下载实验室文件
 
-1.  In the PowerShell command prompt, change the current working directory to the **Allfiles (F):\\** path:
+1.  在任务栏上，选择 **Windows PowerShell** 图标。
+
+2.  在 PowerShell 命令提示符中，将当前工作目录更改为 **Allfiles (F):\\** 路径：
 
     ```
     cd F:
     ```
 
-1.  Within the command prompt, enter the following command and press Enter to clone the **microsoftlearning/AZ-203-DevelopingSolutionsforMicrosoftAzure** project hosted on GitHub into the **Allfiles (F):\\** drive:
+3.  在命令提示符中，输入以下命令并按 Enter 键以将 GitHub 上托管的 **microsoftlearning/AZ-203-DevelopingSolutionsForAzure** 项目克隆到 **Labfiles** 目录：
 
     ```
     git clone --depth 1 --no-checkout https://github.com/microsoftlearning/AZ-203-DevelopingSolutionsForMicrosoftAzure .
     ```
 
-1.  Within the command prompt, enter the following command and press **Enter** to check out the lab files necessary to complete the **AZ-203T03** lab:
+4.  在命令提示符中，输入以下命令并按 **Enter** 键以签出完成 **AZ-203.02** 实验室所必需的实验室文件：
 
     ```
     git checkout master -- Allfiles/*
     ```
 
-1.  Close the currently running **Windows PowerShell** command prompt application.
+5.  关闭当前正在运行的 **Windows PowerShell** 命令提示应用程序。
 
-### Exercise 1: Creating database resources in Azure
+### 练习 1：在 Azure 中创建数据库资源
 
-#### Task 1: Open the Azure portal
+#### 任务 1：打开 Azure 门户
 
-1.  On the taskbar, select the **Microsoft Edge** icon.
+1.  在任务栏上，选择 **Microsoft Edge** 图标。
 
-1.  In the open browser window, navigate to the **Azure portal** ([portal.azure.com](https://portal.azure.com)).
+2.  在打开的浏览器窗口中，导航到 **Azure 门户** ([portal.azure.com](https://portal.azure.com))。
 
-1.  Enter the **email address** for your Microsoft account.
+3.  输入 Microsoft 帐户的 **电子邮件地址**。
 
-1.  Select **Next**.
+4.  选择“**下一步**”。
 
-1.  Enter the **password** for your Microsoft account.
+5.  输入 Microsoft 帐户的 **密码**。
 
-1.  Select **Sign in**.
+6.  选择“**登录**”。
 
-    > **Note**: If this is your first time signing in to the **Azure Portal**, a dialog box will appear offering a tour of the portal. Select **Get Started** to skip the tour and begin using the portal.
+> > 注：如果这是你第一次登录 **Azure 门户**，则会出现一个对话框，提供门户教程。选择“**开始使用**”以跳过教程并开始使用门户。
 
-#### Task 2: Create an Azure Cache for Redis resource
+#### 任务 2：创建 SQL 数据库资源
 
-1.  In the navigation pane on the left side of the Azure portal, select **All services**.
+1.  在 Azure 门户左侧的导航窗格中，单击“**更多服务**”。
 
-1.  In the **All services** blade, select **Azure Cache for Redis**.
+2.  在“**所有服务**”边栏选项卡中，选择**“SQL Server”**。
 
-1.  In the **Azure Cache for Redis** blade, view the list of your Redis cache instances.
+3.  在“**SQL Server**”边栏选项卡中，查看 SQL Server 实例列表。
 
-1.  At the top of the **Azure Cache for Redis** blade, select **+ Add**.
+4.  在“**存储帐户**”边栏选项卡顶部，选择“**添加**”。
 
-1.  In the **New Redis Cache** blade, perform the following actions:
-
-    1.  IN the **DNS name** field, enter the value **polyrediscache\[your name in lowercase\]** 
-
-    1.  Leave the **Subscription** drop-down list set to its default value.
+5.  在“**SQL Server（仅逻辑服务器）**”边栏选项卡中，执行以下操作：
     
-    1.  In the **Resource group** section, select **Create new**, enter **PolyglotData**, and then select **OK**.
+    1.  在“**服务器名称**”字段中，输入 **polysqlsrvr\[your name in lowercase\]**。
     
-    1.  In the **Location** drop-down list, select the **East US** option.
-
-    1.  In the **Pricing tier** list, select the **Basic C0 (250MB Cache)** option.
-
-    1.  In the **Unblock port 6379 (not SSL encrypted)** section, ensure the checkbox is not selected.
+    2.  在“**服务器管理员登录**”字段中，输入值 **testuser**。
     
-    1. Select **Create**.
-
-1.  Wait for the creation task to complete before you move forward with this lab.
-
-    > **Note**: An Azure Cache for Redis resource can take anywhere from **15-30 minutes** to become ready for use. You can choose to move forward with the lab, but you must remember that this resource and its connection string is required for **Exercise 6: Authoring .NET code to connect to Azure Redis Cache**.
-
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
-
-1.  In the **Resource groups** blade, locate and select the **PolyglotData** resource group that you created earlier in this lab.
-
-1.  In the **PolyglotData** blade, select the **polyrediscache\*** Azure Cache for Redis instance that you created earlier in this lab.
-
-1.  In the **Azure Cache for Redis** blade, locate the **Settings** section on the left side of the blade and select the **Access keys** link.
-
-1.  In the **Access keys** pane, record the value in the **Primary connection string (StackExchange.Redis)** field. You will use this value later in this lab.
-
-#### Task 3: Create an Azure SQL server resource
-
-1.  In the navigation pane on the left side of the Azure portal, select **All services**.
-
-1.  In the **All services** blade, select **SQL servers**.
-
-1.  In the **SQL servers** blade, view your list of SQL server instances.
-
-1.  At the top of the **SQL servers** blade, select **+ Add**.
-
-1.  In the **Create SQL Database Server** blade, observe the tabs at the top of the blade, such as **Basics**, **Networking** and **Additional settings**.
-
-    > **Note**: Each tab represents a step in the workflow to create a new **Azure SQL Database server**. At any time, you can select **Review + create** to skip the remaining tabs.
-
-1.  In the **Basics** tab, perform the following actions:
+    3.  在“**密码**”字段中，输入值 **TestPa$$w0rd**。
     
-    1.  Leave the **Subscription** drop-down list set to its default value.
+    4.  在“**确认密码**”字段中，再次输入值 **TestPa$$w0rd**。
     
-    1.  In the **Resource group** section, select **PolyglotData** from the list.
+    5.  将“**订阅**”下拉菜单保留设置为默认值。
     
-    1.  In the **Server name** field, enter the value **polysqlsrvr\[your name in lowercase\]**.
+    6.  在“**资源组**”部分，选择“**新建**”，输入 **PolyglotData**，然后选择“**确定**”。
     
-    1.  In the **Location** drop-down list, select the **(US) East US** option.
+    7.  在“**位置**”下拉列表中，选择“**美国东部**”选项。
     
-    1.  In the **Server admin login** field, enter the value **testuser**.
+    8.  在“**允许 Azure 服务访问服务器**”部分，确保选中该复选框。
     
-    1.  In the **Password** field, enter the value **TestPa$$w0rd**.
+    9.  在“**高级数据安全**”部分，选择“**以后再说**”选项。
     
-    1.  In the **Confirm password** field, enter the value **TestPa$$w0rd** again.
+    10. 选择“**创建**”。
 
-    1.  Select **Next: Networking >**.
+6.  等待创建任务完成后，再继续本实验室。
 
-1.  In the **Networking** tab, perform the following actions:
+7.  在 Azure 门户左侧的导航窗格中，单击“**更多服务**”。
 
-    1. In the **Allow Azure services and resources to access this server** section, select **Yes**.
+8.  在“**所有服务**”边栏选项卡中，选择“**SQL 数据库**”。
+
+9.  在“**SQL 数据库**”边栏选项卡中，查看 SQL数据库实例列表。
+
+10. 在“**SQL 数据库**”边栏选项卡顶部，选择“**添加**”。
+
+11. 在“**创建 SQL 数据库**”边栏选项卡中，观察边栏选项卡顶部的选项卡，如“**基本**”、“**其他设置**”和“**标记**”。
+
+> 注：每个选项卡代表工作流中创建新“**Azure SQL 数据库**”的一个步骤。你可以随时选择“**查看 + 创建**”跳过剩余标签。
+
+12. 在“**基本**”选项卡中，执行以下操作：
     
-    1.  Select **Review + Create**.
-
-1.  In the **Review + Create** tab, review the options that you selected during the previous steps.
-
-1.  Select **Create** to create the Azure SQL Database server by using your specified configuration.
-
-1.  Wait for the creation task to complete before you move forward with this lab.
-
-#### Task 4: Create an Azure Cosmos DB account resource
-
-1.  In the navigation pane on the left side of the Azure portal, select **All services**.
-
-1.  In the **All services** blade, select **Azure Cosmos DB**.
-
-1.  In the **Azure Cosmos DB** blade, view your list of Azure Cosmos DB instances.
-
-1.  At the top of the **Azure Cosmos DB** blade, select **+ Add**.
-
-1.  In the **Create Azure Cosmos DB Account** blade, observe the tabs at the top of the blade, such as **Basics**, **Network** and **Tags**.
-
-    > **Note**: Each tab represents a step in the workflow to create a new **Azure Cosmos DB account**. At any time, you can select **Review + create** to skip the remaining tabs.
-
-1.  In the **Basics** tab, perform the following actions:
+    11. 将“**订阅**”文本框保留设置为默认值。
     
-    1.  Leave the **Subscription** list set to its default value.
+    12. 在“**资源组**”部分，从列表中选择“**PolyglotData**”。
     
-    1.  In the **Resource group** section, select **PolyglotData** from the list.
+    13. 在“**数据库** **名称**”文本框中，输入 **polysqldb**。
     
-    1.  In the **AccountName** field, enter **polycosmos\[your name in lowercase\]**.
+    14. 在“**服务器**”字段中，输入 **polysqlsrvr\[your name in lowercase\]** 选项。
     
-    1.  In the **API** drop-down list, select the **Core (SQL)** option.
+    15. 在“**想要使用 SQL 弹性池**”部分，选择“**否**”选项。
     
-    1.  In the **Location** drop-down list, select the **East US** region.
+    16. 将“**计算 + 存储**”选项保留设置为默认值。
     
-    1.  In the **Geo-Redundancy** section, select the **Disable** option.
+    17. 选择“**查看 + 创建**”。
+
+13. 在“**查看 + 创建**”选项卡中，查看在之前步骤中选择的选项。
+
+14. 选择“**创建**”以使用指定的配置创建存储帐户。
+
+15. 等待创建任务完成后，再继续本实验室。
+
+16. 在 Azure 门户左侧的导航窗格中，单击“**更多服务**”。
+
+17. 在“**所有服务**”边栏选项卡中，选择“**SQL 数据库**”。
+
+18. 在“**SQL 数据库**”边栏选项卡中，选择名为 **polysqldb** 的 SQL 数据库实例。
+
+19. 在“**SQL 数据库**”边栏选项卡中，找到边栏选项卡左侧的“**设置**”部分，选择“**连接字符串**”链接。
+
+20. 在“**连接字符串**”窗格中，复制 **ADO.NET** 连接字符串的值。请务必分别使用值 testuser 和 TestPa$$w0rd,** ** 替换 *{your\_username}* 和 *{your\_password}* 占位符值。
+
+> > 注：例如，如果复制的连接字符串为
+
+    Server=tcp:polysqlsrvrstudent.database.windows.net,1433;Initial Catalog=polysqldb;Persist Security Info=False;User ID={your_username};Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;,
+
+> > 更新的连接字符串将为
+
+    Server=tcp:polysqlsrvrstudent.database.windows.net,1433;Initial Catalog=polysqldb;Persist Security Info=False;User ID=testuser;Password=TestPa$$w0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
+
+21. 在 Azure 门户左侧的导航窗格中，单击“**更多服务**”。
+
+22. 在“**所有服务**”边栏选项卡中，选择**“SQL Server”**。
+
+23. 在“**SQL Server**”边栏选项卡中，选择具有前缀 **polysqlsrvr** 的 SQL Server 实例。
+
+24. 在“**SQL Server**”边栏选项卡中，找到边栏选项卡左侧的“**安全性**”部分，选择“**防火墙和虚拟网络**”链接。
+
+25. 在“**防火墙和虚拟网络**”窗格中，选择“**添加客户端 IP**”将虚拟机的 IP 地址添加到允许的 IP 地址范围列表中。
+
+26. 在边栏选项卡顶部，单击“**保存**”。
+
+> > 注：防火墙更改可能需要几分钟才能在服务器上更新。
+
+27. 保存操作完成后，选择“**确定**”以关闭确认对话框。
+
+#### 任务 3：创建 Azure Cosmos DB 帐户资源
+
+1.  在 Azure 门户左侧的导航窗格中，单击“**更多服务**”。
+
+2.  在“**所有服务**”边栏选项卡中，选择 **“Azure Cosmos DB”**。
+
+3.  在“**Azure Cosmos DB**”边栏选项卡中，查看 Azure Cosmos DB 实例列表。
+
+4.  在“**Azure Cosmos DB**”边栏选项卡顶部，选择“**添加**”。
+
+5.  在“**创建 Azure Cosmos DB 帐户**”边栏选项卡中，观察边栏选项卡顶部的选项卡，如“**基本**”、“**网络**”和“**标记**”。
+
+> 注：每个选项卡代表工作流中创建新“**Azure Cosmos DB 帐户**”的一个步骤。你可以随时选择“**查看 + 创建**”跳过剩余标签。
+
+6.  在“**基本**”选项卡中，执行以下操作：
     
-    1.  In the **Multi-region Writes** section, select the **Disable** option.
+    1.  将“**订阅**”文本框保留设置为默认值。
     
-    1.  Select **Review + Create**.
-
-1.  In the **Review + Create** tab, review the options that you selected during the previous steps.
-
-1.  Select **Create** to create the Azure Cosmos DB account by using your specified configuration.
-
-1.  Wait for the creation task to complete before you move forward with this lab.
-
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
-
-1.  In the **Resource groups** blade, locate and select the **PolyglotData** resource group that you created earlier in this lab.
-
-1.  In the **PolyglotData** blade, select the **polycosmos\*** Azure Cosmos DB account that you created earlier in this lab.
-
-1.  In the **Azure Cosmos DB account** blade, locate the **Settings** section on the left side of the blade and select the **Keys** link.
-
-1.  In the **Keys** pane, record the value in the **PRIMARY CONNECTION STRING** field. You will use this value later in this lab.
-
-#### Task 5: Create an Azure Storage account resource
-
-1.  In the navigation pane on the left side of the Azure portal, select **All services**.
-
-1.  In the **All services** blade, select **Storage Accounts**.
-
-1.  In the **Storage accounts** blade, view your list of Storage instances.
-
-1.  At the top of the **Storage accounts** blade, select **+ Add**.
-
-1.  In the **Create storage account** blade, observe the tabs at the top of the blade, such as **Basics**, **Advanced** and **Tags**.
-
-    > **Note**: Each tab represents a step in the workflow to create a new **Azure Storage Account**. At any time, you can select **Review + create** to skip the remaining tabs.
-
-1.  In the **Basics** tab, perform the following actions:
+    2.  在“**资源组**”部分，从列表中选择“**PolyglotData**”。
     
-    1.  Leave the **Subscription** list set to its default value.
+    3.  在“**帐户** **名称**”文本框中，输入 **polycosmos\[your name in lowercase\]**。
     
-    1.  In the **Resource group** section, select **PolyglotData** from the list.
+    4.  在“**API**”下拉列表中，选择“**核心 (SQL)**”选项。
     
-    1.  In the **Storage account name** field, enter **polystor\[your name in lowercase\]**.
+    5.  在“**位置**”下拉列表中，选择“**美国东部**”地区。
     
-    1.  In the **Location** drop-down list, select the **East US** region.
+    6.  在“**地理冗余**”部分，选择“**禁用**”选项。
     
-    1.  In the **Performance** section, select **Standard**.
+    7.  在“**多区域写入**”部分，选择“**禁用**”选项。
     
-    1.  In the **Account kind** drop-down list, select **StorageV2 (general purpose v2)**.
+    8.  选择“**查看 + 创建**”。
+
+7.  在“**查看 + 创建**”选项卡中，查看在之前步骤中选择的选项。
+
+8.  选择“**创建**”以使用指定的配置创建存储帐户。
+
+9.  等待创建任务完成后，再继续本实验室。
+
+10. 在 Azure 门户左侧的导航窗格中，单击“**更多服务**”。
+
+11. 在“**所有服务**”边栏选项卡中，选择**“Azure Cosmos DB”**。
+
+12. 在“**Azure Cosmos DB**”边栏选项卡中，选择包含前缀 **polycosmos** 的 Azure Cosmos DB 帐户实例。
+
+13. 在“**Azure Cosmos DB 帐户**”边栏选项卡中，找到边栏选项卡左侧的“**设置**”部分，选择“**密钥**”链接。
+
+14. 在“**密钥**”窗格中，记录“**URI**”和“**主键**”字段中的值。。你将稍后在本实验室中使用这些值。
+
+#### 任务 4：创建 Azure 存储帐户资源
+
+1.  在 Azure 门户左侧的导航窗格中，单击“**更多服务**”。
+
+2.  在“**所有服务**”边栏选项卡中，选择 **“存储帐户”**。
+
+3.  在“**存储帐户**”边栏选项卡中，查看存储实例列表。
+
+4.  在“**存储帐户**”边栏选项卡顶部，选择“**添加**”。
+
+5.  在“**创建存储帐户**”边栏选项卡中，观察边栏选项卡顶部的选项卡，如“**基本**”、“**高级**”和“**标记**”。
+
+> 注：每个选项卡代表工作流中创建新“**Azure 存储帐户**”的一个步骤。你可以随时选择“**查看 + 创建**”跳过剩余标签。
+
+6.  在“**基本**”选项卡中，执行以下操作：
     
-    1.  In the **Replication** drop-down list, select **Locally-redundant storage (LRS)**.
+    1.  将“**订阅**”文本框保留设置为默认值。
     
-    1.  In the **Access tier (default)** section, ensure that **Hot** is selected.
+    2.  在“**资源组**”部分，从列表中选择“**PolyglotData**”。
     
-    1.  Select **Review + Create**.
-
-1.  In the **Review + Create** tab, review the options that you selected during the previous steps.
-
-1.  Select **Create** to create the storage account by using your specified configuration.
-
-1.  Wait for the creation task to complete before you move forward with this lab.
-
-#### Review
-
-In this exercise, you created all the Azure resources that you will need for a polyglot data solution.
-
-### Exercise 2: Import databases and images
-
-#### Task 1: Upload image blobs
-
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
-
-1.  In the **Resource groups** blade, locate and select the **PolyglotData** resource group that you created earlier in this lab.
-
-1.  In the **PolyglotData** blade, select the **polystor\*** storage account that you created earlier in this lab.
-
-1.  In the **Storage account** blade, select the **Blobs** link located in the **Blob service** section on the left side of the blade.
-
-1.  In the **Blobs** section, select **+ Container**.
-
-1.  In the **New container** pop-up, perform the following actions:
+    3.  在“**存储帐户** **名称**”字段中，输入 **polystor\[your name in lowercase\]**。
     
-    1.  In the **Name** field, enter **images**.
+    4.  在“**位置**”下拉列表中，选择“**美国东部**”地区。
     
-    1.  In the **Public access level** drop-down list, select **Blob (anonymous read access for blobs only)**.
+    5.  在“**性能**”部分，选择“**标准**”。
     
-    1.  Select **OK**.
-
-1.  Back in the **Blobs** section, select the newly created **images** container.
-
-1.  In the **Container** blade, locate the **Settings** section on the left side of the blade and select the **Properties** link.
-
-1.  In the **Properties** pane, record the value in the **URL** field. You will use this value later in this lab.
-
-1.  Locate and select the **Overview** link on the left side of the blade.
-
-1.  At the top of the blade, select **Upload**.
-
-1.  In the **Upload blob** pop-up, perform the following actions:
+    6.  在“**帐户类型**”下拉列表中，选择 **StorageV2（通用 v2）***。*
     
-    1.  In the **Files** section, select the **Folder** icon.
+    7.  在“**复制**”下拉列表中，选择“**本地冗余存储 (LRS)**”。
     
-    1.  In the File Explorer dialog box, go to **Allfiles (F):\\Allfiles\\Labs\\03\\Starter\\Images**, select all fourty-two **.jpg** image files, and then select **Open**.
+    8.  在“**访问层（默认）**”部分，确保 **热** 已选中。
     
-    1.  Ensure that **Overwrite if files already exist** is selected.
-    
-    1.  Select **Upload**.
+    9.  选择“**查看 + 创建**”。
 
-1. Wait for all of the blobs to be uploaded before you continue with this lab.
+7.  在“**查看 + 创建**”选项卡中，查看在之前步骤中选择的选项。
 
-#### Task 2: Upload SQL .bacpac file
+8.  选择“**创建**”以使用指定的配置创建存储帐户。
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+9.  等待创建任务完成后，再继续本实验室。
 
-1.  In the **Resource groups** blade, locate and select the **PolyglotData** resource group that you created earlier in this lab.
+10. 在 Azure 门户左侧的导航窗格中，单击“**更多服务**”。
 
-1.  In the **PolyglotData** blade, select the **polystor\*** storage account that you created earlier in this lab.
+11. 在“**所有服务**”边栏选项卡中，选择 **“存储帐户”**。
 
-1.  In the **Storage account** blade, select the **Blobs** link located in the **Blob service** section on the left side of the blade.
+12. 在“**存储帐户**”边栏选项卡中，选择具有前缀 **polystor** 的 Azure 存储帐户实例。
 
-1.  In the **Blobs** section, select **+ Container**.
+13. 在“**存储帐户**”边栏选项卡中，找到边栏选项卡左侧的“**设置**”部分，选择“**访问密钥**”链接。
 
-1.  In the **New container** pop-up, perform the following actions:
-    
-    1.  In the **Name** field, enter **databases**.
-    
-    1.  In the **Public access level** drop-down list, select **Private (no anonymous access)**.
-    
-    1.  Select **OK**.
+14. 在“**访问密钥**”边栏选项卡中，选择任意一个密钥并记录“**连接字符串**”文本框中的值。你将稍后在本实验室中使用此值。
 
-1.  Back in the **Blobs** section, select the newly created **databases** container.
+#### 回顾
 
-1.  In the **Container** blade, select **Upload**.
+在本练习中，你创建了多语言数据解决方案所需的所有 Azure 资源。
 
-1.  In the **Upload blob** pop-up, perform the following actions:
-    
-    1.  In the **Files** section, select the **Folder** icon.
-    
-    1.  In the File Explorer dialog box, go to **Allfiles (F):\\Allfiles\\Labs\\03\\Starter**, select the **AdventureWorks.bacpac** file, and then select **Open**.
-    
-    1.  Ensure that **Overwrite if files already exist** is selected.
-    
-    1.  Select **Upload**.
+### 练习 2：打开并配置 ASP.NET Core Web 应用程序
 
-1. Wait for the blob to be uploaded before you continue with this lab.
+#### 任务 1：打开 Web 应用程序
 
-#### Task 3: Import SQL database
+1.  在“**启动**”屏幕上，选择 **Visual Studio Code** 磁贴。
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+2.  在“**文件**”菜单上，选择“**打开文件夹**”。
 
-1.  In the **Resource groups** blade, locate and select the **PolyglotData** resource group that you created earlier in this lab.
+3.  在打开的“文件资源管理器”窗格中，转到 **Allfiles (F):\\Labfiles\\Starter**，然后选择“**选择文件夹**”。
 
-1.  In the **PolyglotData** blade, select the **polysqlsrvr\*** SQL server that you created earlier in this lab.
+#### 任务 2：更新应用程序设置
 
-1.  In the **SQL server** blade, select **Import database**.
+1.  在“Visual Studio Code”窗口的“**资源管理器**”窗格中，展开 **Contoso.Events.Web** 项目。
 
-1.  In the **Import database** blade that appears, perform the following actions:
+2.  在“**资源管理器**”窗格中，双击选择“**appsettings.json**”。
 
-    1.  Leave the **Subscription** list set to its default value.
+3.  在 JSON 对象的第 13 行中，找到 **ConnectionStrings.EventsContextConnectionString** 路径。观察当前为空的值：
 
-    1.  Select the **Storage** option.
+<!-- end list -->
 
-    1.  In the **Storage accounts** blade that appears, select the **polystor\*** storage account that you created earlier in this lab. 
-
-    1.  In the **Containers** blade that appears, select the **databases** container that you created earlier in this lab. 
-
-    1.  In the **Container** blade that appears, select the **AdventureWorks.bacpac** blob that you created earlier in this lab and then select **Select** to close the blade.
-
-    1.  Back in the **Import database** blade, leave the **Pricing tier** option set to its default value.
-
-    1.  In the **Database name** field, enter **AdventureWorks**.
-
-    1.  Leave the **Collation** field set to its default value.
-
-    1.  In the **Server admin login** field, enter the value **testuser**.
-    
-    1.  In the **Password** field, enter the value **TestPa$$w0rd**.
-    
-    1.  Select **OK**.
-
-1. Wait for the database to be created before you continue with this lab.
-
-#### Task 4: Use imported SQL Database
-
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
-
-1.  In the **Resource groups** blade, locate and select the **PolyglotData** resource group that you created earlier in this lab.
-
-1.  In the **PolyglotData** blade, select the **polysqlsrvr\*** SQL server that you created earlier in this lab.
-
-1.  In the **SQL server** blade, locate the **Security** section on the left side of the blade and select the **Firewalls and virtual networks** link.
-
-1.  In the **Firewalls and virtual networks** pane, select **Add client IP** and then select **Save**.
-
-    > **Note**: This step will ensure that your local machine will have access to the databases associated with this server.
-
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
-
-1.  In the **Resource groups** blade, locate and select the **PolyglotData** resource group that you created earlier in this lab.
-
-1.  In the **PolyglotData** blade, select the **AdventureWorks** SQL database that you created earlier in this lab.
-
-1.  In the **SQL database** blade, locate the **Settings** section on the left side of the blade and select the **Connection strings** link.
-
-1.  In the **Connection strings** pane, record the value in the **ADO.NET (SQL Authentication)** field. You will use this value later in this lab.
-
-1.  Update the connection string you recorded by performing the following actions:
-
-    1.  Within the connection string, locate the ``{your_username}`` placeholder and replace it with ``testuser``.
-
-    1.  Within the connection string, locate the ``{your_password}`` placeholder and replace it with ``TestPa$$w0rd``.
-
-        > **Note**: For example, if your connection string was originally ``Server=tcp:polysqlsrvrinstructor.database.windows.net,1433;Initial Catalog=AdventureWorks;User ID={your_username};Password={your_password};``, your updated connection string will be ``Server=tcp:polysqlsrvrinstructor.database.windows.net,1433;Initial Catalog=AdventureWorks;User ID=testuser;Password=TestPa$$w0rd;``
-
-1.  Locate and select the **Query editor** link on the left side of the blade.
-
-1.  In the **Query editor** pane, perform the following actions:
-
-    1.  In the **Login** field, enter the value **testuser**.
-
-    1.  In the **Password** field, enter the value **TestPa$$w0rd**.
-
-    1.  Select **OK**.
-
-1.  In the open query editor, enter the following query:
-
-    ```
-    SELECT * FROM AdventureWorks.dbo.Models
-    ```
-
-1.  Select **Run** to execute the query.
-
-1.  Observe the results of the query.
-
-    > **Note**: This query will return a list of models that will appear on the homepage of the web application.
-
-1.  In the query editor, replace the existing query with the following query:
-
-    ```
-    SELECT * FROM AdventureWorks.dbo.Products
-    ```
-
-1.  Select **Run** to execute the query.
-
-1.  Observe the results of the query.
-
-    > **Note**: This query will return a list of products associated with each model.
-
-#### Review
-
-In this exercise, you imported all of the resources you will use with your web application.
-
-### Exercise 3: Open and configure a .NET Core web application
-
-#### Task 1: Open and build the web application
-
-1.  On the **Start** screen, select the **Visual Studio Code** tile.
-
-1.  On the **File** menu, select **Open Folder**.
-
-1.  In the File Explorer pane that opens, go to **Allfiles (F):\\Allfiles\\03\\Starter\\AdventureWorks**, and then select **Select Folder**.
-
-1.  In the Visual Studio Code window, access the context menu or right-click the **Explorer** pane and then select **Open in Terminal**.
-
-1.  In the open command prompt, enter the following command and press Enter to build the .NET Core web application:
-
-    ```
-    dotnet build
-    ```
-
-    > **Note**: The ``dotnet build`` command will automatically restore any missing NuGet packages prior to building all projects in the folder.
-
-1.  Observe the results of the build printed in the terminal. The build should complete successfully with no errors or warning messages.
-
-1.  Select the **Trash Can** icon to dispose of the currently open terminal and any associated processes.
-
-#### Task 2: Update SQL connection string
-
-1.  In the **Explorer** pane of the Visual Studio Code window, expand the **AdventureWorks.Web** project.
-
-1.  Double-click (or double-select) the **appsettings.json** file.
-
-1.  In the JSON object, in line 3, locate the **ConnectionStrings.AdventureWorksSqlContext** path. Observe that the current value is empty:
-
-    ```
     "ConnectionStrings": {
-        "AdventureWorksSqlContext": "",
-        ...
+    "EventsContextConnectionString": ""
     },
-    ```
 
-1.  Update the value of the **AdventureWorksSqlContext** property by setting its value to the **ADO.NET (SQL Authentication) connection string** of the **SQL database** that you recorded earlier in this lab.
+4.  通过将 **EventsContextConnectionString** 属性的值设置为你之前在此实验室中记录的 **SQL 数据库** **连接字符串**更新其值。
 
-    > **Note**: It is important that you use your updated connection string here. The original connection string copied from the portal will not have the username and password necessary to connect to the SQL database.
+5.  在 JSON 对象的第 9 行中，找到 **CosmosSettings.EndpointUrl** 路径。观察当前为空的值：
 
-1.  Save the **appsettings.json** file.
+<!-- end list -->
 
-#### Task 3: Update blob base URL
+    "CosmosSettings": {
+    "DatabaseId": "EventsDatabase ",
+    "CollectionId": "RegistrationCollection",
+    "EndpointUrl": "",
+    "AuthorizationKey": ""
+    },
 
-1.  In the JSON object, in line 8, locate the **Settings.BlobContainerUrl** path. Observe that the current value is empty:
+6.  通过将 **EndpointUrl** 属性的值设置为你之前在此实验室中记录的 **Azure Cosmos DB 帐户** 的 **终结点 Uri** 更新其值。
 
-    ```
-    "Settings": {
-        "BlobContainerUrl": "",
-        ...
-    }
-    ```
+7.  在 JSON 对象的第 10 行中，找到 **CosmosSettings.AuthorizationKey** 路径。观察当前为空的值：
 
-1.  Update the value of the **BlobContainerUrl** property by setting its value to the **URL** property of the **Azure Storage** blob container named **images** that you recorded earlier in this lab.
+<!-- end list -->
 
-1.  Save the **appsettings.json** file.
+    "CosmosSettings": {
+    "DatabaseId": "EventsDatabase ",
+    "CollectionId": "RegistrationCollection",
+    "EndpointUrl": "",
+    "AuthorizationKey": ""
+    },
 
-#### Task 4: Validate web application
+8.  通过将 **AuthorizationKey** 属性的值设置为你之前在此实验室中记录的 **Azure Cosmos DB 帐户的** **密钥** 更新其值。
 
-1.  In the Visual Studio Code window, access the context menu or right-click the **Explorer** pane and then select **Open in Terminal**.
+9.  保存 **appsettings.json** 文件。
 
-1.  In the open command prompt, enter the following command and press Enter to switch your terminal context to the **AdventureWorks.Web** folder:
+10. 在“Visual Studio Code”窗口的“**资源管理器**”窗格中，展开 **Contoso.Events.Worker** 项目。
 
-    ```
-    cd .\AdventureWorks.Web\
-    ```
+11. 在“**资源管理器**”窗格中，双击选择“**local.settings.json**”。
 
-1.  In the command prompt, enter the following command and press Enter to run the .NET Core web application:
+12. 在 JSON 对象的第 4 行中，找到 **AzureWebJobsStorage** 路径。观察当前为空的值：
 
-    ```
-    dotnet run
-    ```
+<!-- end list -->
 
-    > **Note**: The ``dotnet run`` command will automatically build any changes to the project and then start the web application without a debugger attached. The command will output the URL of the running application and any assigned ports.
+    "AzureWebJobsStorage": "",	
 
-1.  On the taskbar, select the **Microsoft Edge** icon.
+13. 通过将 **AzureWebJobsStorage** 属性的值设置为你之前在此实验室中记录的 **存储帐户** **连接字符串** 更新其值。
 
-1.  In the open browser window, navigate to the your currently running web application (<http://localhost:5000>).
+14. 在 JSON 对象的第 5 行中，找到 **AzureWebJobsDashboard** 路径。观察当前为空的值：
 
-1.  In the web application, observe the list of models displayed on the front page.
+<!-- end list -->
 
-1.  Locate the **Water Bottle** model and select **View Details**.
+    "AzureWebJobsDashboard": "",
 
-1.  On the **Water Bottle** product detail page, select **Add to Cart**.
+15. 通过将 **AzureWebJobsDashboard** 属性的值设置为你之前在此实验室中记录的 **存储帐户** **连接字符串** 更新其值。
 
-1.  Observe that the checkout functionality is currently disabled.
+16. 在 JSON 对象的第 6 行中，找到 **EventsContextConnectionString** 路径。观察当前为空的值：
 
-    > **Note**: For now, only the product page functionality is implemented. You will implement the checkout logic later in this lab.
+<!-- end list -->
 
-1.  Close the browser window showing your web application.
+    "EventsContextConnectionString": "",
 
-1.  Return to the **Visual Studio Code** window.
+17. 通过将 **EventsContextConnectionString** 属性的值设置为你之前在此实验室中记录的 **SQL 数据库** **连接字符串** 来更新其值。
 
-1.  Back in the **Visual Studio Code** window, select the **Trash Can** icon to dispose of the currently open terminal and any associated processes.
+18. 在 JSON 对象的第 7 行中，找到 **CosmosEndpointUrl** 路径。观察当前为空的值：
 
-#### Review
+<!-- end list -->
 
-In this exercise, you configured your ASP.NET Core web application to connect to your resources in Azure.
+    "CosmosEndpointUrl": "",
 
-### Exercise 4: Migrating SQL data to Azure Cosmos DB
+19. 通过将 **CosmosEndpointUrl** 属性的值设置为你之前在此实验室中记录的 **Azure Cosmos DB 帐户** 的 **终结点 Uri** 更新其值。
 
-#### Task 1: Create migration project
+20. 在 JSON 对象的第 8 行中，找到 **CosmosAuthorizationKey** 路径。观察当前为空的值：
 
-1.  In the Visual Studio Code window, access the context menu or right-click the **Explorer** pane and then select **Open in Terminal**.
+<!-- end list -->
 
-1.  In the open command prompt, enter the following command and press Enter to create a new .NET project named **AdventureWorks.Migrate** in a folder with the same name:
+    "CosmosAuthorizationKey": "",
 
-    ```
-    dotnet new console --name AdventureWorks.Migrate --langVersion preview
-    ```
+21. 通过将 **CosmosAuthorizationKey** 属性的值设置为你之前在此实验室中记录的 **Azure Cosmos DB 帐户的** **密钥** 更新其值。
 
-    > **Note**: The ``dotnet new`` command will create a new **console** project in a folder with the same name as the project.
+22. 保存 **local.settings.json** 文件。
 
-1.  In the command prompt, enter the following command and press Enter to add a reference to the existing **AdventureWorks.Models** project:
+#### 回顾
 
-    ```
-    dotnet add .\AdventureWorks.Migrate\AdventureWorks.Migrate.csproj reference .\AdventureWorks.Models\AdventureWorks.Models.csproj
-    ```
+在本练习中，你配置了 ASP.NET Core Web 应用程序以连接到 Azure 中的资源。
 
-    > **Note**: The ``dotnet add reference`` command will add a reference to the model classes contained in the **AdventureWorks.Models** project.
+### 练习 3：编写实体框架代码以连接到 Azure SQL 数据库
 
-1.  In the command prompt, enter the following command and press Enter to add a reference to the existing **AdventureWorks.Context** project:
+#### 任务 1：配置数据库初始化逻辑
 
-    ```
-    dotnet add .\AdventureWorks.Migrate\AdventureWorks.Migrate.csproj reference .\AdventureWorks.Context\AdventureWorks.Context.csproj
-    ```
+1.  在“Visual Studio Code”窗口的“资源管理器”窗格中，展开 **Contoso.Events.Data** 项目。
 
-    > **Note**: The ``dotnet add reference`` command will add a reference to the context classes contained in the **AdventureWorks.Context** project.
+2.  在“资源管理器** **”窗格中，双击选择“**ContextInitializer.cs**”。
 
-1.  In the command prompt, enter the following command and press Enter to switch your terminal context to the **AdventureWorks.Migrate** folder:
+3.  找到 **InitializeAsync** 方法：
 
-    ```
-    cd .\AdventureWorks.Migrate
-    ```
+<!-- end list -->
 
-1.  In the command prompt, enter the following command and press Enter to import version **2.2.6** of the **Microsoft.EntityFrameworkCore.SqlServer** from NuGet:
+    public async Task InitializeAsync(EventsContext eventsContext)
 
-    ```
-    dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 2.2.6
-    ```
+4.  在 **InitializeAsync** 方法中，添加以下代码行以确保已创建数据库：
 
-    > **Note**: The ``dotnet add package`` command will add the **[Microsoft.EntityFrameworkCore.SqlServer](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.SqlServer/2.2.6)** package from **NuGet**.
+<!-- end list -->
 
-1.  In the command prompt, enter the following command and press Enter to import version **3.0.0** of the **Microsoft.Azure.Cosmos** from NuGet:
+    await eventsContext.Database.EnsureCreatedAsync();
 
-    ```
-    dotnet add package Microsoft.Azure.Cosmos --version 3.0.0
-    ```
+5.  添加以下代码块以创建仅当数据库中没有事件时执行代码的条件 **if** 块：
 
-    > **Note**: The ``dotnet add package`` command will add the **[Microsoft.Azure.Cosmos](https://www.nuget.org/packages/Microsoft.Azure.Cosmos/3.0.0)** package from **NuGet**.
+<!-- end list -->
 
-1.  In the command prompt, enter the following command and press Enter to build the .NET Core web application:
-
-    ```
-    dotnet build
-    ```
-
-1.  Select the **Trash Can** icon to dispose of the currently open terminal and any associated processes.
-
-#### Task 2: Create .NET class 
-
-1.  In the **Explorer** pane of the Visual Studio Code window, expand the **AdventureWorks.Migrate** project.
-
-1.  Double-click (or double-select) the **Program.cs** file.
-
-1.  In the code editor tab for the **Program.cs** file, delete all code in the existing file.
-
-1.  Add the following lines of code to import the **AdventureWorks.Models** and **AdventureWorks.Context** namespaces from the referenced **AdventureWorks.Models** and **AdventureWorks.Context** projects:
-
-    ```
-    using AdventureWorks.Context;
-    using AdventureWorks.Models;
-    ```
-
-1.  Add the following line of code to import the **Microsoft.Azure.Cosmos** namespace from the **Microsoft.Azure.Cosmos** package imported from NuGet:
-
-    ```
-    using Microsoft.Azure.Cosmos;
-    ```
-
-1.  Add the following line of code to import the **Microsoft.EntityFrameworkCore** namespace from the **Microsoft.EntityFrameworkCore.SqlServer** package imported from NuGet:
-
-    ```
-    using Microsoft.EntityFrameworkCore;
-    ```
-
-1.  Add the following lines of code to add using blocks for built-in namespaces that will be used in this file:
-
-    ```
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    ```
-
-1.  Enter the following code to create a new **Program** class:
-
-    ```
-    public class Program
+    if (!await eventsContext.Events.AnyAsync())
     {
     }
-    ```
 
-1.  Within the **Program** class, enter the following line of code to create a new string constant named **sqlDBConnectionString**:
+6.  在新创建的 **if** 块中，添加以下代码行以创建新的 **事件** 类实例：
 
-    ```
-    private const string sqlDBConnectionString = "";
-    ```
+<!-- end list -->
 
-1.  Update the the **sqlDBConnectionString** string constant by setting its value to the **ADO.NET (SQL Authentication) connection string** of the **SQL database** that you recorded earlier in this lab.
+    Event eventItem = new Event();
 
-    > **Note**: It is important that you use your updated connection string here. The original connection string copied from the portal will not have the username and password necessary to connect to the SQL database.
+7.  在 **if** 块中，添加以下代码块以设置新的 **事件** 类实例的各种属性：
 
-1.  Within the **Program** class, enter the following line of code to create a new string constant named **cosmosDBConnectionString**: 
+<!-- end list -->
 
-    ```
-    private const string cosmosDBConnectionString = "";
-    ```
+    eventItem.EventKey = "FY17SepGeneralConference";
+    eventItem.StartTime = DateTime.Today;
+    eventItem.EndTime = DateTime.Today.AddDays(3d);
+    eventItem.Title = "FY17 September Technical Conference";
+    eventItem.Description = "Sed in euismod mi.";
+    eventItem.RegistrationCount = 1;
 
-1.  Update the the **cosmosDBConnectionString** string constant by setting its value to the **PRIMARY CONNECTION STRING** of the **Azure Cosmos DB account** that you recorded earier in this lab.
+8.  在 **if** 块中，添加以下代码行以将新的 **事件** 类实例添加到类型为 **DbSet\<Event\>** 的“**事件**”属性：
 
-1.  Within the **Program** class, enter the following code to create a new asynchronous **Main** method:
+<!-- end list -->
 
-    ```
-    public static async Task Main(string[] args)
+    eventsContext.Events.Add(eventItem);
+
+9.  在 **if** 块之外及之后，添加下列代码行以将更改保存到数据库上下文：
+
+<!-- end list -->
+
+    await eventsContext.SaveChangesAsync();
+
+10. 你的 **InitializeAsync** 方法现在应该类似于：
+
+<!-- end list -->
+
+    public async Task InitializeAsync(EventsContext eventsContext)
     {
-    }
-    ```
-
-1.  Within the **Main** method, add the following line of code to print an introductory message to the console:
-
-    ```
-    await Console.Out.WriteLineAsync("Start Migration");
-    ```
-
-1.  Save the **Program.cs** file.
-
-1.  In the Visual Studio Code window, access the context menu or right-click the **Explorer** pane and then select **Open in Terminal**.
-
-1.  In the open command prompt, enter the following command and press Enter to switch your terminal context to the **AdventureWorks.Migrate** folder:
-
-    ```
-    cd .\AdventureWorks.Migrate
-    ```
-
-1.  In the command prompt, enter the following command and press Enter to build the .NET Core web application:
-
-    ```
-    dotnet build
-    ```
-
-1.  Select the **Trash Can** icon to dispose of the currently open terminal and any associated processes.
-
-#### Task 4: Get SQL database records using Entity Framework
-
-1.  Within the **Main** method of the **Program** class within the **Program.cs** file, add the following line of code to create a new instance of the **AdventureWorksSqlContext** class passing in the **sqlDBConnectionString** variable as the connection string value:
-
-    ```
-    AdventureWorksSqlContext context = new AdventureWorksSqlContext(sqlDBConnectionString);
-    ```
-
-1.  Within the **Main** method, add the following block of code to issue a LINQ query to get all **Models** and child **Products** from the database and store them in an in-memory **List<>** collection:
-
-    ```
-    List<Model> items = await context.Models
-        .Include(m => m.Products)
-        .ToListAsync<Model>();
-    ```
-
-1.  Within the **Main** method, add the following line of code to print out the number of records imported from **Azure SQL Database**:
-
-    ```
-    await Console.Out.WriteLineAsync($"Total Azure SQL DB Records: {items.Count}");
-    ```
-
-1.  Save the **Program.cs** file.
-
-1.  In the Visual Studio Code window, access the context menu or right-click the **Explorer** pane and then select **Open in Terminal**.
-
-1.  In the open command prompt, enter the following command and press Enter to switch your terminal context to the **AdventureWorks.Migrate** folder:
-
-    ```
-    cd .\AdventureWorks.Migrate
-    ```
+    await eventsContext.Database.EnsureCreatedAsync();
     
-1.  In the command prompt,  enter the following command and press Enter to build the .NET Core web application:
+    if (!await eventsContext.Events.AnyAsync())
+    {
+    Event eventItem = new Event();
+    eventItem.EventKey = "FY17SepGeneralConference";
+    eventItem.StartTime = DateTime.Today;
+    eventItem.EndTime = DateTime.Today.AddDays(3d);
+    eventItem.Title = "FY17 September Technical Conference";
+    eventItem.Description = "Sed in euismod mi.";
+    eventItem.RegistrationCount = 1;
+    eventsContext.Events.Add(eventItem);
+    }
+    
+    await eventsContext.SaveChangesAsync();
+    }
 
-    ```
-    dotnet build
-    ```
+11. **保存** **ContextInitializer.cs** 文件。
 
-    > **Note**: If there are any build errors, please review the **Program.cs** file located in the **Allfiles (F):\\Allfiles\\Labs\\03\\Solution\\AdventureWorks\\AdventureWorks.Migrate** folder.
+#### 任务 2：更新数据库初始化
 
-1.  Select the **Trash Can** icon to dispose of the currently open terminal and any associated processes.
+1.  在“Visual Studio Code”窗口的“资源管理器”窗格中，展开 **Contoso.Events.Data** 项目。
 
-#### Task 5: Insert items into Azure Cosmos DB
+2.  在“资源管理器** **”窗格中，双击选择“**ContextInitializer.cs**”。
 
-1.  Within the **Main** method of the **Program** class within the **Program.cs** file, add the following line of code to create a new instance of the **CosmosClient** class passing in the **cosmosDBConnectionString** variable as the connection string value:
+3.  找到 **InitializeAsync** 方法：
 
-    ```
-    CosmosClient client = new CosmosClient(cosmosDBConnectionString);
-    ```
+<!-- end list -->
 
-1.  Within the **Main** method, add the following line of code to create a new **database** named **Retail** if it does not already exist in the Azure Cosmos DB account:
+    public async Task InitializeAsync(EventsContext eventsContext)
 
-    ```
-    Database database = await client.CreateDatabaseIfNotExistsAsync("Retail");
-    ```
+4.  用以下方法实现替换方法：
 
-1.  Within the **Main** method, add the following block of code to create a new **container** named **Online** if it does not already existing in the Azure Cosmos DB account with a partition key path of **/Category** and a throughput of **1000 RUs**:
+<!-- end list -->
 
-    ```
-    Container container = await database.CreateContainerIfNotExistsAsync("Online",
-        partitionKeyPath: $"/{nameof(Model.Category)}",
-        throughput: 1000
+    public async Task InitializeAsync(EventsContext eventsContext)
+    {
+    await eventsContext.Database.EnsureCreatedAsync();
+    
+    if (!await eventsContext.Events.AnyAsync())
+    {
+    await eventsContext.Events.AddRangeAsync(
+    new List<Event>() 
+    {
+    new Event { EventKey = "GeneralConferenceAlpha", StartTime = DateTime.Today, EndTime = DateTime.Today.AddDays(5d), Title = "First General Conference", Description = "Sed in euismod mi.", RegistrationCount = 15 },
+    new Event { EventKey = "GeneralConferenceBravo", StartTime = DateTime.Today.AddDays(10d), EndTime = DateTime.Today.AddDays(15d), Title = "Second General Conference", Description = "Sed in euismod mi.", RegistrationCount = 20 },
+    new Event { EventKey = "GeneralConferenceCharlie", StartTime = DateTime.Today.AddDays(20d), EndTime = DateTime.Today.AddDays(25d), Title = "Third General Conference", Description = "Sed in euismod mi.",  RegistrationCount = 5 },
+    new Event { EventKey = "GeneralConferenceDelta", StartTime = DateTime.Today.AddDays(30d), EndTime = DateTime.Today.AddDays(35d), Title = "Fourth General Conference", Description = "Sed in euismod mi.", RegistrationCount = 25 },
+    new Event { EventKey = "GeneralConferenceEcho", StartTime = DateTime.Today.AddDays(40d), EndTime = DateTime.Today.AddDays(45d), Title = "Fifth General Conference", Description = "Sed in euismod mi.", RegistrationCount = 10 },
+    new Event { EventKey = "GeneralConferenceFoxtrot", StartTime = DateTime.Today.AddDays(50d), EndTime = DateTime.Today.AddDays(55d), Title = "Sixth General Conference", Description = "Sed in euismod mi.", RegistrationCount = 0 }
+    }
     );
-    ```
+    
+    await eventsContext.SaveChangesAsync();
+    }
+    }
 
-1.  Within the **Main** method, add the following line of code to create an **int** variable named **count**:
+5.  **保存** **ContextInitializer.cs** 文件。
 
-    ```
+#### 任务 3：在 ASP.NET MVC 控制器中编写实体框架查询
+
+1.  在“Visual Studio Code”窗口的“资源管理器** **”窗格中，展开 **Contoso.Events.Web** 项目。
+
+2.  在“资源管理器”窗格中，展开 **Controllers** 文件夹。
+
+3.  在“资源管理器** **”窗格中，双击选择“**HomeController.cs**”。
+
+4.  找到 **Index** 方法：
+
+<!-- end list -->
+
+    public IActionResult Index([FromServices] EventsContext eventsContext, [FromServices] IOptions<ApplicationSettings> appSettings)
+
+5.  在 **Index** 方法中，找到下列代码行：
+
+<!-- end list -->
+
+    var upcomingEvents = Enumerable.Empty<Event>();
+
+6.  用以下代码块替换该代码行以查询 **事件** 表格，按“**StartTime**”属性排序结果，然后根据应用程序设置检索（获取）结果的子集：
+
+<!-- end list -->
+
+    var upcomingEvents = eventsContext.Events
+    .Where(e => e.StartTime >= DateTime.Today)
+    .OrderBy(e => e.StartTime)
+    .Take(appSettings.Value.LatestEventCount);
+
+7.  **保存** **HomeController.cs** 文件。
+
+8.  在“资源管理器** **”窗格中，双击选择“**HomeController.cs**”。
+
+9.  找到 **Index** 方法：
+
+<!-- end list -->
+
+    public IActionResult Index([FromServices] EventsContext eventsContext, [FromServices] IOptions<ApplicationSettings> appSettings, int? page)
+
+10. 在 **Index** 方法中，找到下列代码行：
+
+<!-- end list -->
+
+    var pagedEvents = Enumerable.Empty<Event>();
+
+11. 用以下代码块替换该代码行以查询 **事件** 表格，然后使用 **Skip** 和 **Take** 方法根据当前页码创建结果页面：
+
+<!-- end list -->
+
+    int currentPage = page ?? 1;
+    int totalRows = eventsContext.Events.Count();
+    int pageSize = appSettings.Value.GridPageSize;
+    var pagedEvents = eventsContext.Events
+    .OrderByDescending(e => e.StartTime)
+    .Skip(pageSize * (currentPage - 1))
+    .Take(pageSize);
+
+12. 在 **Index** 方法中，找到下列代码块：
+
+<!-- end list -->
+
+    EventsGridViewModel viewModel = new EventsGridViewModel
+    {
+    CurrentPage = 0,
+    PageSize = 0,
+    TotalRows = 0,
+    Events = pagedEvents
+    };	
+
+13. 用以下代码块替换该代码块以设置 **EventsGridViewModel** 类实例的各种属性：
+
+<!-- end list -->
+
+    EventsGridViewModel viewModel = new EventsGridViewModel
+    {
+    CurrentPage = currentPage,
+    PageSize = pageSize,
+    TotalRows = totalRows,
+    Events = pagedEvents
+    };
+
+14. 找到 **Detail** 方法：
+
+<!-- end list -->
+
+    public IActionResult Detail([FromServices] EventsContext eventsContext, string key)
+
+15. 在 **Detail** 方法中，找到以下代码行：
+
+<!-- end list -->
+
+    var matchedEvent = default(Event);
+
+16. 用以下代码块替换该代码行以查询 **事件** 表格，找到与 **EventKey** 属性匹配的单个记录：
+
+<!-- end list -->
+
+    var matchedEvent = eventsContext.Events
+    .SingleOrDefault(e => e.EventKey == key);
+
+17. **保存** **EventsController.cs** 文件。
+
+#### 回顾
+
+在本练习中，你编写了 C\# 代码以使用实体框架连接到 Azure SQL 数据库。
+
+### 练习 4：编写 Cosmos DB 客户端库以连接到 Azure Cosmos DB
+
+#### 任务 1：在 Azure Functions 项目中检索注册者名称
+
+1.  在“Visual Studio Code”窗口的“资源管理器”窗格中，展开 **Contoso.Events.Worker** 项目，然后双击选择 **ProcessDocuments.cs** 文件。
+
+2.  在 **ProcessDocuments.cs** 文件的代码编辑器选项卡中，找到 **ProcessDocuments** 类：
+
+<!-- end list -->
+
+    public static class ProcessDocuments
+
+3.  在 **ProcessDocuments** 类中，在第 19 行添加一行新代码以创建一个新的 **RegistrationContext** 类静态实例。
+
+<!-- end list -->
+
+    private static RegistrationContext _registrationsContext = _connection.GetCosmosContext();
+
+4.  找到 **ProcessHttpRequestMessage** 方法：
+
+<!-- end list -->
+
+    private static async Task<List<string>> ProcessHttpRequestMessage(string eventKey)
+
+5.  在 **ProcessHttpRequestMessage** 方法中，在第 40 行添加一行新代码以使用 **RegistrationContext** 类的 **ConfigureConnectionAsync** 方法配置到 Azure Cosmos DB 的连接：
+
+<!-- end list -->
+
+    await _registrationsContext.ConfigureConnectionAsync();
+
+6.  找到存储 **注册者** 变量中空字符串值集合的第 41 行的代码行：
+
+<!-- end list -->
+
+    List<string> registrants = new List<string>();
+
+7.  用调用 **RegistrationContext** 类的 **GetRegistrantsForEvent** 方法的新代码行替换第 41 行的代码行：
+
+<!-- end list -->
+
+    List<string> registrants = await _registrationsContext.GetRegistrantsForEvent(eventKey);
+
+8.  保存 **ProcessDocuments.cs** 文件。
+
+#### 任务 2：实现 RegistrationContext 类
+
+1.  在“Visual Studio Code”窗口的“资源管理器** **”窗格中，展开 **Contoso.Events.Data** 项目，然后双击选择 **RegistrationContext.cs** 文件。
+
+2.  在 **RegistrationContext.cs** 文件的代码编辑器选项卡中，找到 **RegistrationContext** 类：
+
+<!-- end list -->
+
+    public class RegistrationContext
+
+3.  在 **RegistrationContext** 类中，添加一行新代码以创建一个类型为 **数据库** 的新属性：
+
+<!-- end list -->
+
+    protected Database Database { get; set; }
+
+4.  在 **RegistrationContext** 类中，添加一行新代码以创建一个类型为 **DocumentCollection** 的新属性：
+
+<!-- end list -->
+
+    protected DocumentCollection Collection { get; set; }
+
+5.  在 **RegistrationContext** 类中，添加一行新代码以创建一个类型为 **DocumentClient** 的新属性：
+
+<!-- end list -->
+
+    protected DocumentClient Client { get; set; }
+
+6.  在 **RegistrationContext** 类中，找到现有的 **RegistrationContext** 构造函数：
+
+<!-- end list -->
+
+    public RegistrationContext(IOptions<CosmosSettings> cosmosSettings)
+    {
+    CosmosSettings = cosmosSettings.Value;
+    }
+
+7.  在构造函数中，添加一行新代码以创建一个新的 **DocumentClient** 实例并将其保存到 *客户端* 属性：
+
+<!-- end list -->
+
+    Client = new DocumentClient(new Uri(CosmosSettings.EndpointUrl), CosmosSettings.AuthorizationKey);
+
+8.  在 **RegistrationContext** 类中，找到 **ConfigureConnectionAsync** 方法并删除该方法中的任何现有代码：
+
+<!-- end list -->
+
+    public async Task ConfigureConnectionAsync()
+    {
+    
+    }
+
+9.  在 **ConfigureConnectionAsync** 方法中，添加一行新代码以创建一个新的 **数据库** 实例并将其保存到 **数据库** 属性：
+
+<!-- end list -->
+
+    Database = await Client.CreateDatabaseIfNotExistsAsync(new Database { Id = CosmosSettings.DatabaseId });
+
+10. 添加一行新代码以创建一个新的 **DocumentCollection** 实例并将其保存到 **集合** 属性：
+
+<!-- end list -->
+
+    Collection = await Client.CreateDocumentCollectionIfNotExistsAsync(Database.SelfLink, new DocumentCollection { Id = CosmosSettings.CollectionId });
+
+11. 在 **RegistrationContext** 类中，找到 **GetRegistrantCountAsync** 方法并删除该方法中的任何现有代码：
+
+<!-- end list -->
+
+    public async Task<int> GetRegistrantCountAsync()
+    {
+    
+    }
+
+12. 在 **GetRegistrantCountAsync** 方法中，添加一行新代码以创建一个新的 **FeedOptions** 类实例并将其 **EnableCrossPartitionQuery** 属性设置为“true”值：
+
+<!-- end list -->
+
+    FeedOptions options = new FeedOptions { EnableCrossPartitionQuery = true };
+
+13. 添加一行新代码以创建一个获取注册者数量并返回整数值集合的查询：
+
+<!-- end list -->
+
+    IDocumentQuery<int> query = Client.CreateDocumentQuery<int>(Collection.SelfLink, "SELECT VALUE COUNT(1) FROM registrants", options).AsDocumentQuery();
+
+14. 添加一个新的代码块以创建一个名为 ***count*** 的整数变量，一个在 **IDocumentQuery\<\>** 类的 **HasMoreResults** 属性上循环访问并返回 ***count*** 变量最终值的 while 循环：
+
+<!-- end list -->
+
     int count = 0;
-    ```
-
-1.  Within the **Main** method, add the following block of code to create a **foreach** loop that iterates over the objects in the **items** collection:
-
-    ```
-    foreach (var item in items)
+    while (query.HasMoreResults)
     {
-    }
-    ```
-
-1.  Within the **foreach** loop contained in **Main** method, add the following line of code to **upsert** the object into the Azure Cosmos DB collection and save the result in a variable of type **ItemResponse<>** named **document**:
-
-    ```
-    ItemResponse<Model> document = await container.UpsertItemAsync<Model>(item);
-    ```
-
-1.  Within the **foreach** loop contained in **Main** method, add the following line of code to print out the **activity id** of each upsert operation:
-
-    ```
-    await Console.Out.WriteLineAsync($"Upserted document [Activity Id: {document.ActivityId}]");
-    ```
-
-1.  Back within the **Main** method (outside of the foreach loop), add the following line of code to print out the number of documents exported to **Azure Cosmos DB**:
-
-    ```
-    await Console.Out.WriteLineAsync($"Total Azure Cosmos DB Documents: {count}");
-    ```
-
-1.  Save the **Program.cs** file.
-
-1.  In the Visual Studio Code window, access the context menu or right-click the **Explorer** pane and then select **Open in Terminal**.
-
-1.  In the open command prompt, enter the following command and press Enter to switch your terminal context to the **AdventureWorks.Migrate** folder:
-
-    ```
-    cd .\AdventureWorks.Migrate
-    ```
     
-1.  In the command prompt, enter the following command and press Enter to build the .NET Core web application:
-
-    ```
-    dotnet build
-    ```
-
-    > **Note**: If there are any build errors, please review the **Program.cs** file located in the **Allfiles (F):\\Allfiles\\Labs\\03\\Solution\\AdventureWorks\\AdventureWorks.Migrate** folder.
-
-#### Task 6: Perform migration
-
-1.  In the open command prompt, enter the following command and press Enter to run the .NET Core web application:
-
-    ```
-    dotnet run
-    ```
-
-    > **Note**: The ``dotnet run`` command will start the console application.
-
-1.  Observe the various data that is printed to the screen including; initial SQL record count, individual upsert activity identifiers, final Azure Cosmos DB document count.
-
-1.  Select the **Trash Can** icon to dispose of the currently open terminal and any associated processes.
-
-#### Task 7: Validate migration
-
-1.  Return to the **Microsoft Edge** browser window showing the **Azure portal**.
-
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
-
-1.  In the **Resource groups** blade, locate and select the **PolyglotData** resource group that you created earlier in this lab.
-
-1.  In the **PolyglotData** blade, select the **polycosmos\*** Azure Cosmos DB account that you created earlier in this lab.
-
-1.  In the **Azure Cosmos DB account** blade, locate and select the **Query editor** link on the left side of the blade.
-
-1.  In the **Query editor** pane, expand the **Retail** database node.
-
-1.  Expand the **Online** container node.
-
-1.  Select **New SQL Query**.
-
-    > **Note**: The label for this option may be hidden. You can view labels by hovering over the icons at the top of the **Data Explorer** pane.
-
-1.  In the query tab that appears, enter the following text:
-
-    ```
-    SELECT * FROM models
-    ```
-
-1.  Select **Execute Query**.
-
-1.  Observe the list of JSON models returned by the query.
-
-1.  Back in the query editor, replace the existing text with the following text:
-
-    ```
-    SELECT VALUE COUNT(1) FROM models
-    ```
-
-1.  Select **Execute Query**.
-
-1.  Observe the result of the **COUNT** aggregate operation.
-
-1.  Return to the **Visual Studio Code** window.
-
-#### Review
-
-In this exercise, you used Entity Framework and the .NET SDK for Azure Cosmos DB to migrate data from Azure SQL Database to Azure Cosmos DB.
-
-### Exercise 5: Accessing Azure Cosmos DB using .NET
-
-#### Task 1: Update Library with the Cosmos SDK and references
-
-1.  In the Visual Studio Code window, access the context menu or right-click the **Explorer** pane and then select **Open in Terminal**.
-
-1.  In the open command prompt, enter the following command and press Enter to switch your terminal context to the **AdventureWorks.Context** folder:
-
-    ```
-    cd .\AdventureWorks.Context\
-    ```
-
-1.  In the command prompt, enter the following command and press Enter to import the **Microsoft.Azure.Cosmos** from NuGet:
-
-    ```
-    dotnet add package Microsoft.Azure.Cosmos --version 3.0.0
-    ```
-
-    > **Note**: The ``dotnet add package`` command will add the **[Microsoft.Azure.Cosmos](https://www.nuget.org/packages/Microsoft.Azure.Cosmos/3.0.0)** package from **NuGet**.
-
-1.  In the command prompt, enter the following command and press Enter to build the .NET Core web application:
-
-    ```
-    dotnet build
-    ```
-
-1.  Select the **Trash Can** icon to dispose of the currently open terminal and any associated processes.
-
-#### Task 2: Write .NET code to connect to Azure Cosmos DB
-
-1.  In the **Explorer** pane of the Visual Studio Code window, expand the **AdventureWorks.Context** project.
-
-1.  Access the context menu or right-click the **AdventureWorks.Context** folder node and then select **New File**.
-
-1.  In the prompt that appears, enter the value **AdventureWorksCosmosContext.cs**.
-
-1.  In the code editor tab for the **AdventureWorksCosmosContext.cs** file, add the following lines of code to import the **AdventureWorks.Models** namespace from the referenced **AdventureWorks.Models** project:
-
-    ```
-    using AdventureWorks.Models;
-    ```
-
-1.  Add the following lines of code to import the **Microsoft.Azure.Cosmos** and **Microsoft.Azure.Cosmos.Linq** namespaces from the **Microsoft.Azure.Cosmos** package imported from NuGet:
-
-    ```
-    using Microsoft.Azure.Cosmos;
-    using Microsoft.Azure.Cosmos.Linq;
-    ```
-
-1.  Add the following lines of code to add using blocks for built-in namespaces that will be used in this file:
-
-    ```
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    ```
-
-1.  Enter the following code to add a **AdventureWorks.Context** namespace block:
-
-    ```
-    namespace AdventureWorks.Context
-    {
     }
-    ```
+    return count;
 
-1.  Within the **AdventureWorks.Context** namespace, enter the following code to create a new **AdventureWorksCosmosContext** class:
+15. 在 while 循环中，添加一行代码以调用 **IDocumentQuery\<\>** 类的 **ExecuteNextAsync\<\>** 方法并将其结果存储在名为 ***results*** 的类型为 **FeedResponse\<\>** 的变量中：
 
-    ```
-    public class AdventureWorksCosmosContext
+<!-- end list -->
+
+    FeedResponse<int> results = await query.ExecuteNextAsync<int>();
+
+16. 在 while 循环中，添加一行代码以通过调用 ***results*** 变量中存储的集合上的 **Sum** LINQ 方法递增 ***count*** 变量：
+
+<!-- end list -->
+
+    count += results.Sum();
+
+17. 在 **RegistrationContext** 类中，找到 **GetRegistrantsForEvent** 方法并删除该方法中的任何现有代码：
+
+<!-- end list -->
+
+    public async Task<List<string>> GetRegistrantsForEvent(string eventKey)
     {
-    }
-    ```
-
-1.  Update the declaration of the **AdventureWorksCosmosContext** class by adding a specification indicating that this class will implement the **IAdventureWorksProductContext** interface:
-
-    ```
-    public class AdventureWorksCosmosContext : IAdventureWorksProductContext
-    {
-    }
-    ```
-
-1.  Within the **AdventureWorksCosmosContext** class, enter the following line of code to create a new readonly **Container** variable named **_container**:
-
-    ```
-    private readonly Container _container;
-    ```
-
-1.  Within the **AdventureWorksCosmosContext** class, add a new constructor with the following signature:
-
-    ```
-    public AdventureWorksCosmosContext(string connectionString, string database = "Retail", string container = "Online")
-    {
-    }
-    ```
-
-1.  Within the constructor, add the following block of code to create a new instance of the **CosmosClient** class and then obtain both a **Database** and **Container** instance from the client:
-
-    ```
-    _container = new CosmosClient(connectionString)
-        .GetDatabase(database)
-        .GetContainer(container);
-    ```
-
-1.  Within the **AdventureWorksCosmosContext** class, add a new **FindModelAsync** method with the following signature:
-
-    ```
-    public async Task<Model> FindModelAsync(Guid id)
-    {
-    }
-    ```
-
-1.  Within the **FindModelAsync** method, add the following blocks of code to create a LINQ query, transform it into an iterator, iterate over the result set, and then return the single item in the result set:
-
-    ```
-    var iterator = _container.GetItemLinqQueryable<Model>()
-        .Where(m => m.id == id)
-        .ToFeedIterator<Model>();
-
-    List<Model> matches = new List<Model>();
-    while (iterator.HasMoreResults)
-    {
-        var next = await iterator.ReadNextAsync();
-        matches.AddRange(next);
-    }
-
-    return matches.SingleOrDefault();
-    ```
-
-1.  Within the **AdventureWorksCosmosContext** class, add a new **GetModelsAsync** method with the following signature:
-
-    ```
-    public async Task<List<Model>> GetModelsAsync()
-    {
-    }
-    ```
-
-1.  Within the **GetModelsAsync** method, add the following blocks of code to execute a sql query, get the query result iterator, iterator over the result set, and then return the union of all results:
-
-    ```
-    string query = $@"SELECT * FROM items";
-
-    var iterator = _container.GetItemQueryIterator<Model>(query);
-
-    List<Model> matches = new List<Model>();
-    while (iterator.HasMoreResults)
-    {
-        var next = await iterator.ReadNextAsync();
-        matches.AddRange(next);
-    }
-
-    return matches;
-    ```
-
-1.  Within the **AdventureWorksCosmosContext** class, add a new **FindProductAsync** method with the following signature:
-
-    ```
-    public async Task<Product> FindProductAsync(Guid id)
-    {
-    }
-    ```
-
-1.  Within the **FindProductAsync** method, add the following blocks of code to execute a sql query, get the query result iterator, iterates over the result set, and then return the single item in the result set:
-
-    ```
-    string query = $@"SELECT VALUE products
-                        FROM models
-                        JOIN products in models.Products
-                        WHERE products.id = '{id}'";
-
-    var iterator = _container.GetItemQueryIterator<Product>(query);
-
-    List<Product> matches = new List<Product>();
-    while (iterator.HasMoreResults)
-    {
-        var next = await iterator.ReadNextAsync();
-        matches.AddRange(next);
-    }
-
-    return matches.SingleOrDefault();
-    ```
-
-1.  Save the **AdventureWorksCosmosContext.cs** file.
-
-1.  In the Visual Studio Code window, access the context menu or right-click the **Explorer** pane and then select **Open in Terminal**.
-
-1.  In the open command prompt, enter the following command and press Enter to switch your terminal context to the **AdventureWorks.Context** folder:
-
-    ```
-    cd .\AdventureWorks.Context
-    ```
     
-1.  In the command prompt, enter the following command and press Enter to build the .NET Core web application:
-
-    ```
-    dotnet build
-    ```
-
-    > **Note**: If there are any build errors, please review the **AdventureWorksCosmosContext.cs** file located in the **Allfiles (F):\\Allfiles\\Labs\\03\\Solution\\AdventureWorks\\AdventureWorks.Context** folder.
-
-1.  Select the **Trash Can** icon to dispose of the currently open terminal and any associated processes.
-
-#### Task 3: Update Azure Cosmos DB connection string
-
-1.  In the **Explorer** pane of the Visual Studio Code window, expand the **AdventureWorks.Web** project.
-
-1.  Double-click (or double-select) the **appsettings.json** file.
-
-1.  In the JSON object, in line 4, locate the **ConnectionStrings.AdventureWorksCosmosContext** path. Observe that the current value is empty:
-
-    ```
-    "ConnectionStrings": {
-        ...
-        "AdventureWorksCosmosContext": "",
-        ...
-    },
-    ```
-
-1.  Update the value of the **AdventureWorksCosmosContext** property by setting its value to the **PRIMARY CONNECTION STRING** of the **Azure Cosmos DB account** that you recorded earier in this lab.
-
-1.  Save the **appsettings.json** file.
-
-#### Task 4: Update .NET application startup logic
-
-1.  In the **Explorer** pane of the Visual Studio Code window, expand the **AdventureWorks.Web** project.
-
-1.  Double-click (or double-select) the **Startup.cs** file.
-
-1.  In the **Startup** class, locate the existing **ConfigureProductService** method:
-
-    ```
-    public void ConfigureProductService(IServiceCollection services)
-    {
-        services.AddScoped<IAdventureWorksProductContext, AdventureWorksSqlContext>(provider =>
-            new AdventureWorksSqlContext(
-                _configuration.GetConnectionString(nameof(AdventureWorksSqlContext))
-            )
-        );
     }
-    ```
 
-    > **Note**: The current product service uses SQL as its database.
+18. 在 **GetRegistrantsForEvent** 方法中，添加一行使用 LINQ 的代码以通过使用 ***eventKey*** 参数值获取特定时间的注册者并使用 **GeneralRegistration** 类对这些注册者进行反序列化：
 
-1.  Within the **ConfigureProductService** method, delete all existing lines of code :
+<!-- end list -->
 
-    ```
-    public void ConfigureProductService(IServiceCollection services)
+    IDocumentQuery<GeneralRegistration> query = Client.CreateDocumentQuery<GeneralRegistration>(Collection.SelfLink).Where(r => r.EventKey == eventKey).AsDocumentQuery();
+
+19. 添加一个新的代码块以创建一个名为 ***registrants*** 的 **List\<\>** 变量，一个在 **IDocumentQuery\<\>** 类的 **HasMoreResults** 属性上循环访问并返回 ***registrants*** 变量最终值的 while 循环：
+
+<!-- end list -->
+
+    List<string> registrants = new List<string>();
+    while (query.HasMoreResults)
     {
-    }
-    ```
-
-1.  Within the **ConfigureProductService** method, add the following block of code to change the products provider to the **AdventureWorksCosmosContext** implementation you created earlier in this lab:
-
-    ```
-    services.AddScoped<IAdventureWorksProductContext, AdventureWorksCosmosContext>(provider =>
-        new AdventureWorksCosmosContext(
-            _configuration.GetConnectionString(nameof(AdventureWorksCosmosContext))
-        )
-    );
-    ```
-
-1.  Save the **Startup.cs** file.
-
-#### Task 5: Validate .NET application successfully connects to Azure Cosmos DB
-
-1.  In the Visual Studio Code window, access the context menu or right-click the **Explorer** pane and then select **Open in Terminal**.
-
-1.  In the open command prompt, enter the following command and press Enter to switch your terminal context to the **AdventureWorks.Web** folder:
-
-    ```
-    cd .\AdventureWorks.Web\
-    ```
-
-1.  In the command prompt, enter the following command and press Enter to run the .NET Core web application:
-
-    ```
-    dotnet run
-    ```
-
-    > **Note**: The ``dotnet run`` command will automatically build any changes to the project and then start the web application without a debugger attached. The command will output the URL of the running application and any assigned ports.
-
-1.  On the taskbar, select the **Microsoft Edge** icon.
-
-1.  In the open browser window, navigate to the your currently running web application (<http://localhost:5000>).
-
-1.  In the web application, observe the list of models displayed on the front page.
-
-1.  Locate the **Touring-1000** model and select **View Details**.
-
-1.  On the **Touring-1000** product detail page, perform the following actions:
-
-    1.  In the **Select options** list, select **Touring-1000 Yellow, 50, $2,384.07**.
     
-    1.  Select **Add to Cart**.
+    }
+    return registrants;
 
-1.  Observe that the checkout functionality is still disabled.
+20. 在 while 循环中，添加一行代码以调用 **IDocumentQuery\<\>** 类的 **ExecuteNextAsync\<\>** 方法并将其结果存储在名为 ***results*** 的类型为 **FeedResponse\<\>** 的变量中：
 
-    > **Note**: In the next exercise, you will implement the checkout logic.
+<!-- end list -->
 
-1.  Close the browser window showing your web application.
+    FeedResponse<GeneralRegistration> results = await query.ExecuteNextAsync<GeneralRegistration>();
 
-1.  Return to the **Visual Studio Code** window.
+21. 在 while 循环中，添加一行调用 **Select** LINQ 方法的代码以将 **GeneralRegistration** 类的两个属性投射为单个字符串并将得到的集合存储在名为 ***resultNames*** 的类型为 **IEnumerable\<\>** 的变量中：
 
-1.  Back in the **Visual Studio Code** window, select the **Trash Can** icon to dispose of the currently open terminal and any associated processes.
+<!-- end list -->
 
-#### Review
+    IEnumerable<string> resultNames = results.Select(r => $"{r.FirstName} {r.LastName}");
 
-In this exercise, you wrote C# code to query an Azure Cosmos DB collection using the .NET SDK.
+22. 在 while 循环中，添加另一行代码以通过使用 **List\<\>** 类的 **AddRange** 方法将 **注册者** 集合及值追加到 **resultNames** 集合中。
 
-### Exercise 6: Accessing Azure Cache for Redis using .NET
+<!-- end list -->
 
-#### Task 1: Update Library with the StackExchange.Redis SDK and references
+    registrants.AddRange(resultNames);
 
-1.  In the Visual Studio Code window, access the context menu or right-click the **Explorer** pane and then select **Open in Terminal**.
+23. 在 **RegistrationContext** 类中，找到 **UploadEventRegistrationAsync** 方法并删除该方法中的任何现有代码：
 
-1.  In the open command prompt, enter the following command and press Enter to switch your terminal context to the **AdventureWorks.Context** folder:
+<!-- end list -->
 
-    ```
-    cd .\AdventureWorks.Context\
-    ```
-
-1.  In the command prompt, enter the following command and press Enter to import the **Newtonsoft.Json** from NuGet:
-
-    ```
-    dotnet add package Newtonsoft.Json --version 12.0.2
-    ```
-
-    > **Note**: The ``dotnet add package`` command will add the **[Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json/12.0.2)** package from **NuGet**.
-
-1.  In the command prompt, enter the following command and press Enter to import the **StackExchange.Redis** from NuGet:
-
-    ```
-    dotnet add package StackExchange.Redis --version 2.0.601
-    ```
-
-    > **Note**: The ``dotnet add package`` command will add the **[StackExchange.Redis](https://www.nuget.org/packages/StackExchange.Redis/2.0.601)** package from **NuGet**.
-
-1.  In the command prompt, enter the following command and press Enter to build the .NET Core web application:
-
-    ```
-    dotnet build
-    ```
-
-1.  Select the **Trash Can** icon to dispose of the currently open terminal and any associated processes.
-
-#### Task 2: Write .NET code to connect to Azure Cache for Redis
-
-1.  In the **Explorer** pane of the Visual Studio Code window, expand the **AdventureWorks.Context** project.
-
-1.  Access the context menu or right-click the **AdventureWorks.Context** folder node and then select **New File**.
-
-1.  In the prompt that appears, enter the value **AdventureWorksRedisContext.cs**.
-
-1.  In the code editor tab for the **AdventureWorksRedisContext.cs** file, add the following lines of code to import the **AdventureWorks.Models** namespace from the referenced **AdventureWorks.Models** project:
-
-    ```
-    using AdventureWorks.Models;
-    ```
-
-1.  Add the following lines of code to import the **Newtonsoft.Json** namespace from the **Newtonsoft.Json** package imported from NuGet:
-
-    ```
-    using Newtonsoft.Json;
-    ```
-
-1.  Add the following lines of code to import the **StackExchange.Redis** namespace from the **StackExchange.Redis** package imported from NuGet:
-
-    ```
-    using StackExchange.Redis;
-    ```
-
-1.  Add the following lines of code to add using blocks for built-in namespaces that will be used in this file:
-
-    ```
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    ```
-
-1.  Enter the following code to add a **AdventureWorks.Context** namespace block:
-
-    ```
-    namespace AdventureWorks.Context
+    public async Task<string> UploadEventRegistrationAsync(dynamic registration)
     {
-    }
-    ```
-
-1.  Within the **AdventureWorks.Context** namespace, enter the following code to create a new **AdventureWorksRedisContext** class:
-
-    ```
-    public class AdventureWorksRedisContext
-    {
-    }
-    ```
-
-1.  Update the declaration of the **AdventureWorksRedisContext** class by adding a specification indicating that this class will implement the **IAdventureWorksCheckoutContext** interface:
-
-    ```
-    public class AdventureWorksRedisContext : IAdventureWorksCheckoutContext
-    {
-    }
-    ```
-
-1.  Within the **AdventureWorksRedisContext** class, enter the following line of code to create a new readonly **IDatabase** variable named **_database**:
-
-    ```
-    private readonly IDatabase _database;
-    ```
-
-1.  Within the **AdventureWorksRedisContext** class, add a new constructor with the following signature:
-
-    ```
-    public AdventureWorksRedisContext(string connectionString)
-    {        
-    }
-    ```
-
-1.  Within the constructor, add the following block of code to create a new instance of the **ConnectionMultiplexer** class and then get the database instance:
-
-    ```
-    ConnectionMultiplexer connection = ConnectionMultiplexer.Connect(connectionString);
-    _database = connection.GetDatabase();
-    ```
-
-1.  Within the **AdventureWorksRedisContext** class, add a new **AddProductToCartAsync** method with the following signature:
-
-    ```
-    public async Task AddProductToCartAsync(string uniqueIdentifier, Product product)
-    {        
-    }
-    ```
-
-1.  Within the **AddProductToCartAsync** method, add the following blocks of code to get the current value from a key, create a new list if one does not already exists, add the product to the list, and then store the list as the new value for the key in the database:
     
-    ```
-    RedisValue result = await _database.StringGetAsync(uniqueIdentifier);
-    List<Product> products = new List<Product>();
-    if (!result.IsNullOrEmpty)
+    }
+
+24. 在 **UploadEventRegistrationAsync** 方法中，添加一行代码以调用类型 **DocumentClient** 的 **客户端** 属性的 **CreateDocumentAsync** 方法并将结果保存为名为 ***response*** 的类型为 **ResourceResponse\<Document\>** 的变量。此方法会将文档上传至 Azure Cosmos DB：
+
+<!-- end list -->
+
+    ResourceResponse<Document> response = await Client.CreateDocumentAsync(Collection.SelfLink, registration);
+
+25. 添加另一行代码以使用点标记访问 ***response*** 变量的 **资源** 属性（**文档**）类型和 **文档** 实例的 **Id** 属性。返回字符串 **Id** 值作为当前方法的结果：
+
+<!-- end list -->
+
+    return response.Resource.Id;
+
+26. 保存 **RegistrationContext.cs** 文件。
+
+#### 回顾
+
+在本练习中，你编写了在 Azure Cosmos DB 中访问和查询文档所需的 C\# 代码。
+
+### 练习 5：编写 Azure SDK 代码以连接到 Azure 存储
+
+#### 任务 1：为 Azure Functions 实现 blob 触发器和输出
+
+1.  在“Visual Studio Code”窗口的“资源管理器** **”窗格中，展开 **Contoso.Events.Worker** 项目，然后双击选择 **ProcessDocuments.cs** 文件。
+
+2.  在 **ProcessDocuments.cs** 文件的代码编辑器选项卡中，找到 **ProcessDocuments** 类：
+
+<!-- end list -->
+
+    public static class ProcessDocuments
+
+3.  在 **ProcessDocuments** 类中，找到 **Run** 方法：
+
+<!-- end list -->
+
+    public static async Task Run(Stream input, string name, Stream output, TraceWriter log)
+
+4.  通过向指定匹配 **signinsheets-pending** 容器中任意 blob 的 *input* 参数添加一个 *BlobTrigger* 参数属性更新 **Run** 方法的方法签名：
+
+<!-- end list -->
+
+    public static async Task Run([BlobTrigger("signinsheets-pending/{name}")] Stream input, string name, Stream output, TraceWriter log)
+
+5.  通过向指定在 **signinsheets** 容器中创建与触发 Function 执行的 blob 名称相同的新 blob 的 *output* 参数中添加一个 *Blob* 参数属性以更新 **Run** 方法的方法签名：
+
+<!-- end list -->
+
+    public static async Task Run([BlobTrigger("signinsheets-pending/{name}")] Stream input, string name, [Blob("signinsheets/{name}", FileAccess.Write)] Stream output, TraceWriter log)
+
+6.  在 **Run** 方法中，在第 23 行添加一行新代码以通过从 blob 名称去除文件扩展名以获取 **事件键**：
+
+<!-- end list -->
+
+    string eventKey = Path.GetFileNameWithoutExtension(name);
+
+7.  在第 24 行添加一行新代码以通过使用 **ProcessStorageMessage** 方法调用的 **Stream** 结果以创建一个 **using** 块：
+
+<!-- end list -->
+
+    using (MemoryStream stream = await ProcessStorageMessage(eventKey))
     {
-        List<Product> parsed = JsonConvert.DeserializeObject<List<Product>>(result.ToString());
-        products.AddRange(parsed);
-    }
-    products.Add(product);
-    string json = JsonConvert.SerializeObject(products);
-    await _database.StringSetAsync(uniqueIdentifier, json);
-    ```
-
-1.  Within the **AdventureWorksRedisContext** class, add a new **GetProductsInCartAsync** method with the following signature:
-
-    ```
-    public async Task<List<Product>> GetProductsInCartAsync(string uniqueIdentifier)
-    {        
-    }
-    ```
-
-1.  Within the **GetProductsInCartAsync** method, add the following lines of code to get the list from the database and parse the JSON value into a collection of **Product** instances:
     
-    ```    
-    string json = await _database.StringGetAsync(uniqueIdentifier);
-    List<Product> products = JsonConvert.DeserializeObject<List<Product>>(json ?? "[]");
-    return products;
-    ```
-
-1.  Within the **AdventureWorksRedisContext** class, add a new **ClearCart** method with the following signature:
-
-    ```
-    public async Task ClearCart(string uniqueIdentifier)
-    {        
     }
-    ```
 
-1.  Within the **ClearCart** method, add the following line of code to remove a key and its associated values from the database:
-    
-    ```
-    await _database.KeyDeleteAsync(uniqueIdentifier);
-    ```
+8.  在 **using** 块中，添加一行新代码以通过调用流的 **ToArray** 方法创建一个类型为 **byte\[\]** 的新变量：
 
-1.  Save the **AdventureWorksRedisContext.cs** file.
+<!-- end list -->
 
-1.  In the Visual Studio Code window, access the context menu or right-click the **Explorer** pane and then select **Open in Terminal**.
+    byte[] byteArray = stream.ToArray();
 
-1.  In the open command prompt, enter the following command and press Enter to switch your terminal context to the **AdventureWorks.Context** folder:
+9.  在 **using** 块中，添加另一行代码以调用将各种相关元数据传递至 *byteArray* 变量的 *output* 变量 **WriteAsync** 方法。
 
-    ```
-    cd .\AdventureWorks.Context
-    ```
-    
-1.  In the command prompt, enter the following command and press Enter to build the .NET Core web application:
+<!-- end list -->
 
-    ```
-    dotnet build
-    ```
+    await output.WriteAsync(byteArray, 0, byteArray.Length);
 
-    > **Note**: If there are any build errors, please review the **AdventureWorksRedisContext.cs** file located in the **Allfiles (F):\\Allfiles\\Labs\\03\\Solution\\AdventureWorks\\AdventureWorks.Context** folder.
+10. 保存 **ProcessDocuments.cs** 文件。
 
-1.  Select the **Trash Can** icon to dispose of the currently open terminal and any associated processes.
+#### 任务 2：BlobContext 类中实现 blob 上传
 
-#### Task 3: Update Redis connection string
+1.  在“Visual Studio Code”窗口的“资源管理器”窗格中，展开 **Contoso.Events.Data** 项目，然后双击选择 **BlobContext.cs** 文件。
 
-1.  In the **Explorer** pane of the Visual Studio Code window, expand the **AdventureWorks.Web** project.
+2.  在 **BlobContext.cs** 文件的代码编辑器选项卡中，找到 **BlobContext** 类：
 
-1.  Double-click (or double-select) the **appsettings.json** file.
+<!-- end list -->
 
-1.  In the JSON object, in line 4, locate the **ConnectionStrings.AdventureWorksRedisContext** path. Observe that the current value is empty:
+    public class BlobContext
 
-    ```
-    "ConnectionStrings": {
-        ...
-        "AdventureWorksRedisContext": ""
-    },
-    ```
+3.  在 **BlobContext** 类中，找到 **UploadBlobAsync** 方法并删除该方法中的任何现有代码：
 
-1.  Update the value of the **AdventureWorksRedisContext** property by setting its value to the **Primary connection string (StackExchange.Redis)** of the **Azure Cache for Redis** instance that you recorded earier in this lab.
+<!-- end list -->
 
-1.  In the JSON object, in line 9, locate the **Settings.CartAvailable** path. Observe that the current value is **false**:
-
-    ```
-    "Settings": {
-        ...
-        "CartAvailable": false,
-        ...
-    }
-    ```
-
-1.  Update the value of the **CartAvailable** property by setting its value to **true**:
-
-    ```
-    "CartAvailable": true,
-    ```
-
-1.  Save the **appsettings.json** file.
-
-#### Task 4: Update .NET application startup logic
-
-1.  In the **Explorer** pane of the Visual Studio Code window, expand the **AdventureWorks.Web** project.
-
-1.  Double-click (or double-select) the **Startup.cs** file.
-
-1.  In the **Startup** class, locate the existing **ConfigureCheckoutService** method:
-
-    ```
-    public void ConfigureCheckoutService(IServiceCollection services)
+    public async Task<ICloudBlob> UploadBlobAsync(string blobName, Stream stream)
     {
-        services.AddScoped<IAdventureWorksCheckoutContext>(provider =>
-            new Mock<IAdventureWorksCheckoutContext>().Object
-        );
-    }
-    ```
-
-    > **Note**: The current checkout service uses a mock as its database.
-
-1.  Within the **ConfigureCheckoutService** method, delete all existing lines of code :
-
-    ```
-    public void ConfigureCheckoutService(IServiceCollection services)
-    {
-    }
-    ```
-
-1.  Within the **ConfigureCheckoutService** method, add the following block of code to change the checkout provider to the **AdventureWorksRedisContext** implementation you created earlier in this lab:
-
-    ```
-    services.AddScoped<IAdventureWorksCheckoutContext, AdventureWorksRedisContext>(provider =>
-        new AdventureWorksRedisContext(
-            _configuration.GetConnectionString(nameof(AdventureWorksRedisContext))
-        )
-    );
-    ```
-
-1.  Save the **Startup.cs** file.
-
-#### Task 5: Validate .NET application successfully connects to Azure Cache for Redis
-
-1.  In the Visual Studio Code window, access the context menu or right-click the **Explorer** pane and then select **Open in Terminal**.
-
-1.  In the open command prompt, enter the following command and press Enter to switch your terminal context to the **AdventureWorks.Web** folder:
-
-    ```
-    cd .\AdventureWorks.Web\
-    ```
-
-1.  In the command prompt, enter the following command and press Enter to run the .NET Core web application:
-
-    ```
-    dotnet run
-    ```
-
-    > **Note**: The ``dotnet run`` command will automatically build any changes to the project and then start the web application without a debugger attached. The command will output the URL of the running application and any assigned ports.
-
-1.  On the taskbar, select the **Microsoft Edge** icon.
-
-1.  In the open browser window, navigate to the your currently running web application (<http://localhost:5000>).
-
-1.  In the web application, observe the list of models displayed on the front page.
-
-1.  Locate the **Mountain-400-W** model and select **View Details**.
-
-1.  On the **Mountain-400-W** product detail page, perform the following actions:
-
-    1.  In the **Select options** list, select **Mountain-400-W Silver, 40, $769.49**.
     
-    1.  Select **Add to Cart**.
+    }
 
-1.  On the shopping cart page, observe the contents of the cart and then select **Checkout**.
+4.  在 **UploadBlobAsync** 方法中，添加一行新代码以创建一个新的 **CloudStorageAccount** 类实例：
 
-1.  On the checkout page, observe the final receipt.
+<!-- end list -->
 
-1.  Select the **Shopping Cart** icon at the top of the page.
+    CloudStorageAccount account = CloudStorageAccount.Parse(StorageSettings.ConnectionString);
 
-1.  On the shopping cart page, observe the empty cart.
+5.  添加一行新代码以通过使用 **CloudStorageAccount** 类的 **CreateCloudBlobClient** 代码创建一个新的 **CloudBlobClient** 类实例：
 
-1.  Close the browser window showing your web application.
+<!-- end list -->
 
-1.  Back in the **Visual Studio Code** window, select the **Trash Can** icon to dispose of the currently open terminal and any associated processes.
+    CloudBlobClient blobClient = account.CreateCloudBlobClient();
 
-#### Review
+6.  添加一行新代码以通过使用 **CloudBlobClient** 类的 **GetContainerReference** 方法获取新的或现有容器的引用：
 
-In this exercise, you used C# code to store and retrieve data from an Azure Cache for Redis store.
+<!-- end list -->
 
-### Exercise 7: Clean up subscription 
+    CloudBlobContainer container = blobClient.GetContainerReference($"{StorageSettings.ContainerName}-pending");
 
-#### Task 1: Open Azure Cloud Shell
+7.  添加一行新代码以调用将在容器不存在时创建容器的 **CloudBlobContainer** 类的 **CreateIfNotExistsAsync** 方法：
 
-1.  At the top of the portal, select the **Cloud Shell** icon to open a new shell instance.
+<!-- end list -->
 
-1.  In the **Cloud Shell** command prompt at the bottom of the portal, type in the following command and press Enter to list all resource groups in the subscription:
+    await container.CreateIfNotExistsAsync();
 
-    ```
+8.  添加一行新代码以通过使用特定 blob 名称获取新的或现有容器的引用：
+
+<!-- end list -->
+
+    ICloudBlob blob = container.GetBlockBlobReference(blobName);
+
+9.  添加一行新代码以获取 ***stream*** 参数并将流还原为原始值：
+
+<!-- end list -->
+
+    stream.Seek(0, SeekOrigin.Begin);
+
+10. 添加一行新代码以将 ***stream*** 参数的内容上传到引用的 blob：
+
+<!-- end list -->
+
+    await blob.UploadFromStreamAsync(stream);
+
+11. 添加一行新代码以将上传的 blob 作为方法结果返回：
+
+<!-- end list -->
+
+    return new DownloadPayload { Stream = stream, ContentType = blob.Properties.ContentType }; 
+
+12. **保存** **BlobContext.cs** 文件。
+
+#### 回顾
+
+在本练习中，你编写了 C\# 代码以在 Azure Function 中操纵 Azure 存储 Blob。
+
+### 练习 6：清理订阅 
+
+#### 任务 1：打开 Azure Cloud Shell
+
+1.  在门户顶部，选择 **Cloud Shell** 图标打开一个新的 Shell 实例。
+
+2.  在门户底部的 **Cloud Shell** 命令提示符中，输入以下命令，然后按 Enter 键列出订阅中的所有资源组：
+
+<!-- end list -->
+
     az group list
-    ```
-1.  In the prompt, type the following command and press Enter to view a list of possible commands to delete a resource group:
 
-    ```
+3.  在提示符中，输入以下命令，然后按 Enter 键查看删除资源组的可能命令列表：
+
+<!-- end list -->
+
     az group delete --help
-    ```
 
-#### Task 2: Delete resource groups
+#### 任务 2：删除资源组
 
-1.  In the prompt, type the following command and press Enter to delete the **PolyglotData** resource group:
+1.  在提示符中，输入以下命令，然后按 Enter 键删除 **PolyglotData** 资源组：
 
-    ```
+<!-- end list -->
+
     az group delete --name PolyglotData --no-wait --yes
-    ```
-    
-1.  Close the **Cloud Shell** pane at the bottom of the portal.
 
-#### Task 3: Close active applications
+2.  关闭门户底部的“**Cloud Shell**”窗格。
 
-1.  Close the currently running **Microsoft Edge** application.
+#### 任务 3：关闭活动应用程序
 
-1.  Close the currently running **Visual Studio Code** application.
+1.  关闭当前正在运行的 **Microsoft Edge** 应用程序。
 
-#### Review
+2.  关闭当前正在运行的 **Visual Studio Code** 应用程序。
 
-In this exercise, you cleaned up your subscription by removing the **resource groups** used in this lab.
+#### 回顾
+
+在本练习中，你通过移除本实验室中使用过的 **资源组** 来清理订阅。

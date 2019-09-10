@@ -1,730 +1,705 @@
+﻿---
+实验室：
+    标题：“实验室：使用 Azure 中的服务创建多层解决方案”
+    类型：“答案”
+    模块：“模块 6：连接并使用 Azure 和第三方服务
 ---
-lab:
-    title: 'Lab: Creating a multi-tier solution by using services in Azure'
-    type: 'Answer Key'
-    module: 'Module 6: Connect to and consume Azure, and third-party, services'
----
 
-# Lab: Creating a multi-tier solution by using services in Azure
-# Student lab answer key
+# 实验室：使用 Azure 中的服务创建多层解决方案
+# 学生实验室答案
 
-## Microsoft Azure user interface
+## Microsoft Azure 用户界面
 
-Given the dynamic nature of Microsoft cloud tools, you might experience Azure user interface (UI) changes after the development of this training content. These changes might cause the lab instructions and steps to not match up.
+鉴于 Microsoft 云工具的动态特性，Azure 用户界面 (UI) 在此培训内容开发后可能会发生更改。这些更改可能会导致实验室说明和步骤不匹配。
 
-The Microsoft Worldwide Learning team updates this training course as soon as the community brings needed changes to our attention. However, because cloud updates occur frequently, you might encounter UI changes before this training content is updated. **If this occurs, adapt to the changes and work through them in the labs as needed.**
+一旦 Microsoft 世界各地的学习团队通过社区注意到必要更改，将会立即更新此培训课程。但由于云更新频繁，你可能会在此培训内容更新前遇到 UI 更改。**如果发生这种情况，请根据需要适更改并在实验室中完成这些更改。**
 
-## Instructions
+## 说明
 
-### Before you start
+### 开始前
 
-#### Sign in to the lab virtual machine
+#### 登录实验室虚拟机
 
-Sign in to your **Windows 10** virtual machine by using the following credentials:
+  - 使用以下凭据登录到 **Windows 10** 虚拟机：
     
--   **Username**: Admin
-
--   **Password**: Pa55w.rd
-
-> **Note**: Lab virtual machine sign-in instructions will be provided to you by your instructor.
-
-#### Review installed applications
-
-Observe the taskbar located at the bottom of your **Windows 10** desktop. The taskbar contains the icons for the applications you will use in this lab:
+      - **用户名**：Admin
     
--   Microsoft Edge
+      - **密码**：Pa55w.rd
 
--   File Explorer
+> > **注**：讲师将为你提供实验室虚拟机登录说明。
 
--   Microsoft Azure Storage Explorer
+#### 查看已安装的应用
 
-#### Download the lab files
+  - 观察位于 **Windows 10** 桌面底部的任务栏。任务栏包含将在本实验室中使用的应用程序图标：
+    
+      - Microsoft Edge
+    
+      - 文件资源管理器
+    
+      - Microsoft Azure 存储资源管理器
 
-1.  On the taskbar, select the **Windows PowerShell** icon.
+#### 下载实验室文件
 
-1.  In the PowerShell command prompt, change the current working directory to the **Allfiles (F):\\** path:
+1.  在任务栏上，选择 **Windows PowerShell** 图标。
+
+2.  在 PowerShell 命令提示符中，将当前工作目录更改为 **Allfiles (F):\\** 路径：
 
     ```
     cd F:
     ```
 
-1.  Within the command prompt, enter the following command and press Enter to clone the **microsoftlearning/AZ-203-DevelopingSolutionsforMicrosoftAzure** project hosted on GitHub into the **Allfiles (F):\\** drive:
+3.  在命令提示符中，输入以下命令并按 Enter 键以将 GitHub 上托管的 **microsoftlearning/AZ-203-DevelopingSolutionsForAzure** 项目克隆到 **Labfiles** 目录：
 
     ```
     git clone --depth 1 --no-checkout https://github.com/microsoftlearning/AZ-203-DevelopingSolutionsForMicrosoftAzure .
     ```
 
-1.  Within the command prompt, enter the following command and press **Enter** to check out the lab files necessary to complete the **AZ-203T06** lab:
+4.  在命令提示符中，输入以下命令并按 **Enter** 键以签出完成 **AZ-203.02** 实验室所必需的实验室文件：
 
     ```
     git checkout master -- Allfiles/*
     ```
 
-1.  Close the currently running **Windows PowerShell** command prompt application.
+5.  关闭当前正在运行的 **Windows PowerShell** 命令提示应用程序。
 
-### Exercise 1: Creating an Azure Search service in the portal
+### 练习 1：在门户中创建 Azure 搜索服务
 
-#### Task 1: Open the Azure portal
+#### 任务 1：打开 Azure 门户
 
-1.  On the taskbar, select the **Microsoft Edge** icon.
+1.  在任务栏上，选择 **Microsoft Edge** 图标。
 
-1.  In the open browser window, navigate to the [**Azure portal**](https://portal.azure.com) (portal.azure.com).
+2.  在打开的浏览器窗口中，导航到 [**Azure 门户**](https://portal.azure.com) (portal.azure.com)。
 
-1.  At the sign-in page, enter the **email address** for your Microsoft account.
+3.  在登录页面，输入 Microsoft 帐户的 **电子邮件地址**。
 
-1.  Select **Next**.
+4.  选择“**下一步**”。
 
-1.  Enter the **password** for your Microsoft account.
+5.  输入 Microsoft 帐户的 **密码**。
 
-1.  Select **Sign in**.
+6.  选择“**登录**”。
 
-    > **Note**: If this is your first time signing in to the **Azure portal**, a dialog box will display offering a tour of the portal. Select **Get Started** to skip the tour and begin using the portal.
+> **注**：如果这是你第一次登录 **Azure 门户**，则会显示一个对话框，提供门户教程。选择“**开始使用**”以跳过教程并开始使用门户。
 
-#### Task 2: Create API Management resource
+#### 任务 2：创建 Azure 搜索帐户
 
-1.  In the left navigation pane of the portal, select **+ Create a resource**.
+1.  在门户的左侧导航窗格，单击“**+ 创建资源**”。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** field.
+> **注**：如果你找不到该链接，“创建资源”图标是位于门户左侧的加号字符。
 
-1.  In the search field, enter **API** and press Enter.
+2.  在“**新建**”边栏选项卡顶部，找到“**搜索市场**”字段。
 
-1.  In the **Everything** search results blade, select the **API Management** result.
+3.  在搜索字段中，输入文本 **Search**，然后按 Enter 键。
 
-1.  In the **API Management** blade, select **Create**.
+4.  在“**全部内容**”搜索结果边栏选项卡中，选择“**Azure 搜索**”结果。
 
-1.  In the **API Management Service** blade, perform the following actions:
-    
-    1.  In the **Name** field, enter **prodapi\[*your name in lowercase*\]**.
-    
-    1.  Leave the **Subscription** field set to its default value.
-    
-    1.  In the **Resource group** list, select **MultiTierService**.
-    
-    1.  In the **Location** list, select **East US**.
-    
-    1.  In the **Organization name** field, enter **Contoso**.
-    
-    1.  Leave the **Administrator email** field set to its default value.
-    
-    1.  In the **Pricing tier** list, select **Developer (No SLA)**.
-    
-    1.  Select **Create**.
-
-1.  Wait for the creation task to complete before you move forward with this lab.
-
-    > **Note**: It usually takes between 20 and 30 minutes to create an API Management service.
-
-#### Task 3: Create an Azure Search account
-
-1.  In the left navigation pane of the portal, select **+ Create a resource**.
-
-    > **Note**: If you cannot find the link, the Create a resource icon is a plus-sign character located on the left side of the portal.
-
-1.  At the top of the **New** blade, locate the **Search the Marketplace** field.
-
-1.  In the search field, enter the text **Search** and press Enter.
-
-1.  In the **Everything** search results blade, select the **Azure Search** result.
-
-1.  In the **Azure Search** blade, select **Create**.
+5.  在“**Azure 搜索**”边栏选项卡中，选择“**创建**”。
 
-6.  In the **New Search Service** blade, observe the tabs at the top of the blade, such as **Basics**.
-
-    > **Note**: Each tab represents a step in the workflow to create a new **search account**. At any time, you can select **Review + create** to skip the remaining tabs.
-
-6.  In the **Basics** tab, perform the following actions:
+6.  在“**新建搜索服务**”边栏选项卡中，执行以下操作：
     
-    2.  Leave the **Subscription** field set to its default value.
+    1.  在“**URL**”字段中，输入 **prodsearch\[*your name in lowercase*\]**。
     
-    3.  In the **Resource group** section, select **Create new**, in the pop-up field enter **MultiTierService**, and then select **OK**.
+    2.  将“**订阅**”字段保留设置为默认值。
     
-    1.  In the **URL** field, enter the value **prodsearch\[*your name in lowercase*\]**.
+    3.  在“**资源组**”部分，选择“**新建**”，在弹出字段中输入 **MultiTierService**，然后选择“**确定**”。
     
-    4.  In the **Location** list, select **East US**.
+    4.  在“**位置**”拉列表中，选择“**美国东部**”。
     
-    5.  Select the **Pricing tier** link. In the **Pricing tier** blade, select **Basic** and then select **Select**.
+    5.  选择“**定价层**”链接。在“**定价层**”边栏选项卡中，选择“**基本**”，然后选择“**选择**”。
     
-    9.  Select **Review + Create**.
-
-7.  In the **Review + Create** tab, review the options that you selected during the previous steps.
-
-8.  Select **Create** to create the search account by using your specified configuration.
+    6.  选择“**创建**”。
 
-9.  Wait for the creation task to complete before you move forward with this lab.
+7.  等待创建任务完成后，再继续本实验室。
 
-1.  In the left navigation pane of the portal, select **Resource groups**.
+8.  在门户左侧的导航窗格中，选择“**资源组**”。
 
-1.  In the **Resource groups** blade, select the **MultiTierService** resource group that you created earlier in this lab.
+9.  在“**资源组**”边栏选项卡中，选择你之前在本实验室中创建的 **MultiTierService** 资源组。
 
-1. In the **MultiTierService** blade, select the **prodsearch\*** Search service that you created earlier in this lab.
+10. 在“**MultiTierService**”边栏选项卡中，选择你之前在此实验室中创建的 **prodsearch\*** 搜索服务。
 
-1. In the **Search Service** blade, in the **Settings** section, select the **Keys** link.
+11. 在“**搜索服务**”边栏选项卡的“**设置**”部分，选择“**密钥**”链接。
 
-1. In the **Keys** section, select any one of the keys and record the value. You will use this value later in the lab.
+12. 在“**密钥**”部分，选择任意一个密钥并记录该值。你将稍后在实验室中使用此值。
 
-    > **Note**: It does not matter which connection string you choose to use. They are interchangeable.
+> > **注**：选择使用哪个连接字符串无关紧要。它们可以互换。
 
-#### Task 4: Create an index
+#### 任务 3：创建索引
 
-1.  In the left navigation pane of the portal, select **Resource groups**.
+1.  在门户左侧的导航窗格中，选择“**资源组**”。
 
-1.  In the **Resource groups** blade, select the **MultiTierService** resource group that you created earlier in this lab.
+2.  在“**资源组**”边栏选项卡中，选择你之前在本实验室中创建的 **MultiTierService** 资源组。
 
-1.  In the **MultiTierService** blade, select the **prodsearch\*** Search service that you created earlier in this lab.
+3.  在“**MultiTierService**”边栏选项卡中，选择你之前在此实验室中创建的 **prodsearch\*** 搜索服务。
 
-1.  In the **Search Service** blade, select **Add index**.
+4.  在“**搜索服务**”边栏选项卡中，选择“**添加索引**”。
 
-1.  In the **Add index** blade, perform the following actions:
+5.  在“**添加索引**”边栏选项卡中，执行以下操作：
     
-    1.  In the **Index name** field, enter **retail**.
+    1.  在“**索引名称**”字段中，输入 **retail**.。
     
-    1.  In the **Key** list, select **id**.
+    2.  在“**密钥**”列表中，选择“**id**”。
     
-    1.  Leave the **Suggester name** field blank.
+    3.  将“**建议器名称**”字段保留空白。
     
-    1.  Leave the **Search mode** list blank.
+    4.  将“**搜索模式**”列表保留空白。
 
-1.  Within the **Add index** blade, a list of fields is displayed. Perform the following actions to configure the **id** field:
+6.  在“**添加索引**”边栏选项卡中，将显示字段列表。执行以下操作以配置“**id**”字段：
     
-    1.  In the **Field Name** field, observe the hard-coded value of **id**.
+    5.  在“**字段名称**”字段中，观察 **id** 的硬编码值。
     
-    1.  In the **Type** list, observe the hard-coded option of **Edm.String**.
+    6.  在“**类型**”列表中，观察 **Edm.String** 的硬编码选项。
     
-    1.  In the **Retrievable** option, observe that it is hard-coded to **true**.
+    7.  在“**可检索**”选项中，观察其硬编码为 **true**。
     
-    1.  Leave **Filterable** unselected.
+    8.  将“**可筛选**”保留为不选定。
     
-    1.  Select **Sortable**.
+    9.  选择“**可排序**”。
     
-    1. Leave **Facetable** unselected.
+    10. 将“**可查找**”保留为不选定。
     
-    1. Leave **Searchable** unselected.
+    11. 将“**可搜索**”保留为不选定。
 
-    1. Select **+ Add field**.
-
-1.  Within the **Add index** blade, perform the following actions to configure the new **name** field:
-    
-    1. Select **+ Add field**.
+7.  在“**添加索引**”边栏选项卡中，执行以下操作以配置新的“**名称**”字段：
     
-    1. In the **Field Name** field, enter **name**.
+    12. 在“**字段名称**”字段中，输入 **name**。
     
-    1. In the **Type** list, select **Edm.String**.
+    13. 在“**类型**”列表中，选择“**Edm.String**”。
     
-    1. Select **Retrievable**.
+    14. 选择“**可检索**”。
     
-    1. Leave **Filterable** unselected.
+    15. 将“**可筛选**”保留为不选定。
     
-    1. Select **Sortable**.
+    16. 选择“**可排序**”。
     
-    1. Leave **Facetable** unselected.
+    17. 将“**可查找**”保留为不选定。
     
-    1. Select **Searchable**.
+    18. 选择“**可搜索**”。
     
-    1. In the **Analyzer** list, select **Standard - Lucene**.
+    19. 在“**分析器**”列表中，选择“**标准 - Lucene**”。
 
-    1. Select **+ Add field**.
-
-1.  Within the **Add index** blade, perform the following actions to configure the new **price** field:
-    
-    1. Select **+ Add field**.
+8.  在“**添加索引**”边栏选项卡中，执行以下操作以配置新的“**价格**”字段：
     
-    1. In the **Field Name** field, enter **price**.
+    20. 在“**字段名称**”字段中，输入 **price**。
     
-    1. In the **Type** list, select **Edm.Double**.
+    21. 在“**类型**”列表中，选择“**Edm.Double**”。
     
-    1. Select **Retrievable**.
+    22. 选择“**可检索**”。
     
-    1. Select **Filterable**.
+    23. 选择“**可筛选**”。
     
-    1. Select **Sortable**.
+    24. 选择“**可排序**”。
     
-    1. Select **Facetable**.
+    25. 选择“**可查找**”。
 
-    1. Select **+ Add field**.
-
-1.  Within the **Add index** blade, perform the following actions to configure the new **quantity** field:
-    
-    1. Select **+ Add field**.
+9.  在“**添加索引**”边栏选项卡中，执行以下操作以配置新的“**数量**”字段：
     
-    1. In the **Field Name** field, enter **quantity**.
+    26. 在“**字段名称**”字段中，输入 **quantity**。
     
-    1. In the **Type** list, select **Edm.Int32**.
+    27. 在“**类型**”列表中，选择“**Edm.Int32**”。
     
-    1. Select **Retrievable**.
+    28. 选择“**可检索**”。
     
-    1. Select **Filterable**.
+    29. 选择“**可筛选**”。
     
-    1. Select **Sortable**.
+    30. 选择“**可排序**”。
     
-    1. Select **Facetable**.
+    31. 选择“**可查找**”。
 
-    1. Select **+ Add field**.
-
-1. Within the **Add index** blade, perform the following actions to configure the new **manufacturer** field:
-    
-    1. Select **+ Add field**.
+10. 在“**添加索引**”边栏选项卡中，执行以下操作以配置新的“**制造商**”字段：
     
-    1. In the **Field Name** field, enter **manufacturer**.
+    32. 在“**字段名称**”字段中，输入 **manufacturer**。
     
-    1. In the **Type** list, select **Edm.String**.
+    33. 在“**类型**”列表中，选择“**Edm.String**”。
     
-    1. Select **Retrievable**.
+    34. 选择“**可检索**”。
     
-    1. Select **Filterable**.
+    35. 选择“**可筛选**”。
     
-    1. Select **Sortable**.
+    36. 选择“**可排序**”。
     
-    1. Select **Facetable**.
+    37. 选择“**可查找**”。
     
-    1. Leave **Searchable** unselected.
+    38. 将“**可搜索**”保留为不选定。
 
-1. Within the **Add index** blade, select **Create**.
+11. 在“**添加索引**”边栏选项卡中，选择“**创建**”。
 
-#### Review
+#### 回顾
 
-In this exercise, you created a new Azure Search account and built an index within the account.
+在本练习中，你创建了一个新的 Azure 存储帐户并在该帐户中构建了一个索引。
 
-### Exercise 2: Index an Azure Storage table in Azure Search
+### 练习 2：在 Azure 搜索中为 Azure 存储表编制索引
 
-#### Task 1: Create an Azure Storage account
+#### 任务 1：创建 Azure 存储帐户
 
-1.  In the left navigation pane of the portal, select **+ Create a resource**.
+1.  在门户的左侧导航窗格，单击“**+ 创建资源**”。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** field.
+2.  在“**新建**”边栏选项卡顶部，找到“**搜索市场**”字段。
 
-1.  In the search field, enter **Storage** and press Enter.
+3.  在搜索字段中，输入 **Storage**，然后按 Enter 键。
 
-1.  In the **Everything** search results blade, select the **Storage Account** result.
+4.  在“**全部内容**”搜索结果边栏选项卡中，选择“**存储帐户**”结果。
 
-1.  In the **Storage Account** blade, select **Create**.
+5.  在“**存储帐户**”边栏选项卡中，选择“**创建**”。
 
-1.  In the **Create Storage Account** blade, observe the tabs at the top of the blade.
+6.  在“**创建存储帐户**”边栏选项卡中，观察边栏选项卡顶部的选项卡。
 
-    >  **Note**: Each tab represents a step in the workflow to create a new **storage account**. At any time, you can select **Review + create** to skip the remaining tabs.
+> **注**：每个选项卡代表工作流中创建新“**存储帐户**”的一个步骤。你可以随时选择“**查看 + 创建**”跳过剩余标签。
 
-1.  In the **Basics** tab, perform the following actions:
+7.  在“**基本**”选项卡中，执行以下操作：
     
-    1.  Leave the **Subscription** field set to its default value.
+    1.  将“**订阅**”字段保留设置为默认值。
     
-    1.  In the **Resource group** list, select **MultiTierService**.
+    2.  在“**资源组**”列表中，选择“**MultiTierService**”。
     
-    1.  In the **Storage Account Name** field, enter **prodstorage\[*your name in lowercase*\]**.
+    3.  在“**存储帐户名称**”字段中，输入 **prodstorage\[*your name in lowercase*\]**。
     
-    1.  In the **Location** list, select **(US) East US**.
+    4.  在“**位置**”拉列表中，选择“**美国东部**”。
     
-    1.  In the **Performance** section, select **Standard**.
+    5.  在“**性能**”部分，选择“**标准**”。
     
-    1.  In the **Account kind** list, select **StorageV2 (general purpose v2)** .
+    6.  在“**帐户类型**”列表中，选择 **StorageV2（通用 v2）**。
     
-    1.  In the **Replication** list, select **Read-access geo-redundant storage (RA-GRS)**.
+    7.  在“**复制**”列表中，选择“**读取访问异地冗余存储 (RA-GRS)**”。
     
-    1.  In the **Access tier** section, ensure that **Hot** is selected.
+    8.  在“**访问层**”部分，确保“**热**”已选中。
     
-    1.  Select **Review + Create**.
+    9.  选择“**查看 + 创建**”。
 
-1.  In the **Review + Create** tab, review the options that you entered in the previous steps.
+8.  在“**查看 + 创建**”选项卡中，查看在之前步骤中输入的选项。
 
-1.  Select **Create** to create the Storage account by using your specified configuration.
+9.  选择“**创建**”以使用指定的配置创建存储帐户。
 
-1. Wait for the creation task to complete before you move forward with this lab.
+10. 等待创建任务完成后，再继续本实验室。
 
-1. In the left navigation pane of the portal, select **Resource groups**.
+11. 在门户左侧的导航窗格中，选择“**资源组**”。
 
-1. In the **Resource groups** blade, select the **MultiTierService** resource group that you created earlier in this lab.
+12. 在“**资源组**”边栏选项卡中，选择你之前在本实验室中创建的 **MultiTierService** 资源组。
 
-1. In the **MultiTierService** blade, select the **prodstorage\*** storage account that you created earlier in this lab.
+13. 在“**MultiTierService**”边栏选项卡中，选择你之前在本实验室中创建的 **prodstorage\*** 存储帐户。
 
-1. In the **Storage Account** blade, on the left side of the blade, in the **Settings** section, select the **Access keys** link.
+14. 在“**存储帐户**”边栏选项卡中，在边栏选项卡左侧的“**设置**”部分，选择“**访问密钥**”链接。
 
-1. In the **Access keys** blade, select any one of the keys and record the value of either of the **Connection string** fields. You will use this value later in this lab.
+15. 在“**访问密钥**”边栏选项卡中，选择任意一个密钥并记录“**连接字符串**”字段中的任意一个值。你将稍后在本实验室中使用此值。
 
-    > **Note**: It does not matter which connection string you choose. They are interchangeable.
+> > **注**：选择哪个连接字符串无关紧要。它们可以互换。
 
-#### Task 2: Upload table entities to Azure Storage
+#### 任务 2：将表实体上传到 Azure 存储
 
-1.  In the left navigation pane of the portal, select **Resource groups**.
+1.  在门户左侧的导航窗格中，选择“**资源组**”。
 
-1.  In the **Resource groups** blade, select the **MultiTierService** resource group that you created earlier in this lab.
+2.  在“**资源组**”边栏选项卡中，选择你之前在本实验室中创建的 **MultiTierService** 资源组。
 
-1.  In the **MultiTierService** blade, select the **prodstorage\*** storage account that you created earlier in this lab.
+3.  在“**MultiTierService**”边栏选项卡中，选择你之前在本实验室中创建的 **prodstorage\*** 存储帐户。
 
-1.  In the **Storage Account** blade, on the left side of the blade, in the **Table service** section, select the **Tables** link.
+4.  在“**存储帐户**”边栏选项卡中，在边栏选项卡左侧的“**表服务**”部分，选择“**表**”链接。
 
-1.  In the **Tables** section, select **+ Table**.
+5.  在“**表**”部分，选择“**+ 表**”。
 
-1.  In the **Add table** window, perform the following actions:
+6.  在“**添加表格**”窗口中，执行以下操作：
     
-    1.  In the **Table** **Name** field, enter **products**.
+    1.  在“**表****名称**”字段中，输入 **products**。
     
-    1.  Select **OK**.
+    2.  选择“**确定**”。
 
-1.  Back in the **Tables** section, on the left side of the blade, select the **Overview** link.
+7.  返回边栏选项卡左侧的“**表**”，选择“**概述**”链接。
 
-    > **Note**: You might have to scroll up or down the menu on the left side of the blade.
+> > **注**：你可能必须在边栏选项卡左侧的菜单中上下滚动菜单。
 
-1.  Back in the **Overview** section, select **Open in Explorer**.
+8.  返回“**概述**”部分，选择“**在资源管理器**”中打开。
 
-1.  In the **Azure Storage Explorer** window, select the **Open Azure Storage Explorer** link.
+9.  在“**Azure 存储资源管理器**”窗口中，选择“**打开 Azure 存储资源管理器**”链接。
 
-    > **Note**: If this is your first time opening the **Azure Storage Explorer** by using the portal, you might be prompted to allow the portal to open these types of links in the future. You should accept the prompt.
+> > **注**：如果这是你第一次使用门户打开 **Azure 存储资源管理器**，可能会提示你允许门户未来打开这些类型的链接。你应接受该提示。
 
-1. In the **Azure Storage Explorer** application that appears, locate and expand the **prodstorage\* S**torage account that you created earlier in this lab.
+10. 在显示的 **Azure 存储资源管理器**应用程序中，找到并展开之前在本实验室中创建的 **prodstorage\* 存储帐户。
 
-1. Within the **prodstorage\*** storage account, locate and expand the **Tables** node.
+11. 在 **prodstorage\*** 存储帐户中，找到并展开**表**节点。
 
-1. Within the **Tables** node, select the **products** table that you created earlier in this lab.
+12. 在“**表**”节点中，选择之前在本实验室中创建的 **products** 表。
 
-1. In the **Products Table** tab, select **Import**.
+13. 在“**产品表**”选项卡中，选择“**导入**”。
 
-1. In the **File Explorer** dialog box that opens, perform the following actions:
+14. 在显示的“**文件资源管理器**”对话框中，执行以下操作：
     
-    1.  Go to **Allfiles (F):\\Allfiles\\Labs\\06\\Starter**.
+    3.  转到 **Allfiles (F):\\Labfiles\\06\\Starter**。
     
-    1.  Select the **products.csv** file.
+    4.  选择 **products.csv** 文件。
     
-    1.  Select **Open**.
+    5.  选择“**打开**”。
 
-1. In the **Import Entities** window that appears, select **Insert**.
+15. 在显示的“**导入实体**”窗口中，选择“**插入**”。
 
-1. Wait for the table entities to be uploaded before you continue with this lab.
+16. 等待表实体更新再继续本实验室。
 
-1. Observe the five entities that were added to your **products** table.
+17. 观察已添加到 **products** 表的五个实体。
 
-1. Return to the browser window showing the **Azure portal**.
+18. 返回显示 **Azure 门户**的浏览器窗口。
 
-#### Task 3: Create an Azure Search indexer
+#### 任务 3：创建 Azure 搜索索引器
 
-1.  In the left navigation pane of the portal, select **Resource groups**.
+1.  在门户左侧的导航窗格中，选择“**资源组**”。
 
-1.  In the **Resource groups** blade, select the **MultiTierService** resource group that you created earlier in this lab.
+2.  在“**资源组**”边栏选项卡中，选择你之前在本实验室中创建的 **MultiTierService** 资源组。
 
-1.  In the **MultiTierService** blade, select the **prodsearch\*** Search service you created earlier in this lab.
+3.  在“**MultiTierService**”边栏选项卡中，选择之前在此实验室中创建的 **prodsearch\*** 搜索服务。
 
-1.  In the **Search Service** blade, select **Import Data**.
+4.  在“**搜索服务**”边栏选项卡中，选择“**导入数据**”。
 
-1.  In the **Import Data** blade, observe the tabs at the top of the blade.
+5.  在“**导入数据**”边栏选项卡中，观察边栏选项卡顶部的选项卡。
 
-1.  In the **Connect to your data** tab, perform the following actions:
+6.  在“**连接数据**”选项卡中，执行以下操作：
     
-    1.  In the **Data Source** list, select **Azure Table Storage**.
+    1.  在“**数据来源**”列表中，选择“**Azure 表存储**”。
     
-    1.  In the **Name** field, enter **tabledatasource**.
+    2.  在“**名称**”字段中，输入 **tabledatasource**。
     
-    1.  In the **Connection string** field, select **Choose an existing connection**. In the **Choose storage account** window, select the **prodstorage\*** Storage account that you created earlier in this lab.
+    3.  在“**连接字符串**”字段中，选择“**选择现有连接**”。在“**选择存储帐户**”窗口中，选择你之前在本实验室中创建的 **prodstorage\*** 存储帐户。
     
-    1.  In the **Table name** field, enter **products**.
+    4.  在“**表名称**”字段中，输入 **products**。
     
-    1.  Leave the **Query** field empty.
+    5.  将“**查询**”字段保留空白。
     
-    1.  Leave the **Description** field empty.
+    6.  将“**描述**”字段保留空白。
     
-    1.  Select **Next: Add cognitive search (Optional)**.
+    7.  选择“**下一步：**”**添加认知搜索（可选）**。
 
-        > **Note**: Azure Search validates your settings at each step. It can take a few minutes to complete validation and move to the next tab in the list.
+> > **注**：Azure 搜索会在每个步骤验证您的设置。可能需要几分钟才能完成验证并转到列表中的下一个选项卡。
 
-1.  In the **Add cognitive search (optional)** tab, select **Skip to: Customize target index**.
+7.  在“**添加认知搜索**”选项卡中，选择“**下一个：**”**自定义目标索引**。
 
-1.  In the **Customize target index** tab, perform the following actions:
+8.  在“**自定义目标索引**”选项卡中，执行以下操作：
     
-    1.  In the **Index name** field, enter **products**.
+    8.  在“**索引名称**”字段中，输入 **products**。
     
-    1.  In the **Key** list, select **RowKey**.
+    9.  在“**密钥**”列表中，选择“**RowKey**”。
 
-1.  In the **Customize target index** tab, a list of fields is displayed. Leave the configuration of the **PartitionKey**, **RowKey**, **ETag,** and **Timestamp** fields set to their default values.
+9.  在“**自定义目标索引**”选项卡中，将显示字段列表。将“**PartitionKey**”、“**RowKey**”、“**ETag**”和“**时间戳**”保留设置为默认值。
 
-1. In the **Customize target index** tab, perform the following actions to configure the **Key** field:
+10. 在“**自定义目标索引**”选项卡中，执行以下操作以配置“**密钥**”字段：
     
-    1. In the **Field Name** field, observe the hard-coded value of **Key**.
+    39. 在“**字段名称**”字段中，观察**密钥**的硬编码值。
     
-    1. In the **Type** list, observe the hard-coded option of **Edm.String**.
+    40. 在“**类型**”列表中，观察 **Edm.String** 的硬编码选项。
     
-    1. Leave **Retrievable** selected.
+    41. 选择“**可检索**”。
     
-    1. Leave **Filterable** unselected.
+    42. 将“**可筛选**”保留为不选定。
     
-    1. Select **Sortable**.
+    43. 选择“**可排序**”。
     
-    1. Leave **Facetable** unselected.
+    44. 将“**可查找**”保留为不选定。
     
-    1. Leave **Searchable** unselected.
+    45. 将“**可搜索**”保留为不选定。
 
-1. In the **Customize target index** tab, perform the following actions to configure the **name** field:
+11. 在“**自定义目标索引**”选项卡中，执行以下操作以配置“**名称**”字段：
     
-    1. In the **Field Name** field, observe the hard-coded value of **name**.
+    10. 在“**字段名称**”字段中，观察**名称**的硬编码值。
     
-    1. In the **Type** list, observe the hard-coded option of **Edm.String**.
+    11. 在“**类型**”列表中，观察 **Edm.String** 的硬编码选项。
     
-    1. Select **Retrievable**.
+    12. 选择“**可检索**”。
     
-    1. Leave **Filterable** unselected.
+    13. 将“**可筛选**”保留为不选定。
     
-    1. Select **Sortable**.
+    14. 选择“**可排序**”。
     
-    1. Leave **Facetable** unselected.
+    15. 将“**可查找**”保留为不选定。
     
-    1. Select **Searchable**.
+    16. 选择“**可搜索**”。
     
-    1. In the **Analyzer** list, select **Standard - Lucene**.
+    17. 在“**分析器**”列表中，选择“**标准 - Lucene**”。
 
-1. In the **Customize target index** tab, perform the following actions to configure the **price** field:
+12. 在“**自定义目标索引**”选项卡中，执行以下操作以配置“**价格**”字段：
     
-    1. In the **Field Name** field, observe the hard-coded value of **price**.
+    18. 在“**字段名称**”字段中，观察**价格**的硬编码值。
     
-    1. In the **Type** list, observe the hard-coded option of **Edm.Double**.
+    19. 在“**类型**”列表中，观察 **Edm.Double** 的硬编码选项。
     
-    1. Select **Retrievable**.
+    20. 选择“**可检索**”。
     
-    1. Select **Filterable**.
+    21. 选择“**可筛选**”。
     
-    1. Select **Sortable**.
+    22. 选择“**可排序**”。
     
-    1. Select **Facetable**.
+    23. 选择“**可查找**”。
 
-1. In the **Customize target index** tab, perform the following actions to configure the **quantity** field:
+13. 在“**自定义目标索引**”选项卡中，执行以下操作以配置“**数量**”字段：
     
-    1. In the **Field Name** field, observe the hard-coded value of **quantity**.
+    24. 在“**字段名称**”字段中，观察**数量**的硬编码值。
     
-    1. In the **Type** list, observe the hard-coded option of **Edm.Int32**.
+    25. 在“**类型**”列表中，观察 **Edm.Int32** 的硬编码选项。
     
-    1. Select **Retrievable**.
+    26. 选择“**可检索**”。
     
-    1. Select **Filterable**.
+    27. 选择“**可筛选**”。
     
-    1. Select **Sortable**.
+    28. 选择“**可排序**”。
     
-    1. Select **Facetable**.
+    29. 选择“**可查找**”。
 
-1. In the **Customize target index** tab, select **Next: Create an indexer**.
+14. 在“**自定义目标索引**”选项卡中，选择“**下一个：**”**创建索引器**。
 
-    > **Note**: Azure Search validates your settings at each step. It can take a few minutes to complete validation and move to the next tab in the list.
+> > **注**：Azure 搜索会在每个步骤验证您的设置。可能需要几分钟才能完成验证并转到列表中的下一个选项卡。
 
-1. In the **Create an indexer** tab, perform the following actions:
+15. 在“**创建索引器**”选项卡中，执行以下操作：
     
-    1. In the **Name** field, enter **tableindexer**.
+    30. 在“**名称**”字段中，输入 **tableindexer**。
     
-    1. In the **Schedule** section, select **Custom**.
+    31. 在“**计划**”部分，选择“**自定义**”。
     
-    1. In the **Interval** field, enter **5**.
+    32. 在“**间隔**”字段，输入 **5**。
     
-    1. Set the **Start time** field to midnight UTC on today's date.
+    33. 将“**开始时间**”字段保留设置为默认值。
     
-    1. Leave the **Track deletions** field set to its default value.
+    34. 将“**跟踪删除**”字段保留设置为默认值。
     
-    1. Leave the **Description** field blank.
+    35. 将“**描述**”字段保留空。
     
-    1. Select **Submit**.
+    36. 选择“**提交**”。
 
-        > **Note**: You may need to select and then unselect the **Track deletions** field and **Once/Custom** options to get the **Submit** button to appear. This behavior is due to a portal bug.
+16. 返回“**搜索服务**”边栏选项卡中，选择“**索引器**”标签。
 
-1. Back in the **Search Service** blade, select the **Indexers** tab.
+17. 在“**索引器**”选项卡中，选择你之前在本实验室中创建的 **tableindexer** 索引器。
 
-    > **Note**: If you do not see your indexer yet, you may need to refresh the blade.
-
-1. In the **Indexers** tab, select the **tableindexer** indexer that you created earlier in this lab.
-
-1. In the **Indexer** blade, perform the following actions:
+18. 在“**索引器**”边栏选项卡中，执行以下操作：
     
-    1. Select **Run**.
+    37. 选择“**运行**”。
     
-    1. When prompted for confirmation, select **Yes**.
+    38. 提示你确认时，选择“**是**”。
     
-    1. Close the **Indexer** blade.
+    39. 关闭“**索引器**”边栏选项卡。
+
+19. 等待索引器完成运行，然后选择边栏选项卡顶部的“**刷新**”。
+
+> > **注**：索引器运行可能需要一到五分钟。如果“**搜索服务**”边栏选项卡中的索引器状态列为“**成功**”，则表示索引器成功。
+
+20. 返回“**搜索服务**”边栏选项卡中，选择“**索引器**”标签。
 
-1. Wait for the indexer to finish running and then select **Refresh** at the top of the blade.
+21. 在“**索引器**”标签中，观察 **tableindexer** 索引器的元数据，例如文档计数和上次索引操作的状态。
 
-    > **Note**: It can take from one to five minutes for the indexer to run. You will know that the indexer was successful if its status is listed as **Success** in the **Search Service** blade.
+22. 关闭“**索引器**”边栏选项卡。
 
-1. In the **Indexers** tab, observe the metadata of the **tableindexer** indexer, such as the document count and the status of the last indexing operation.
+#### 任务 4：验证索引表数据
 
-#### Task 4: Validate the indexed table data
+1.  在“**搜索服务**”边栏选项卡中，选择“**搜索浏览器**”。
 
-1.  In the **Search Service** blade, select **Search Explorer** at the top of the blade.
+2.  在“**搜索浏览器**”边栏选项卡中，选择“**搜索**”。
 
-1.  In the **Search Explorer** blade, select **Search**.
+3.  观察所有文档的搜索结果。
 
-1.  Observe the results of a search for all documents.
+4.  在“**查询字符串**”字段中，输入以下查询并按“**搜索**”：
 
-1.  In the **Query string** field, enter the following query and then press **Search**:
+<!-- end list -->
 
-    ```
     search=seat
-    ```
 
-1.  Observe the results of the search query.
+5.  观察搜索查询的结果。
 
-1.  In the **Query string** field, enter the following query and then press **Search**:
+6.  在“**查询字符串**”字段中，输入以下查询并按“**搜索**”：
 
-    ```
+<!-- end list -->
+
     $filter=price lt 100
-    ```
 
-1.  Observe the results of the search query.
+7.  观察搜索查询的结果。
 
-1.  In the **Query string** field, enter the following query and then press **Search**:
+8.  在“**查询字符串**”字段中，输入以下查询并按“**搜索**”：
 
-    ```
+<!-- end list -->
+
     facet=quantity,interval:25
-    ```
 
-1.  Observe the results of the search query.
+9.  观察搜索查询的结果。
 
-1. In the **Query string** field, enter the following query and then press **Search**:
+10. 在“**查询字符串**”字段中，输入以下查询并按“**搜索**”：
 
-    ```
+<!-- end list -->
+
     $filter=quantity gt 25&facet=price,values:100|1000|10000
-    ```
 
-1. Observe the results of the search query.
+11. 观察搜索查询的结果。
 
-1. Close the **Search Explorer** blade.
+#### 任务 5：检索 Azure 搜索基本 URL
 
-#### Task 5: Retrieve your Azure Search base URL
+1.  在门户左侧的导航窗格中，选择“**资源组**”。
 
-1.  In the left navigation pane of the portal, select **Resource groups**.
+2.  在“**资源组**”边栏选项卡中，选择你之前在本实验室中创建的 **MultiTierService** 资源组。
 
-1.  In the **Resource groups** blade, select the **MultiTierService** resource group that you created earlier in this lab.
+3.  在“**MultiTierService**”边栏选项卡中，选择你之前在此实验室中创建的 **prodsearch\*** 搜索服务。
 
-1.  In the **MultiTierService** blade, select the **prodsearch\*** Search service that you created earlier in this lab.
+4.  在“**搜索服务**”边栏选项卡，复制“**URL**”字段的值。你将稍后在本实验室中使用此值。
 
-1.  In the **Search Service** blade, copy the value of the **URL** field. You will use this value later in this lab.
+#### 回顾
 
-#### Review
+在本练习中，你通过使用 Azure 搜索创建了 Azure 存储帐户并在帐户中为存储表创建了索引。为表创建索引后，您可以对存储表中的实体副本发出搜索查询。
 
-In this exercise, you created an Azure Storage account and indexed a Storage table within the account by using Azure Search. After the table was indexed, you were able to issue search queries against a copy of the entities in the Storage table.
+### 练习 3：使用 Azure API 管理构建 API 代理层
 
-### Exercise 3: Build an API proxy tier by using Azure API Management
+#### 任务 1：创建 API 管理资源
 
-#### Task 1: Define a new API
+1.  在门户的左侧导航窗格，单击“**+ 创建资源**”。
 
-1.  In the left navigation pane of the portal, select **Resource groups**.
+2.  在“**新建**”边栏选项卡顶部，找到“**搜索市场**”字段。
 
-1.  In the **Resource groups** blade, select the **MultiTierService** resource group that you created earlier in this lab.
+3.  在搜索字段中，输入 **API**，然后按 Enter 键。
 
-1.  In the **MultiTierService** blade, select the **prodapi\*** API Management account that you created earlier in this lab.
+4.  在“**全部内容**”搜索结果边栏选项卡中，选择“**API 管理**”结果。
 
-1.  In the **API Management Service** blade, on the left side of the blade, in the **API Management** section, select **APIs** .
+5.  在“**API 管理**”边栏选项卡中，选择“**创建**”。
 
-1.  In the **Add a new API** section, select **Blank API**.
-
-1.  In the **Create a blank API** window, perform the following actions:
+6.  在“**API 管理服务**”边栏选项卡中，执行以下操作：
     
-    1.  In the **Display name** field, enter **Search API**.
+    1.  在“**名称**”字段中，输入 **prodapi\[*your name in lowercase*\]**。
     
-    1.  In the **Name** field, enter **search-api**.
+    2.  将“**订阅**”字段保留设置为默认值。
     
-    1.  In the **Web service URL** field, enter the URL from the **Search Service URL** field that you copied earlier in this lab.
+    3.  在“**资源组**”列表中，选择“**MultiTierService**”。
     
-    1.  Append the value of the **Web service URL** field with the following relative URL:
-
-    ```
-    /indexes/products/docs
-    ```
-
-    > **Note**: For example, if your web service URL is https://prodsearchstudent.search.windows.net, then your new URL will be https://prodsearchstudent.search.windows.net/indexes/products/docs.
-
-1.  In the **API URL suffix** field, enter **search**.
-
-1.  In the **Products** field, select both **Starter** and **Unlimited**.
-
-1.  Select **Create.**
-
-1.  Wait for the new API to finish being created.
-
-1.  In the **Design** tab, select **+ Add operation**.
-
-1.  In the **Add operation** section, perform the following actions:
+    4.  在“**位置**”拉列表中，选择“**美国东部**”。
     
-    1.  In the **Display name** field, enter **List All Documents**.
+    5.  在“**组织名称**”字段中，输入 **Contoso**。
     
-    1.  In the **Name** field, enter **list-all-documents**.
+    6.  将“**管理员电子邮件**”字段保留设置为默认值。
     
-    1. In the **URL** list, select **GET**.
+    7.  在“**定价层**”列表中，选择“**开发人员（无 SLA）**”。
     
-    1. In the **URL** field, enter **/**.
+    8.  选择“**创建**”。
+
+7.  等待创建任务完成后，再继续本实验室。
+
+> > **注**：创建 API 管理服务通常需要 20 到 30 分钟。
+
+#### 任务 2：定义一个新的 API
+
+1.  在门户左侧的导航窗格中，选择“**资源组**”。
+
+2.  在“**资源组**”边栏选项卡中，选择你之前在本实验室中创建的 **MultiTierService** 资源组。
+
+3.  在“**MultiTierService**”边栏选项卡中，选择你之前在本实验室中创建的 **prodapi\*** API 管理帐户。
+
+4.  在“**API 管理服务**”边栏选项卡中，在边栏选项卡左侧的“**API 管理**”部分，选择“**API**”。
+
+5.  在“**添加新的 API**”部分，**选择“空白 API**”。
+
+6.  在“**创建空白 API**”窗口中，执行以下操作：
     
-    1. Select **Save**.
-
-1. Back in the **Design** tab, in the list of operations, select **All Operations**.
-
-1. In the **Design** section for **All Operations**, locate the **Inbound processing** tile and select **+ Add policy**.
-
-1. In the **Add inbound policy** section, select the **Set headers** tile.
-
-1. In the **Inbound processing, Set Headers** section, perform the following actions:
+    1.  在“**显示名称**”字段中，输入 **Search API**。
     
-    1. In the **Name** field, enter **api-key**.
+    2.  在“**名称**”字段中，输入 **images-thumbnails**。
     
-    1. In the **Value** field, select the list, select **+ Add Value**, and then enter the value for the **Search Service Key** that you recorded earlier in this lab.
+    3.  在“**Web 服务 URL**”字段中，输入之前在本实验室中复制的“**搜索服务 URL**”字段的 URL。
     
-    1. In the **Action** list, select the **override** option.
+    4.  通过以下相关 URL 追加 **Web 服务 URL** 字段的值：
+
+> 
+> 
+>     /indexes/products/docs
+> 
+> > **注**：例如，如果 Web 服务 URL 为 https://prodsearchstudent.search.windows.net，新的 URL 将为 https://prodsearchstudent.search.windows.net/indexes/products/docs。
+
+5.  在“**API URL 后缀**”字段中，输入 **search**。
+
+6.  在“**产品**”字段中，同时选择“**起动器**”和“**无限**”。
+
+7.  选择“**创建**”。
+
+<!-- end list -->
+
+7.  等待新 API 完成创建。
+
+8.  在“**设计**”选项卡中，选择“**+ 添加操作**”。
+
+9.  在“**添加操作**”部分，执行以下操作：
     
-    1. Select **Save**.
-
-1. Back in the **Design** tab, in the list of operations, select **All Operations**.
-
-1. In the **Design** section for **All Operations**, locate the **Inbound processing** tile and select **+ Add policy**.
-
-1. In the **Add inbound policy** section, select the **Set query parameters** tile.
-
-1. In the **Inbound processing, Set Query Parameters** section, perform the following actions:
+    8.  在“**显示名称**”字段中，输入 **List All Documents**。
     
-    1. In the **Name** field, enter **api-version**.
+    9.  在“**名称**”字段中，输入 **list-all-documents**。
     
-    1. In the **Value** field, enter **2017-11-11**.
+    10. 在“**URL**”列表中，选择“**GET**”。
     
-    1. In the **Action** list, select **override**.
+    11. 在“**URL**”字段中，输入 **/**。
     
-    1. Select **Save**.
+    12. 选择“**保存**”。
 
-1. Back in the **Design** tab, in the list of operations, select **List All Documents**.
+10. 返回“**设计**”选项卡，在操作列表中选择“**所有操作**”。
 
-1. In the **Design** section for the **List All Documents** operation, locate the **Inbound processing** tile and select the **+ Add policy** button.
+11. 在“**所有操作**”的“**设计**”部分，找到“**入站处理**”磁贴并选择“**+ 添加策略**”。
 
-1. In the **Add inbound policy** section, select the **Set query parameters** tile.
+12. 在“**添加入站策略**”部分，选择“**设置标题**”磁贴。
 
-1. In the **Inbound processing, Set Query Parameters** section, perform the following actions:
+13. 在“**入站处理，设置标题**”部分，执行以下操作：
     
-    1. In the **Name** field, enter **search**.
+    13. 在“**名称**”字段中，输入 **api-key**。
     
-    1. In the **Value** field, enter **\***.
+    14. 在“**值**”字段中，选择列表，选择“**+ 添加值**”，然后输入之前在本实验室中记录的“**搜索服务密钥**”的值。
     
-    1. In the **Action** list, select **override**.
+    15. 在“**操作**”列表中，选择“**替代**”选项。
     
-    1. Select **Save**.
+    16. 选择“**保存**”。
 
-1. Back in the **Design** tab, in the list of operations, select **List All Documents**.
+14. 返回“**设计**”选项卡，在操作列表中选择“**所有操作**”。
 
-1. Select the **Test** tab.
+15. 在“**所有操作**”的“**设计**”部分，找到“**入站处理**”磁贴并选择“**+ 添加策略**”。
 
-1. Select the **List All Documents** operation.
+16. 在“**添加入站策略**”部分，选择“**设置查询参数**”磁贴。
 
-1. In the **List All Documents** section, select **Send**.
+17. 在“**入站处理，设置查询参数**”部分，执行以下操作：
+    
+    17. 在“**名称**”字段中，输入 **api-version**。
+    
+    18. 在“**值**”字段中，输入 **2017-11-11**。
+    
+    19. 在“**操作**”列表中，选择“**替代**”。
+    
+    20. 选择“**保存**”。
 
-1. Observe the results of the API request.
+18. 返回“**设计**”选项卡，在操作列表中选择“**列出所有文档**”。
 
-    > **Note**: Observe how there is a large amount of Azure Search metadata in the response. You might not want API users to know the implementation details that occur behind the scenes. In the next task, you will obfuscate much of this data.
+19. 在“**列出所有文档**”操作的“**设计**”部分，找到“**入站处理**”磁贴，然后选择“**+ 添加策略**”按钮。
 
-1. Select the **Design** tab to return to the list of operations.
+20. 在“**添加入站策略**”部分，选择“**设置查询参数**”磁贴。
 
-#### Task 2: Manipulate an API response
+21. 在“**入站处理，设置查询参数**”部分，执行以下操作：
+    
+    21. 在“**名称**”字段中，输入 **search**。
+    
+    22. 在“**值**”字段中，输入 **\***。
+    
+    23. 在“**操作**”列表中，选择“**替代**”。
+    
+    24. 选择“**保存**”。
 
-1.  Back in the **Design** tab, in the list of operations, select **List All Documents** .
+22. 返回“**设计**”选项卡，在操作列表中选择“**列出所有文档**”。
 
-1.  In the **Design** section for the **List All Documents** operation, locate the **Outbound processing** tile and select **+ Add policy**.
+23. 选择“**测试**”选项卡。
 
-1.  In the **Add outbound policy** section, select the **Other policies** tile.
+24. 选择“**列出所有文档**”操作。
 
-1.  In the policy code editor, locate the following block of XML content:
+25. 在“**列出所有文档**”部分，选择“**发送**”。
 
-    ```
+26. 观察 API 请求结果。
+
+> > **注**：观察响应中是否存在大量 Azure 搜索元数据。你可能不希望 API 用户了解幕后发生的实现细节。在下一个任务中，你将混淆大部分此类数据。
+
+27. 选择“**设计**”选项卡返回操作列表。
+
+#### 任务 3：操纵 API 响应
+
+1.  返回“**设计**”选项卡，在操作列表中选择“**列出所有文档**”。
+
+2.  在“**列出所有文档**”操作的“**设计**”部分，找到“**出站处理**”磁贴，然后选择“**+ 添加策略**”。
+
+3.  在“**添加出站策略**”部分，选择“**其他策略**”磁贴。
+
+4.  在策略代码编辑器中，找到以下 XML 内容块：
+
+<!-- end list -->
+
     <outbound>
         <base />
     </outbound>
-    ```
 
-1. Replace that block of XML with the following XML:
+使用以下 XML 替换该 XML 块：
 
-    ```
     <outbound>
         <base />
         <set-body>
@@ -734,284 +709,307 @@ In this exercise, you created an Azure Storage account and indexed a Storage tab
         }
         </set-body>
     </outbound>
-    ```
 
-1.  In the policy code editor, select **Save**.
+5.  在策略代码编辑器中，选择“**保存**”。
 
-1.  Back in the **Design** tab, in the list of operations, select **List All Documents**.
+6.  返回“**设计**”选项卡，在操作列表中选择“**列出所有文档**”。
 
-1.  In the **Design** section for the **List All Documents** operation, locate the **Outbound processing** tile and select **+ Add policy**.
+7.  在“**列出所有文档**”操作的“**设计**”部分，找到“**出站处理**”磁贴，然后选择“**+ 添加策略**”。
 
-1.  In the **Add outbound policy** section, select the **Set headers** tile.
+8.  在“**添加出站策略**”部分，选择“**设置标题**”磁贴。
 
-1.  In the **Outbound processing, Set Headers** section, perform the following actions:
+9.  在“**出站处理，设置标题**”部分，执行以下操作：
     
-    1.  In the **Name** field, enter **preference-applied**.
+    1.  在“**名称**”字段中，输入 **preference-applied**。
     
-    1.  In the **Action** list, select **delete**.
+    2.  在“**操作**”列表中，选择“**删除**”。
     
-    1.  Select **+** **Add header**.
+    3.  选择“**+** **添加标题**”。
     
-    1.  In the new **Name** field, enter **odata-version**.
+    4.  在新的“**名称**”字段中，输入 **odata-version**。
     
-    1.  In the new **Action** list, select **delete**.
+    5.  在新的“**操作**”列表中，选择“**删除**”。
     
-    1.  Select **+ Add header**.
+    6.  选择“**+ 添加标题**”。
     
-    1.  In the new **Name** field, enter **powered-by**.
+    7.  在新的“**名称**”字段中，输入 **powered-by**。
     
-    1.  In the new **Value** field, select the list, select the **+ Add Value** link, and then enter **Contoso**.
+    8.  在新的“**值**”字段中，选择列表，选择“**+ 添加值**”链接，然后输入 **Contoso**。
     
-    1.  In the new **Action** list, select **override**.
+    9.  在新的“**操作**”列表中，选择“**替代**”。
     
-    1. Select **Save**.
+    10. 选择“**保存**”。
 
-1. Back in the **Design** tab, in the list of operations, select **List All Documents**.
+10. 返回“**设计**”选项卡，在操作列表中选择“**列出所有文档**”。
 
-1. Select the **Test** tab.
+11. 选择“**测试**”选项卡。
 
-1. Select the **List All Documents** operation.
+12. 选择“**列出所有文档**”操作。
 
-1. In the **List All Documents** section, select **Send**.
+13. 在“**列出所有文档**”部分，选择“**发送**”。
 
-1. Observe the results of the API request.
+14. 观察 API 请求结果。
 
-    > **Note**: You will observe that the **preference-applied** and **odata-version** headers that you specified have been deleted and replaced with a new **powered-by** header. You will also notice that the response doesn’t contain context data about the OData response, but instead contains a flattened JSON array as the response body.
+> > **注**：你将观察到你指定的 **preference-applied** 和 **odata-version** 标题已被删除并被新的 **powered-by** 标题替换。你还将注意到响应不包含有关 OData 响应的上下文数据，而是包含平展 JSON 数组作为响应正文。
 
-#### Review
+#### 回顾
 
-In this exercise, you built a proxy tier between your Azure Search account and any developers who wish to make search queries.
+在本练习中，你在 Azure 搜索帐户和任何希望进行搜索查询的开发人员之间构建了代理层。
 
-### Exercise 4: Create new table entities by using Azure Logic Apps
+### 练习 4：使用 Azure 逻辑应用创建新的表实体
 
-#### Task 1: Create a Logic Apps resource
+#### 任务 1：创建逻辑应用资源
 
-1.  In the left navigation pane of the portal, select **+ Create a resource**.
+1.  在门户的左侧导航窗格，单击“**+ 创建资源**”。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** field.
+2.  在“**新建**”边栏选项卡顶部，找到“**搜索市场**”字段。
 
-1.  In the search field, enter **Logic** and press Enter.
+3.  在搜索字段中，输入 **Logic**，然后按 Enter 键。
 
-1.  In the **Everything** search results blade, select the **Logic App** result.
+4.  在“**全部内容**”搜索结果边栏选项卡中，选择“**逻辑应用**”结果。
 
-1.  In the **Logic App** blade, select **Create**.
+5.  在“**逻辑应用**”边栏选项卡中，选择“**创建**”。
 
-1.  In the **Logic App** blade, perform the following actions:
+6.  在“**逻辑应用**”边栏选项卡中，执行以下操作：
     
-    1.  In the **Name** field, enter **prodworkflow\[*your name in lowercase*\]**.
+    1.  在“**名称**”字段中，输入 **prodworkflow\[*your name in lowercase*\]**。
     
-    1.  Leave the **Subscription** field set to its default value.
+    2.  将“**订阅**”字段保留设置为默认值。
     
-    1.  In the **Resource group** section, select **Use existing** and then select the **MultiTierService** option from the list.
+    3.  在“**资源组**”部分，选择“**使用现有**”，然后从列表选择“**MultiTierService**”选项。
     
-    1.  In the **Location** list, select **East US**.
+    4.  在“**位置**”拉列表中，选择“**美国东部**”。
     
-    1.  In the **Log Analytics** section, select **Off**.
+    5.  在“**日志分析**”部分，选择“**关**”。
     
-    1.  Select **Create**.
+    6.  选择“**创建**”。
 
-1.  Wait for the creation task to complete before you move forward with this lab.
+7.  等待创建任务完成后，再继续本实验室。
 
-#### Task 2: Create a trigger for Logic Apps workflow
+#### 任务 2：创建逻辑应用工作流触发器
 
-1.  In the left navigation pane of the portal, select **Resource groups**.
+1.  在门户左侧的导航窗格中，选择“**资源组**”。
 
-1.  In the **Resource groups** blade, select the **MultiTierService** resource group that you created earlier in this lab.
+2.  在“**资源组**”边栏选项卡中，选择你之前在本实验室中创建的 **MultiTierService** 资源组。
 
-1.  In the **MultiTierService** blade, select the **prodworkflow\*** logic app that you created earlier in this lab.
+3.  在“**MultiTierService**”边栏选项卡中，选择你之前在本实验室中创建的 **prodworkflow\*** 逻辑应用。
 
-1.  In the **Logic Apps Designer** blade, select the **Blank Logic App** template.
+4.  在“**逻辑应用设计器**”边栏选项卡中，选择“**空白逻辑应用**”模板。
 
-1.  In the **Designer** area, perform the following actions to add a **HTTP Trigger**:
+5.  在“**设计器**”区域，执行以下操作以添加 **HTTP 触发器**：
     
-    1.  In the **Search connectors and triggers** field, enter **HTTP**.
+    1.  在“**搜索连接器和触发器**”字段，输入 **HTTP**。
     
-    1.  In the **Triggers** result list, select **When a HTTP request is received**.
+    2.  在“**触发器**”结果列表中，选择“**收到 HTTP 求时**”。
     
-    1.  Select **Use sample payload to generate schema**.
+    3.  选择“**使用示例有效负载生成架构**”。
     
-    1.  In the **Enter or paste a sample JSON payload** window, enter the following JSON object:
+    4.  在“**输入或粘贴示例 JSON 有效负载**”窗口中，输入以下 JSON 对象：
 
-    ```
-    { 
-        "id": "",
-        "manufacturer": "",
-        "price": 0.00,
-        "quantity": 0,
-        "name": ""
-    }
-    ```
+> 
+> 
+> ``` 
+> { 
+> ```
+> 
+> ``` 
+>     "id": "",
+> ```
+> 
+> ``` 
+>     "manufacturer": "",
+> ```
+> 
+> ``` 
+>     "price": 0.00,
+> ```
+> 
+> ``` 
+>     "quantity": 0,
+> ```
+> 
+> ``` 
+>     "name": ""
+> ```
+> 
+> ``` 
+> }
+> ```
 
-1.  Select **Done**.
+5.  选择“**完成**”。
 
-1.  Observe the schema in the **Request Body JSON Schema** field. This schema is built by Azure automatically based on the JSON content that you entered in the previous step.
+6.  观察“**请求正文 JSON 架构**”字段中的架构。此架构由 Azure 根据你在上一步中输入的 JSON 内容自动构建。
 
-#### Task 3: Build a connector for Azure Storage
+#### 任务 3：构建 Azure 存储连接器
 
-1.  In the **Designer** area, select **+ New step**.
+1.  在“**设计器**”区域，选择“**+ 新建步骤**”。
 
-1.  In the **Designer** area, perform the following actions to add an **Insert or Replace Entity Action**:
+2.  在“**设计器**”区域，执行以下操作以添加 **插入或替换实体操作**：
     
-    1.  In the **Search connectors and triggers** field, enter **Table**.
+    1.  在“**搜索连接器和触发器**”字段，输入 **Table**。
     
-    1.  In the category list, select **Azure Table Storage**.
+    2.  在类别列表中，选择“**Azure 表存储**”。
     
-    1.  In the **Actions** result list, select **Insert or Replace Entity**.
+    3.  在“**操作**”结果列表中，选择“**插入或替换实体**”。
     
-    1.  In the **Connection Name** field, enter **tableconnection**.
+    4.  在“**连接名称**”字段中，输入 **tableconnection**。
     
-    1.  In the **Storage Account** section, select the **prodstorage\*** Storage account that you created earlier in this lab.
+    5.  在“**存储帐户**”部分，选择你之前在本实验室中创建的 **prodstorage\*** 存储帐户。
     
-    1.  Select **Create**.
+    6.  选择“**创建**”。
     
-    1.  Wait for the connector resource to finish creating.
+    7.  等待连接器资源完成创建。
 
-        > **Note**: These resources take one to five minutes to create.
+> **注**：这些资源需要一到五分钟才能创建。
 
-1.  In the **Table** list, select **products**.
+8.  在“**表**”列表中，选择“**产品**”。
 
-1.  On the right side of the **Partition Key** field, in the **Dynamic content** pane, within the **When a HTTP request is received** category, select **manufacturer**.
+9.  在“**分区键**”字段右侧“**动态内容**”窗格的“**收到 HTTP 请求时**”类别中，选择“**制造商**”。
 
-1. On the right side of the **Row Key** field, in the **Dynamic content** pane, within the **When a HTTP request is received** category, select **id**.
+10. 在“**行键**”字段右侧“**动态内容**”窗格的“**收到 HTTP 请求时**”类别中，选择“**id**”。
 
-1. On the right side of the **Entity** field, in the **Dynamic content** pane, within the **When a HTTP request is received** category, select **Body**.
+11. 在“**实体**”字段右侧“**动态内容**”窗格的“**收到 HTTP 请求时**”类别中，选择“**正文**”。
 
-#### Task 4: Build a HTTP response action
+#### 任务 4：构建 HTTP 响应操作
 
-1.  In the **Designer** area, select **+ New step**.
+1.  在“**设计器**”区域，选择“**+ 新建步骤**”。
 
-1.  In the **Designer** area, perform the following actions to add a **Response Action**:
+2.  在“**设计器**”区域，执行以下操作以添加 **响应操作**：
     
-    1.  In the **Search connectors and triggers** field, enter **Response**.
+    1.  在“**搜索连接器和触发器**”字段，输入 **Response**。
     
-    1.  In the **Actions** result list, select **Response**.
+    2.  在“**操作**”结果列表中，选择“**响应**”。
     
-    1.  In the **Status Code** field, enter **201**.
+    3.  在“**状态代码**”字段，输入 **201**。
     
-    1.  On the right side of the **Body** field, in the **Dynamic content** pane, within the **Insert of Replace Entity** category, select **Body**.
+    4.  在“**正文**”字段右侧“**动态内容**”窗格的“**替换实体插入**”类别中，选择“**正文**”。
 
-#### Task 5: Retrieve a HTTP trigger POST URL
+#### 任务 5：检索 HTTP 触发器 POST URL
 
-1.  In the **Designer** area, select **Save**.
+1.  在“**设计器**”区域，选择“**保存**”。
 
-1.  After the workflow is saved, the **HTTP POST URL** field in the **When a HTTP request is received** trigger will be updated with a new URL that you’ll need to start this workflow. Copy the URL in the **HTTP POST URL** field. You will use this URL later in this lab.
+2.  保存工作流之后，“**收到 HTTP 请求时**”触发器中的“**HTTP POST URL**”字段将更新为启动此工作流所需的新 URL。复制“**HTTP POST URL**”字段中的 URL。你将稍后在此实验室中使用此 URL。
 
-    > **Note**: This is a very long URL because it includes the URL with the SAS token. Make sure that you copy the entire URL.
+> > **注**：此 URL 非常长，因为其包含 URL 和 SAS 令牌。确保复制整个 URL。
 
-#### Task 6: Validate that logic app results are indexed
+#### 任务 6：验证逻辑应用程序结果是否已编制索引
 
-1.  At the top of the portal, select the **Cloud Shell** icon to open a new shell instance.
+1.  在门户顶部，选择 **Cloud Shell** 图标打开一个新的 Shell 实例。
 
-    > **Note**: The **Cloud Shell** icon is represented by a greater than symbol and underscore character.
+> **注**：**Cloud Shell** 图标使用大于符号和下划线字符表示。
 
-1.  If this is your first time opening the **Cloud Shell** by using your subscription, a **Welcome to Azure Cloud Shell** wizard will display how to configure **Cloud Shell** for first-time usage. Perform the following actions:
+![](media/image1.png)
+
+2.  如果这是你第一次使用订阅打开 **Cloud Shell**，将显示**欢迎使用 Azure Cloud Shell 向导**，显示在第一次使用时如何配置 **Cloud Shell**。执行以下操作：
     
-    1.  When offered a choice between **Bash** or **PowerShell**, select **Bash**.
+    1.  系统提示你在 **Bash** 或 **PowerShell** 之间选择时，请选择“**Bash**”。
     
-    1.  A dialog box prompts you to create a new Storage account to begin by using the shell. Accept the default settings and select **Create storage**.
+    2.  将显示一个对话框，提示你创建新的存储帐户以开始使用 Shell。接受默认设置并选择“**创建存储**”。
     
-    1.  Wait for the **Cloud Shell** to finish its first-time setup procedures before you move forward with the lab.
+    3.  等待 **Cloud Shell** 完成首次设置程序再继续此实验室。
 
-        > **Note**: If you the configuration options for the **Cloud Shell** do not appear, this is most likely because you are using an existing subscription with this course's labs. The labs are written from the perspective that you are using a new subscription.
+> > **注**：如果 **Cloud Shell** 配置选项未显示，这很可能是因为你在本课程实验室中使用的是现有订阅。实验室是在你使用新订阅的假设条件下编写的。
 
-1.  At the bottom of the portal, in the **Cloud Shell** command prompt, enter the following partial **CURL** command to issue a **HTTP POST** request to the Logic Apps instance and then press **Enter**:
+3.  在门户底部的 **Cloud Shell** 命令提示符中，输入以下部分 **CURL** 命令以将 **HTTP POST** 请求发出到逻辑应用实例，然后按 **Enter** 键：
 
-    ```
+<!-- end list -->
+
     curl \
     --header "Content-Type: application/json" \
     --data '{"id":"6","manufacturer":"VEHTOP","price":750,"quantity":6,"name":"car roof rack"}' \
-    ```
 
-1.  Next, enter the logic app’s **HTTP POST URL** that you copied earlier in this lab, ensuring that you place the URL within **quotation marks** so that the URL characters are not escaped. Press **Enter** to execute the command.
+4.  然后，输入之前在本实验室中复制的逻辑应用  **HTTP POST URL**，确保将 URL 置于**引号**内，防止 URL 字符转义。按 **Enter** 键执行命令。
 
-    > **Note**: For example, if the URL is https://prod.eastus.logic.azure.com:443/workflows/test/triggers/invoke?api-version=2016\&sig=3, then you would insert “https://prod.eastus.logic.azure.com:443/workflows/test/triggers/manual?invoke?api-version=2016\&sig=3”. If you don’t include the quotation marks, you will get an error message indicating that the SAS token has been truncated and is required to issue the request. This occurs because the query string separator, **&,** is truncated if not enclosed in quotation marks.
+> > **注**：例如，如果 URL 为 https://prod.eastus.logic.azure.com:443/workflows/test/triggers/invoke?api-version=2016\&sig=3，则你将插入“https://prod.eastus.logic.azure.com:443/workflows/test/triggers/manual?invoke?api-version=2016\&sig=3”。如果不包含引号，则会收到一条错误消息，指出 SAS 令牌已被截断并且需要发出请求。这是由于查询字符串分隔符 **&** 导致的，如果不用引号将其括起，则会被截断。
 
-1.  In the left navigation pane of the portal, select **Resource groups**.
+5.  在门户左侧的导航窗格中，选择“**资源组**”。
 
-1.  In the **Resource groups** blade, select the **MultiTierService** resource group that you created earlier in this lab.
+6.  在“**资源组**”边栏选项卡中，选择你之前在本实验室中创建的 **MultiTierService** 资源组。
 
-1.  In the **MultiTierService** blade, select the **prodsearch\*** Search service that you created earlier in this lab.
+7.  在“**MultiTierService**”边栏选项卡中，选择你之前在此实验室中创建的 **prodsearch\*** 搜索服务。
 
-1.  In the **Search Service** blade, select the **Indexers** tab.
+8.  在“**搜索服务**”边栏选项卡中，选择“**索引器**”标签。
 
-1.  In the **Indexers** tab, select the **tableindexer** indexer that you created earlier in this lab.
+9.  在“**索引器**”选项卡中，选择你之前在本实验室中创建的 **tableindexer** 索引器。
 
-1. In the **Indexer** blade, perform the following actions:
+10. 在“**索引器**”边栏选项卡中，执行以下操作：
     
-    1. Select **Run**.
+    40. 选择“**运行**”。
     
-    1. When prompted for confirmation, select **Yes**.
+    41. 提示你确认时，选择“**是**”。
     
-    1. Close the **Indexer** blade.
+    42. 关闭“**索引器**”边栏选项卡。
 
-1. Wait for the indexer to finish running, and then select **Refresh** at the top of the blade.
+11. 等待索引器完成运行，然后选择边栏选项卡顶部的“**刷新**”。
 
-1. Back in the **Search Service** blade, select **Search Explorer**.
+<!-- end list -->
 
-1. In the **Search Explorer** blade, select **Search**.
+12. 返回“**搜索服务**”边栏选项卡，选择“**搜索浏览器**”。
 
-1. Observe the results of a search for all documents.
+13. 在“**搜索浏览器**”边栏选项卡中，选择“**搜索**”。
 
-    > **Note**: At this point, you will notice a sixth document in your index representing the new document that was inserted by the logic app.
+14. 观察所有文档的搜索结果。
 
-1. In the left navigation pane of the portal, select **Resource groups**.
+> > **注**：此时，您将注意到索引中的第六个文档，该文档表示逻辑应用插入的新文档。
 
-1. In the **Resource groups** blade, select the **MultiTierService** resource group that you created earlier in this lab.
+15. 在门户左侧的导航窗格中，选择“**资源组**”。
 
-1. In the **MultiTierService** blade, select the **prodapi\*** API Management account that you created earlier in this lab.
+16. 在“**资源组**”边栏选项卡中，选择你之前在本实验室中创建的 **MultiTierService** 资源组。
 
-1. In the **API Management Service** blade, on the left side of the blade, in the **API Management** section, select **APIs** .
+17. 在“**MultiTierService**”边栏选项卡中，选择你之前在本实验室中创建的 **prodapi\*** API 管理帐户。
 
-1. In the **APIs** section, select **Search API**.
+18. 在“**API 管理服务**”边栏选项卡中，在边栏选项卡左侧的“**API 管理**”部分，选择“**API**”。
 
-1. In the **Design** tab, select the **Test** tab.
+19. 在“**API**”部分，选择“**搜索 API**”。
 
-1. Select the **List All Documents** operation.
+20. 在“**设计**”选项卡中，选择“**测试**”选项卡。
 
-1. In the **List All Documents** section, select **Send**.
+21. 选择“**列出所有文档**”操作。
 
-1. Observe the results of the API request.
+22. 在“**列出所有文档**”部分，选择“**发送**”。
 
-    > **Note**: Observe that there are six documents now instead of five.
+23. 观察 API 请求结果。
 
-#### Review
+> > **注**：观察到现在有六个文档而不是五个。
 
-In this exercise, you created a logic app that takes a HTTP request and then persists the JSON body of the request as a new Azure Storage table entity.
+#### 回顾
 
-### Exercise 5: Clean up subscription 
+在本练习中，你创建了一个接受 HTTP 请求，然后将请求的 JSON 正文保留为新的 Azure 存储表实体的逻辑应用。
 
-#### Task 1: Open Cloud Shell
+### 练习 5：清理订阅 
 
-1.  At the top of the portal, select the **Cloud Shell** icon to open a new shell instance.
+#### 任务 1：打开 Cloud Shell
 
-1.  At the bottom of the portal, in the **Cloud Shell** command prompt, type the following command and press Enter to list all resource groups in the subscription:
+1.  在门户顶部，选择 **Cloud Shell** 图标打开一个新的 Shell 实例。
 
-    ```
+2.  在门户底部的 **Cloud Shell** 命令提示符下，输入以下命令并按 Enter 键以列出订阅中的所有资源组。
+
+<!-- end list -->
+
     az group list
-    ```
 
-1.  Type the following command and press Enter to view a list of possible commands to delete a resource group:
+3.  输入以下命令，然后按 Enter 键查看删除资源组的可能命令列表：
 
-    ```
+<!-- end list -->
+
     az group delete --help
-    ```
 
-#### Task 2: Delete resource groups
+#### 任务 2：删除资源组
 
-1.  Type the following command and press Enter to delete the **MultiTierService** resource group:
+1.  输入以下命令，然后按 Enter 键删除 **MultiTierService** 资源组：
 
-    ```
+<!-- end list -->
+
     az group delete --name MultiTierService --no-wait --yes
-    ```
-    
-1.  Close the **Cloud Shell** pane at the bottom of the portal.
 
-#### Task 3: Close active applications
+2.  关闭门户底部的“**Cloud Shell**”窗格。
 
-1.  Close the currently running **Microsoft Edge** application.
+#### 任务 3：关闭活动应用程序
 
-1.  Close the currently running **Microsoft Azure Storage Explorer** application.
+1.  关闭当前正在运行的 **Microsoft Edge** 应用程序。
 
-#### Review
+2.  关闭当前正在运行的 **Microsoft Azure 存储资源管理器** 应用程序。
 
-In this exercise, you cleaned up your subscription by removing the **resource groups** used in this lab.
+#### 回顾
+
+在本练习中，你通过移除本实验室中使用过的 **资源组** 来清理订阅。

@@ -1,625 +1,583 @@
+﻿---
+实验室：
+    标题：“实验室：在 Azure 平台即服务 (PaaS) 产品上构建 Web 应用程序”
+    类型：“答案”
+    模块：“模块 2：开发 Azure 平台即服务 (PaaS) 计算解决方案”
 ---
-lab:
-    title: 'Lab: Building a web application on Azure Platform-as-a-Service offerings'
-    type: 'Answer Key'
-    module: 'Module 2: Develop Azure platform as a service (PaaS) compute solutions'
----
 
-# Lab: Building a web application on Azure Platform-as-a-Service offerings
-# Student lab answer key
+# 实验室：在 Azure 平台即服务 (PaaS) 产品上构建 Web 应用程序
+# 学生实验室答案
 
-## Microsoft Azure user interface
+## Microsoft Azure 用户界面
 
-Given the dynamic nature of Microsoft cloud tools, you might experience Azure user interface (UI) changes after the development of this training content. These changes might cause the lab instructions and steps to not match up.
+鉴于 Microsoft 云工具的动态特性，Azure 用户界面 (UI) 在此培训内容开发后可能会发生更改。这些更改可能会导致实验室说明和步骤不匹配。
 
-The Microsoft Worldwide Learning team updates this training course as soon as the community brings needed changes to our attention. However, because cloud updates occur frequently, you might encounter UI changes before this training content is updated. **If this occurs, adapt to the changes and work through them in the labs as needed.**
+一旦 Microsoft 世界各地的学习团队通过社区注意到必要更改，将会立即更新此培训课程。但由于云更新频繁，你可能会在此培训内容更新前遇到 UI 更改。**如果发生这种情况，请根据需要适更改并在实验室中完成这些更改。**
 
-## Instructions
+## 说明
 
-### Before you start
+### 开始前
 
-#### Sign in to the lab virtual machine
+#### 登录实验室虚拟机
 
-Sign in to your **Windows 10** virtual machine by using the following credentials:
+  - 使用以下凭据登录到 **Windows 10** 虚拟机：
     
--   **Username**: Admin
+    1.  **用户名**：Admin
     
--   **Password**: Pa55w.rd
+    2.  **密码**：Pa55w.rd
 
-> **Note**: Lab virtual machine sign-in instructions will be provided to you by your instructor.
+> > **注**：讲师将为你提供实验室虚拟机登录说明。
 
-#### Review installed applications
+#### 查看已安装的应用
 
-Observe the taskbar located at the bottom of your **Windows 10** desktop. The taskbar contains the icons for the applications that you will use in this lab:
+  - 观察位于 **Windows 10** 桌面底部的任务栏。任务栏包含将在本实验室中使用的应用程序图标：
     
--   Microsoft Edge
+      - Microsoft Edge
+    
+      - 文件资源管理器
+    
+      - Windows PowerShell
+    
+      - Visual Studio Code
 
--   File Explorer
+#### 下载实验室文件
 
--   Windows PowerShell
+1.  在任务栏上，选择 **Windows PowerShell** 图标。
 
--   Visual Studio Code
-
-#### Download the lab files
-
-1.  On the taskbar, select the **Windows PowerShell** icon.
-
-1.  In the PowerShell command prompt, change the current working directory to the **Allfiles (F):\\** path:
+2.  在 PowerShell 命令提示符中，将当前工作目录更改为 **Allfiles (F):\\** 路径：
 
     ```
     cd F:
     ```
 
-1.  Within the command prompt, enter the following command and press Enter to clone the **microsoftlearning/AZ-203-DevelopingSolutionsforMicrosoftAzure** project hosted on GitHub into the **Allfiles (F):\\** drive:
+3.  在命令提示符中，输入以下命令并按 Enter 键以将 GitHub 上托管的 **microsoftlearning/AZ-203-DevelopingSolutionsForAzure** 项目克隆到 **Labfiles** 目录：
 
     ```
     git clone --depth 1 --no-checkout https://github.com/microsoftlearning/AZ-203-DevelopingSolutionsForMicrosoftAzure .
     ```
 
-1.  Within the command prompt, enter the following command and press **Enter** to check out the lab files necessary to complete the **AZ-203T02** lab:
+4.  在命令提示符中，输入以下命令并按 **Enter** 键以签出完成 **AZ-203.02** 实验室所必需的实验室文件：
 
     ```
     git checkout master -- Allfiles/*
     ```
 
-1.  Close the currently running **Windows PowerShell** command prompt application.
+5.  关闭当前正在运行的 **Windows PowerShell** 命令提示应用程序。
 
-### Exercise 1: Build a back-end API by using Azure Storage and API Apps
+### 练习 1：使用 Azure 存储和 API 应用程序构建后端 API
 
-#### Task 1: Open the Azure portal
+#### 任务 1：打开 Azure 门户
 
-1.  On the taskbar, select the **Microsoft Edge** icon.
+1.  在任务栏上，选择 **Microsoft Edge** 图标。
 
-1.  In the open browser window, navigate to the [**Azure portal**](https://portal.azure.com) (portal.azure.com).
+2.  在打开的浏览器窗口中，导航到 [**Azure 门户**](https://portal.azure.com) (portal.azure.com)。
 
-1.  At the sign-in page, enter the **email address** for your Microsoft account.
+3.  在登录页面，输入 Microsoft 帐户的 **电子邮件地址**。
 
-1.  Select **Next**.
+4.  选择“**下一步**”。
 
-1.  Enter the **password** for your Microsoft account.
+5.  输入 Microsoft 帐户的 **密码**。
 
-1.  Select **Sign in**.
+6.  选择“**登录**”。
 
-    > **Note**: If this is your first time signing in to the Azure portal, a dialog box will display offering a tour of the portal. Select **Get Started** to skip the tour and begin using the portal.
+> **注**：如果这是你第一次登录 Azure 门户，则会显示一个对话框，提供门户教程。选择“**开始使用**”以跳过教程并开始使用门户。
 
-#### Task 2: Create an Azure Storage account
+#### 任务 2：创建 Azure 存储帐户
 
-1.  In the left navigation pane of the Azure portal, select **All services**.
+1.  在 Azure 门户的左侧导航窗格，单击“**所有服务**”。
 
-1.  In the **All services** blade, select **Storage Accounts**.
+2.  在“**所有服务**”边栏选项卡中，选择“**存储帐户**”。
 
-1.  In the **Storage accounts** blade, view your list of Storage instances.
+3.  在“**存储帐户**”边栏选项卡中，查看存储实例列表。
 
-1.  At the top of the **Storage accounts** blade, select **Add**.
+4.  在“**存储帐户**”边栏选项卡顶部，选择“**添加**”。
 
-1.  In the **Create storage account** blade, observe the tabs at the top of the blade, such as Basics, Tags, and Review+Create.
+5.  在“**创建存储帐户**”边栏选项卡中，观察边栏选项卡顶部的选项卡，如“基本”、“标记”和“查看 + 创建”。
 
-    > **Note**: Each tab represents a step in the workflow to create a new **storage account**. At any time, you can select **Review + create** to skip the remaining tabs.
+> **注**：每个选项卡代表工作流中创建新“**存储帐户**”的一个步骤。你可以随时选择“**查看 + 创建**”跳过剩余标签。
 
-1.  Select the **Basics** tab, and within the tab area, perform the following actions:
+6.  选择“**基本**”选项卡，然后在选项卡区域内执行以下操作：
     
-    1.  Leave the **Subscription** field set to its default value.
+    1.  将“**订阅**”字段保留设置为默认值。
     
-    1.  In the **Resource group** section, select **Create new**, enter **ManagedPlatform**, and then select **OK**.
+    2.  在“**资源组**”部分，选择“**新建**”，输入 **ManagedPlatform**，然后选择“**确定**”。
     
-    1.  In the **Storage account** **name** field, enter **imgstor\[*your name in lowercase*\]**.
+    3.  在“**存储帐户** **名称**”字段，输入 **imgstor\[*your name in lowercase*\]**。
     
-    1.  In the **Location** list, select the **(US) East US** region.
+    4.  在“**位置**”列表中，选择“**美国东部**”区域。
     
-    1.  In the **Performance** section, select **Standard**.
+    5.  在“**性能**”部分，选择“**标准**”。
     
-    1.  In the **Account kind** list, select **StorageV2 (general purpose v2)**.
+    6.  在“**帐户类型**”列表中，选择 **StorageV2（通用 v2）**。
     
-    1.  In the **Replication** list, select **Locally-redundant storage (LRS)**.
+    7.  在“**复制**”列表中，选择“**区域冗余存储 (ZRS)**”。
     
-    1.  In the **Access tier (default)** section, ensure that **Hot** is selected.
+    8.  在“**访问层**”部分，确保“**热**”已选中。
     
-    1.  Select **Review + Create**.
+    9.  选择“**查看 + 创建**”。
 
-1.  In the **Review + Create** tab, review the options that you specified in the previous steps.
+7.  在“**查看 + 创建**”选项卡中，查看在之前步骤中指定的选项。
 
-1.  Select **Create** to create the storage account by using your specified configuration.
+8.  选择“**创建**”以使用指定的配置创建存储帐户。
 
-1.  In the **Deployment** blade, Wait for the creation task to complete before moving forward with this lab.
+9.  等待创建任务完成后再继续本实验室。
 
-1. Click the **Go to resource** button in the **Deployment** blade to go to the newly created storage account.
+10. 在 Azure 门户的左侧导航窗格，单击“**所有服务**”。
 
-1. In the **Storage account** blade, on the left side of the blade, locate the **Settings** section and select **Access keys**.
+11. 在“**所有服务**”边栏选项卡中，选择**“存储帐户”**。
 
-1. In the **Access keys** blade, select any one of the keys and record the value of either of the **Connection string** fields. You will use this value later in this lab.
+12. 在显示的“**存储帐户**”边栏选项卡中，选择你之前在本实验室中创建的 **imgstor\*** 存储帐户。
 
-    > **Note**: It does not matter which connection string you choose. They are interchangeable.
+13. 在“**存储帐户**”边栏选项卡中，在边栏选项卡左侧，找到“**设置**”部分并选择“**访问密钥**”。
 
-#### Task 3: Upload a sample blob
+14. 在“**访问密钥**”边栏选项卡中，选择任意一个密钥并记录“**连接字符串**”字段中的任意一个值。你将稍后在本实验室中使用此值。
 
-1.  On the Azure portal left navigation pane, select **Resource groups**.
+> > **注**：选择哪个连接字符串无关紧要。它们可以互换。
 
-1.  In the **Resource groups** blade, select the **ManagedPlatform** resource group that you created earlier in this lab.
+#### 任务 3：上传示例 blob
 
-1.  In the **ManagedPlatform** blade, select the **imgstor\*** storage account you created earlier in this lab.
+1.  在 Azure 门户左侧导航窗格中，选择“**资源组**”。
 
-1.  In the **Storage Account** blade, on the left side of the blade, in the **Blob service** section, select the **Blobs** link.
+2.  在“**资源组**”边栏选项卡中，选择你之前在本实验室中创建的 **ManagedPlatform** 资源组。
 
-1.  In the **Blobs** section, select **+ Container**.
+3.  在“**ManagedPlatform**”边栏选项卡中，选择你之前在本实验室中创建的 **imgstor\*** 存储帐户。
 
-1.  In the **New container** window, perform the following actions:
+4.  在“**存储帐户**”边栏选项卡中，在边栏选项卡左侧的“**Blob 服务**”部分，选择“**Blob**”链接。
+
+5.  在“**Blob**”部分，选择“**+ 容器**”。
+
+6.  在“**新建容器**”窗口中，执行以下操作：
     
-    1.  In the **Name** field, enter **images**.
+    1.  在“**名称**”字段中，输入 **images**。
     
-    1.  In the **Public access level** list, select **Blob (anonymous read access for blobs only)**.
+    2.  在“**公共访问级别**”列表中，选择“**Blob（仅限 blob 匿名读取访问）**”。
     
-    1.  Select **OK**.
+    3.  选择“**确定**”。
 
-1.  In the **Blobs** section, select **+ Container** again.
+7.  在“**Blob**”部分，再次选择“**+ 容器**”。
 
-1.  In the **New container** window, perform the following actions:
+8.  在“**新建容器**”窗口中，执行以下操作：
 
-    1.  In the **Name** field, enter **images-thumbnails**.
+<!-- end list -->
 
-    1.  In the **Public access level** list, select **Blob (anonymous read access for blobs only)**.
+1.  在“**名称**”字段中，输入 **images-thumbnails**。
 
-    1.  Select **OK**.
+2.  在“**公共访问级别**”列表中，选择“**Blob（仅限 blob 匿名读取访问）**”。
 
-1.  In the **Blobs** section, select the newly created **images** container.
+3.  选择“**确定**”。
 
-1. In the **Container** blade, select **Upload**.
+<!-- end list -->
 
-1. In the **Upload blob** window that appears, perform the following actions:
+9.  在“**Blob**”部分，选择新创建的“**images**”容器。
 
-    1.  In the **Files** section, select the **Folder** icon.
+10. 在“**容器**”边栏选项卡中，选择“**上传**”。
 
-    1.  In the File Explorer dialog box that appears, go to **Allfiles (F):\\Allfiles\\Labs\\02\\Starter\\Images**, select the **grilledcheese.jpg** file, and then select **Open**.
+11. 在显示的“**上传 blob**”窗口中，执行以下操作：
 
-    1.  Ensure that the **Overwrite if files already exist** check box is selected.
+<!-- end list -->
 
-    1.  Select **Upload**.
+1.  在“**文件**”部分，选择“**文件夹**”图标。
 
-1. Wait for the blob to be uploaded before you continue with this lab.
+2.  在显示的“文件资源管理器”对话框中，转到 **Allfiles (F):\\Labfiles\\02\\Starter\\Images**，选择 **grilledcheese.jpg** 文件，然后选择“**打开**”。
 
-#### Task 4: Create an API app
+3.  确保“**如果文件已存在，请覆盖**”复选框已选中。
 
-1.  In the left navigation pane of the portal, select **+ Create a resource**.
+4.  选择“**上传**”。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** field.
+<!-- end list -->
 
-1.  In the search field, enter **API** and press Enter.
+12. 等待 blob 上传完成再继续本实验室。
 
-1.  In the **Everything** search results blade, select the **API App** result.
+#### 任务 4：创建 API 应用
 
-1.  In the **API App** blade, select **Create**.
+1.  在门户的左侧导航窗格，单击“**+ 创建资源**”。
 
-1.  In the second **API App** blade, perform the following actions:
+2.  在“**新建**”边栏选项卡顶部，找到“**搜索市场**”字段。
+
+3.  在搜索字段中，输入 **API**，然后按 Enter 键。
+
+4.  在“**全部内容**”搜索结果边栏选项卡中，选择“**API 应用**”结果。
+
+5.  在“**API 应用**”边栏选项卡中，选择“**创建**”。
+
+6.  在第二个“**API 应用**”边栏选项卡中，执行以下操作：
     
-    1.  In the **App name** field, enter **imgapi\[*your name in lowercase*\]**.
+    1.  在“**应用名称**”字段中，输入 **imgapi\[*your name in lowercase*\]**。
     
-    1.  Leave the **Subscription** field set to its default value.
+    2.  将“**订阅**”字段保留设置为默认值。
     
-    1.  In the **Resource group** section, select **Use existing**, and then select **ManagedPlatform**.
+    3.  在“**资源组**”部分，选择“**使用现有**”，然后选择“**ManagedPlatform**”。
     
-    1.  Leave the **App Service plan/Location** field set to its default value.
+    4.  将“**应用服务计划/位置**”字段保留设置为默认值。
     
-    1.  Leave the **Application Insights** field set to its default value.
+    5.  将“**Application Insights**”字段保留设置为默认值。
     
-    1.  Select **Create**.
+    6.  选择“**创建**”。
 
-1.  Wait for the creation task to complete before you move forward with this lab.
+7.  等待创建任务完成后，再继续本实验室。
 
-#### Task 5: Configure an API app
+#### 任务 5：配置 API 应用
 
-1.  In the left navigation pane of the portal, select **Resource groups**.
+1.  在门户左侧的导航窗格中，选择“**资源组**”。
 
-1.  In the **Resource groups** blade, select the **ManagedPlatform** resource group that you created earlier in this lab.
+2.  在“**资源组**”边栏选项卡中，选择你之前在本实验室中创建的 **ManagedPlatform** 资源组。
 
-1.  In the **ManagedPlatform** blade, select the **imgapi\*** API app that you created earlier in this lab.
+3.  在“**ManagedPlatform**”边栏选项卡中，选择你之前在本实验室中创建的 **imgapi\*** API 应用。
 
-1.  In the **API App** blade, on the left side of the blade in the **Settings** section, select the **Configuration** link.
+4.  在“**API 应用**”边栏选项卡中，在边栏选项卡左侧的“**设置**”部分，选择“**应用程序设置**”链接。
 
-1.  In the **Configuration** section, perform the following actions:
+5.  在“**应用程序设置**”部分中，执行以下操作：
     
-    1.  Select the **Application settings** tab.
+    1.  向下滚动直到看见“**应用程序设置**”子部分。
     
-    1.  Select **+ New application setting**.
+    2.  选择“**+ 添加新设置**”。
     
-    1.  In the **Add/Edit application setting** popup that appears, in the **Name** field, enter **StorageConnectionString**.
+    3.  在“**输入名称**”字段中，输入 **StorageConnectionString**。
     
-    1.  In the **Value** field, enter the **Storage Connection String** you copied earlier in this lab.
+    4.  在“**输入名称**”字段中，输入之前在本实验室中复制的 **Storage Connection String**。
     
-    1.  Leave the **deployment slot setting** field set to its default value.
-
-    1.  Select **OK** to close the popup and return to the **Configuration** section.
+    5.  将“**槽设置**”字段保留设置为默认值。
     
-    1.  Select **Save** at the top of the blade to persist your settings.
+    6.  在边栏选项卡顶部单击“**保存**”。
 
-1.  Wait for your application settings to persist before you move forward with the lab.
+6.  等待应用程序设置保存后再继续本实验室。
 
-1.  In the **API App** blade, on the left side of the blade in the **Settings** section, select the **Properties** link.
+7.  在“**API 应用**”边栏选项卡中，在边栏选项卡左侧的“**设置**”部分，选择“**属性**”链接。
 
-1.  In the **Properties** section, copy the value of the **URL** field. You will use this value later in the lab.
+8.  在“**属性**”部分，复制“**URL**”字段的值。你将稍后在实验室中使用此值。
 
-#### Task 6: Deploy an ASP.NET Core web application to API App
+#### 任务 6：将 ASP.NET Core Web 应用程序部署到 API 应用
 
-1.  On the taskbar, select the **Visual Studio Code** icon.
+1.  在任务栏上，选择 **Visual Studio Code** 图标。
 
-1.  On the **File** menu, select **Open Folder**.
+2.  在“**文件**”菜单上，选择“**打开文件夹**”。
 
-1.  In the File Explorer pane that opens, go to **Allfiles (F):\\Allfiles\\Labs\\02\\Starter\\API**, and then select **Select Folder**.
+3.  在打开的“文件资源管理器”窗格中，转到 **Allfiles (F):\\Labfiles\\02\\Starter\\API**，然后选择“**选择文件夹**”。
 
-1.  In the **Explorer** pane of the Visual Studio Code window, expand the **Controllers** folder and double-click the **ImagesController.cs** file to open the file in the editor.
+4.  在“Visual Studio Code”窗口的“**资源管理器**”窗格中，展开 **Controllers** 文件夹并双击 **ImagesController.cs** 文件以在编辑器中打开文件。
 
-1.  In the editor, in the **ImagesController** class, on line 27, observe the **GetCloudBlobContainer** method and the code used to retrieve a container.
+5.  在编辑器 **ImagesController** 类的第 27 行，观察 **GetCloudBlobContainer** 方法和用于检索容器的代码。
 
-1.  In the **ImagesController** class, on line 38, observe the **Get** method and the code used to retrieve all blobs asynchronously from the **images** container.
+6.  在 **ImagesController** 类的第 37 行，观察 **Get** 方法和用于从 **images** 容器匿名检索所有 blob 的代码。
 
-1.  In the **ImagesController** class, on line 74, observe the **Post** method and the code used to persist an uploaded image to Azure Storage.
+7.  在 **ImagesController** 类的第 74 行，观察 **Post** 方法和用于将上传图像保存到 Azure 存储的代码。
 
-1.  On the taskbar, select the **Windows** **PowerShell** icon.
+8.  在任务栏上，选择 **Windows** **PowerShell** 图标。
 
-1.  In the open command prompt, enter the following command and press Enter to sign in to the Azure CLI:
+9.  在打开的命令提示符中，输入以下命令并按 Enter 键以登录 Azure CLI：
 
-    ```
+<!-- end list -->
+
     az login
-    ```
 
-1. In the **Microsoft Edge** browser window that appears, perform the following actions:
+10. 在显示的“**Microsoft Edge**”窗口中，执行以下操作：
     
-    1.  Enter the **email address** for your Microsoft account.
+    1.  输入 Microsoft 帐户的**电子邮件地址**。
     
-    2.  Select **Next**.
+    2.  选择“**下一步**”。
     
-    3.  Enter the **password** for your Microsoft account.
+    3.  输入 Microsoft 帐户的**密码**。
     
-    4.  Select **Sign in**.
+    4.  选择“**登录**”。
 
-1. Return to the currently open **Command Prompt** application. Wait for the sign-in process to finish.
+11. 返回当前打开的“**命令提示符**”应用程序。等待登录过程完成。
 
-1. At the command prompt, enter the following command and press Enter to list all the **apps** in your **ManagedPlatform** resource group:
+12. 在命令提示符下，输入以下命令并按 Enter 键以列出 **ManagedPlatform** 资源组中的所有 **应用**：
 
-    ```
+<!-- end list -->
+
     az webapp list --resource-group ManagedPlatform
-    ```
 
-1. Enter the following command and press Enter to find the **apps** that have the prefix **imgapi\***:
+13. 在命令提示符下，输入以下命令并按 Enter 键以查找具有前缀 **imgapi\*** 的 **应用**：
 
-    ```
+<!-- end list -->
+
     az webapp list --resource-group ManagedPlatform --query "[?starts_with(name, 'imgapi')]"
-    ```
 
-1. Enter the following command and press Enter to print out only the name of the single app that has the prefix **imgapi\***:
+14. 输入以下命令并按 Enter 键以仅打印具有前缀 **imgapi\*** 的单应用的名称：
 
-    ```
+<!-- end list -->
+
     az webapp list --resource-group ManagedPlatform --query "[?starts_with(name, 'imgapi')].{Name:name}" --output tsv
-    ```
 
-1. Enter the following command and press Enter to change the current directory to the **Allfiles (F):\\Allfiles\\Labs\\02\\Starter\\API** directory that contains the lab files:
+15. 输入以下命令并按 Enter 键以将当前目录更改为包含实验室文件的 **Allfiles (F):\\Labfiles\\02\\Starter\\API** 目录：
 
-    ```
+<!-- end list -->
+
     cd F:\Labfiles\02\Starter\API\
-    ```
 
-1. Enter the following command and press Enter to deploy the **api.zip** file to the **API app** you created earlier in this lab:
+16. 输入以下命令并按 Enter 键以将 **api.zip** 文件部署到你之前在此实验室中创建的 **API 应用**：
 
-    ```
+<!-- end list -->
+
     az webapp deployment source config-zip --resource-group ManagedPlatform --src api.zip --name <name-of-your-api-app>
-    ```
 
-    > **Note**: Replace the **\<name-of-your-api-app\>** placeholder with the name of the API app that you created earlier in this lab. You recently queried this app’s name in the previous steps.
+> > **注**：用你之前在本实验室中创建的 API 应用名称替换 **\<name-of-your-api-app\>** 占位符。你最近在之前步骤中查询了此应用的名称。
 
-1. Wait for the deployment to complete before you move forward with this lab.
+17. 等待部署完成后再继续本实验室。
 
-1. On the left side of the portal, select the **Resource groups** link.
+18. 在门户左侧，选择“**资源组**”链接。
 
-1. In the **Resource groups** blade, locate and select the **ManagedPlatform** resource group that you created earlier in this lab.
+19. 在“**资源组**”边栏选项卡中，找到并选择你之前在本实验室中创建的 **ManagedPlatform** 资源组。
 
-1. In the **ManagedPlatform** blade, select the **imgapi\*** *API App* that you created earlier in this lab.
+20. 在“**ManagedPlatform**”边栏选项卡中，选择你之前在本实验室中创建的 **imgapi\*** *API 应用*。
 
-1. In the **API App** blade, select the **Browse** button.
+21. 在“**API 应用**”边栏选项卡中，选择“**浏览**”按钮。
 
-1. Perform a **GET** request to the root of the website and observe the JSON array that is returned. This array should contain the URL for your single uploaded image in your **Azure Storage** account.
+22. 执行网站根目录的 **GET** 请求并观察返回的 JSON 文件。此数组应包含你在 **Azure 存储** 帐户中单个上传的映像的 URL。
 
-1. Return to your browser window showing the **Azure portal**.
+23. 返回显示 **Azure 门户** 的浏览器窗口。
 
-#### Review
+#### 回顾
 
-In this exercise, you created an API App in Azure and then deployed your ASP.NET Core web application to the API App by using the Azure CLI and Kudu’s zip deployment utility.
+在本练习中，你在 Azure 中创建了一个 API 应用程序，然后使用 Azure CLI 和 Kudu 的 zip 部署实用程序将 ASP.NET Core Web 应用程序部署到 API 应用。
 
-### Exercise 2: Build a front-end web application by using Azure Web Apps
+### 练习 2：使用 Azure Web 应用程序构建前端 Web 应用
 
-#### Task 1: Create a web app
+#### 任务 1：创建 Web 应用
 
-1.  In the Azure portal, on the left navigation pane, select **+ Create a resource**.
+1.  在 Azure 门户的左侧导航窗格中，选择“**+ 创建资源**”。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** field.
+2.  在“**新建**”边栏选项卡顶部，找到“**搜索市场**”字段。
 
-1.  In the search field, enter **Web** and press Enter.
+3.  在搜索字段中，输入 **Web**，然后按 Enter 键。
 
-1.  In the **Everything** search results blade, select the **Web App** result.
+4.  在“**全部内容**”搜索结果边栏选项卡中，选择“**Web** **应用**”结果。
 
-1.  In the **Web App** blade, select **Create**.
+5.  在“**Web** **应用**”边栏选项卡中，选择“**创建**”。
 
-1.  In the second **Web App** blade, perform the following actions:
+6.  在第二个“**Web** **应用**”边栏选项卡中，执行以下操作：
     
-    1.  In the **App name** field, enter **imgweb\[*your name in lowercase*\]**.
+    1.  在“**应用名称**”字段中，输入 **imgweb\[*your name in lowercase*\]**。
     
-    1.  Leave the **Subscription** field set to its default value.
+    2.  将“**订阅**”字段保留设置为默认值。
     
-    1.  In the **Resource group** section, select **Use existing**, and then select **ManagedPlatform**.
+    3.  在“**资源组**”部分，选择“**使用现有**”，然后选择“**ManagedPlatform**”。
     
-    1.  In the **Publish** section, select **Code**.
+    4.  在“**发布**”部分，选择“**代码**”。
     
-    1.  In the **Runtime stack** section, select **.NET Core 2.2**.
+    5.  在“**运行时堆栈**”部分，选择 **NET Core 2.2**。
     
-    1.  In the **OS** section, select **Windows**.
-
-    1. In the **Region** drop-down list, select **East US**
+    6.  在“**操作系统**”部分，选择“**Windows**”。
     
-    1.  Leave the **Plan (East US)** field set to its default value.
+    7.  将“**应用服务计划/位置**”字段保留设置为默认值。
     
-    1.  Leave the **Sku and size** field set to its default value.
+    8.  将“**Application Insights**”字段保留设置为默认值。
     
-    1.  Select **Review and create**.
+    9.  选择“**创建**”。
 
-1. In the **Review and create** tab, observe the settings then click **Create**.
+7.  等待创建任务完成后，再继续本实验室。
 
-1.  Wait for the creation task to complete before you move forward with this lab.
+#### 任务 2：配置 Web 应用
 
-#### Task 2: Configure a web app
+1.  在门户左侧的导航窗格上，选择“**资源组**”。
 
-1.  On the left navigation pane of the portal, select **Resource groups**.
+2.  在“**资源组**”边栏选项卡中，选择你之前在本实验室中创建的 **ManagedPlatform** 资源组。
 
-1.  In the **Resource groups** blade, select the **ManagedPlatform** resource group that you created earlier in this lab.
+3.  在“**ManagedPlatform**”边栏选项卡中，选择你之前在本实验室中创建的 **imgweb\*** Web 应用。
 
-1.  In the **ManagedPlatform** blade, select the **imgweb\*** web app that you created earlier in this lab.
+4.  在“**Web 应用**”边栏选项卡中，在边栏选项卡左侧的“**设置**”部分，选择“**应用程序设置**”链接。
 
-1.  In the **Web App** bladeblade, on the left side of the blade in the **Settings** section, select the **Configuration** link.
-
-1.  In the **Configuration** section, perform the following actions:
+5.  在“**应用程序设置**”部分中，执行以下操作：
     
-    1.  Select the **Application settings** tab.
+    7.  向下滚动直到看见“**应用程序设置**”子部分。
     
-    1.  Select **+ New application setting**.
+    8.  选择“**+ 添加新设置**”。
     
-    1.  In the **Add/Edit application setting** popup that appears, in the **Name** field, enter **ApiUrl**.
+    9.  在“**输入名称**”字段中，输入 **ApiUrl**。
     
-    1.  In the **Value** field, enter the API app **URL** you copied earlier in this lab.
+    10. 在“**输入名称**”字段中，输入之前在本实验室中复制的 API 应用 **URL**。
     
-    1.  Leave the **deployment slot setting** field set to its default value.
-
-    1.  Select **OK** to close the popup and return to the **Configuration** section.
+    11. 将“**槽设置**”字段保留设置为默认值。
     
-    1.  Select **Save** at the top of the blade to persist your settings.
+    12. 在边栏选项卡顶部单击“**保存**”。
 
-1.  Wait for your application settings to persist before you move forward with the lab.
+6.  等待应用程序设置保存后再继续本实验室。
 
-#### Task 3: Deploy an ASP.NET Core web application to web app
+#### 任务 3：将 ASP.NET Core Web 应用程序部署到 Web 应用
 
-1.  On the taskbar, select the **Visual Studio Code** icon.
+1.  在任务栏上，选择 **Visual Studio Code** 图标。
 
-1.  On the **File** menu, select **Open Folder**.
+2.  在“**文件**”菜单上，选择“**打开文件夹**”。
 
-1.  In the File Explorer pane that opens, go to **Allfiles (F):\\Allfiles\\Labs\\02\\Starter\\Web**, and then select **Select Folder**.
+3.  在打开的“文件资源管理器”窗格中，转到 **Allfiles (F):\\Labfiles\\02\\Starter\\Web**，然后选择“**选择文件夹**”。
 
-1.  In the **Explorer** pane of the Visual Studio Code window, expand the **Pages** folder and double-click the **Index.cshtml.cs** file to open the file in the editor.
+4.  在“Visual Studio Code”窗口的“**资源管理器**”窗格中，展开 **Pages** 文件夹并双击 **Index.cshtml.cs** 文件以在编辑器中打开文件。
 
-1.  In the editor, in the **IndexModel** class, on line 30, observe the **OnGetAsync** method and the code used to retrieve the list of images from the API.
+5.  在编辑器 **IndexModel** 类的第 30 行，观察 **OnGetAsync** 方法和用于从 API 映像列表检索容器的代码。
 
-1.  In the **IndexModel** class, on line 52, observe the **OnPostAsync** method and the code used to stream an uploaded image to the back-end API.
+6.  在 **IndexModel** 类的第 52 行，观察 **OnPostAsync** 方法和用于将上传图像传输到后端 API 的代码。
 
-1.  On the taskbar, select the **Windows** **PowerShell** icon.
+7.  在任务栏上，选择 **Windows** **PowerShell** 图标。
 
-1.  In the open command prompt, enter the following command and press Enter to sign in to the Azure CLI:
+8.  在打开的命令提示符中，输入以下命令并按 Enter 键以登录 Azure CLI：
 
-    ```
+<!-- end list -->
+
     az login
-    ```
 
-1.  In the browser window that appears, perform the following actions:
+9.  在显示的窗口中，执行以下操作：
     
-    1.  Enter the **email address** for your Microsoft account.
+    1.  输入 Microsoft 帐户的 **电子邮件地址**。
     
-    1.  Select **Next**.
+    2.  选择“**下一步**”。
     
-    1.  Enter the **password** for your Microsoft account.
+    3.  输入 Microsoft 帐户的 **密码**。
     
-    1.  Select **Sign in**.
+    4.  选择“**登录**”。
 
-1. Return to the currently open **Command Prompt** application. Wait for the sign-in process to finish.
+10. 返回当前打开的“**命令提示符**”应用程序。等待登录过程完成。
 
-1. Enter the following command and press Enter to list all the **apps** in your **ManagedPlatform** resource group:
+11. 输入以下命令并按 Enter 键以列出 **ManagedPlatform** 资源组中的所有 **应用**：
 
-    ```
+<!-- end list -->
+
     az webapp list --resource-group ManagedPlatform
-    ```
 
-1. Enter the following command and press Enter to find the **apps** that have the prefix **imgweb\***:
+12. 在命令提示符下，输入以下命令并按 Enter 键以查找具有前缀 **imgweb\*** 的 **应用**：
 
-    ```
+<!-- end list -->
+
     az webapp list --resource-group ManagedPlatform --query "[?starts_with(name, 'imgweb')]"
-    ```
 
-1. Enter the following command and press Enter to print out only the name of the single app that has the prefix **imgweb\***:
+13. 输入以下命令并按 Enter 键以仅打印具有前缀 **imgweb\*** 的单应用的名称：
 
-    ```
+<!-- end list -->
+
     az webapp list --resource-group ManagedPlatform --query "[?starts_with(name, 'imgweb')].{Name:name}" --output tsv
-    ```
 
-1. Enter the following command and press Enter to change the current directory to the **Allfiles (F):\\Allfiles\\Labs\\02\\Starter\\Web** directory that contains the lab files:
+14. 输入以下命令并按 Enter 键以将当前目录更改为包含实验室文件的 **Allfiles (F):\\Labfiles\\02\\Starter\\Web** 目录：
 
-    ```
+<!-- end list -->
+
     cd F:\Labfiles\02\Starter\Web\
-    ```
 
-1. Enter the following command and press Enter to deploy the **web.zip** file to the **web app** you created earlier in this lab:
+15. 输入以下命令并按 Enter 键以将 **web.zip** 文件部署到你之前在此实验室中创建的 **Web 应用**：
 
-    ```
+<!-- end list -->
+
     az webapp deployment source config-zip --resource-group ManagedPlatform --src web.zip --name <name-of-your-web-app>
-    ```
 
-    > **Note**: Replace the **\<name-of-your-web-app\>** placeholder with the name of the web app you created earlier in this lab. You recently queried this app’s name in the previous steps.
+> > **注**：用你之前在本实验室中创建的 Web 应用名称替换 **\<name-of-your-web-app\>** 占位符。你最近在之前步骤中查询了此应用的名称。
 
-1. Wait for the deployment to complete before you move forward with this lab.
+16. 等待部署完成后再继续本实验室。
 
-1. On the left navigation pane of the portal, select **Resource groups**.
+17. 在门户左侧的导航窗格上，选择“**资源组**”。
 
-1. In the **Resource groups** blade, select the **ManagedPlatform** resource group you created earlier in this lab.
+18. 在“**资源组**”边栏选项卡中，选择你之前在本实验室中创建的 **ManagedPlatform** 资源组。
 
-1. In the **ManagedPlatform** blade, select the **imgweb\*** web app that you created earlier in this lab.
+19. 在“**ManagedPlatform**”边栏选项卡中，选择你之前在本实验室中创建的 **imgweb\*** Web 应用。
 
-1. In the **Web App** blade, select **Browse**.
+20. 在“**Web 应用**”边栏选项卡中，选择“**浏览**”。
 
-1. Observe the list of images in the gallery. The gallery should list a single image that was uploaded to Azure Storage earlier in the lab.
+21. 观察图库中的图像列表。图库应列出之前在实验室中上传到 Azure 存储的单个图像。
 
-1. At the top of the **Contoso Photo Gallery** webpage, locate the **Upload a new image** section and perform the following actions:
+22. 在“**Contoso 照片库**”网页顶部，找到“**上传新图像**”部分并执行以下操作：
     
-    1.  Select **Browse**.
+    5.  选择“**浏览**”。
     
-    1.  In the File Explorer dialog box that opens, go to **Allfiles (F):\\Allfiles\\Labs\\02\\Starter\\Images**, select the **bahnmi.jpg** file, and then select **Open**.
+    6.  在打开的“文件资源管理器”对话框中，转到 **Allfiles (F):\\Labfiles\\02\\Starter\\Images**，选择 **bahnmi.jpg** 文件，然后选择“**打开**”。
     
-    1.  Select **Upload**.
+    7.  选择“**上传**”。
 
-1. Observe that the list of gallery images has been updated with your new image.
+23. 观察已用新图像更新的图库图像。
 
-    > **Note**: In some rare cases, you might need to refresh your browser window for the new image to appear.
+> > **注**：在极少数情况下，你可能需要刷新浏览器窗口才能显示新图像。
 
-1. Return to your browser window showing the **Azure portal**.
+24. 返回显示 **Azure 门户** 的浏览器窗口。
 
-#### Review
+#### 回顾
 
-In this exercise, you created an Azure Web App and deployed an existing web application’s code to the resource in the cloud.
+在本练习中，你创建了一个 Azure Web 应用，并将现有 Web 应用程序代码部署到云中的资源。
 
-### Exercise 3: Build a background processing job by using Azure Storage and Azure Functions
+### 练习 3：使用 Azure 存储和 Azure Functions 构建后台处理作业
 
-#### Task 1: Create a function app
+#### 任务 1：创建函数应用
 
-1.  On the Azure portal left navigation pane, select **+ Create a resource**.
+1.  在 Azure 门户的左侧导航窗格上，选择“**+ 创建资源**”。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** field.
+2.  在“**新建**”边栏选项卡顶部，找到“**搜索市场**”字段。
 
-1.  In the search field, enter **Function** and press Enter.
+3.  在搜索字段中，输入 **Function**，然后按 Enter 键。
 
-1.  In the **Everything** search results blade, select the **Function App** result.
+4.  在“**全部内容**”搜索结果边栏选项卡中，选择“**函数** **应用**”结果。
 
-1.  In the **Function App** blade, select **Create**.
+5.  在“**函数** **应用**”边栏选项卡中，选择“**创建**”。
 
-1.  In the second **Function App** blade, perform the following actions:
+6.  在第二个“**函数** **应用**”边栏选项卡中，执行以下操作：
     
-    1.  In the **App name** field, enter **imgfunc\[*your name in lowercase*\]**.
+    1.  在“**应用名称**”字段中，输入 **imgfunc\[*your name in lowercase*\]**。
     
-    1.  Leave the **Subscription** field set to its default value.
+    2.  将“**订阅**”字段保留设置为默认值。
     
-    1.  In the **Resource group** section, select **Use existing**, and then select **ManagedPlatform**.
+    3.  在“**资源组**”部分，选择“**使用现有**”，然后选择“**ManagedPlatform**”。
     
-    1.  In the **OS** section, select **Windows**.
+    4.  在“**操作系统**”部分，选择“**Windows**”。
     
-    1.  In the **Hosting Plan** list, select **Consumption Plan**.
+    5.  在“**托管计划**”列表中，选择“**消耗计划**”。
     
-    1.  In the **Location** list, select **East US**.
+    6.  在“**位置**”拉列表中，选择“**美国东部**”。
     
-    1.  In the **Runtime Stack** list, select **.NET Core**.
+    7.  在“**运行时堆栈**”列表中，选择“**.NET**”。
     
-    1.  In the **Storage** section, select **Use existing**, and then select the **imgstor\*** storage account you created earlier in this lab.
+    8.  在“**存储**”部分，选择“**使用现有**”，然后选择你之前在本实验室中创建的 **imgstor\*** 存储帐户。
     
-    1.  Leave the **Application Insights** field set to its default value.
+    9.  将“**Application Insights**”字段保留设置为默认值。
     
-    1. Select **Create**.
+    10. 选择“**创建**”。
 
-1.  Wait for the creation task to complete before moving on with this lab.
+7.  等待创建任务完成后，再继续本实验室。
 
-#### Task 2: Create a .NET Core application setting
+#### 任务 2：编写一个处理 blob 的函数
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+1.  在门户左侧的导航窗格上，选择“**资源组**”。
 
-1.  In the **Resource groups** blade, locate and select the **ManagedPlatform** resource group that you created earlier in this lab.
+2.  在“**资源组**”边栏选项卡中，找到并选择你之前在本实验室中创建的 **ManagedPlatform** 资源组。
 
-1.  In the **ManagedPlatform** blade, select the **imgfunc\*** function app that you created earlier in this lab.
+3.  在“**ManagedPlatform**”边栏选项卡中，选择你之前在本实验室中创建的 **imgfunc\*** 函数应用。
 
-1.  In the **Function App** blade, select the **Platform features** tab.
+4.  在“**函数应用**”边栏选项卡中，选择“**+ 新建函数**”。
 
-1.  In the **Platform features** tab, select the **Configuration** link located in the **General Settings** section.
-
-1.  In the **Configuration** section, perform the following actions:
+5.  在“**新建 Azure 函数**”快速入门中，执行以下操作：
     
-    1.  Select the **Application settings** tab.
+    1.  在“**选择开发环境**”标题下，选择“**在门户**”。
     
-    1.  Select **+ New application setting**.
+    2.  选择“**继续**”。
     
-    1.  In the **Add/Edit application setting** popup that appears, in the **Name** field, enter **DOTNET_SKIP_FIRST_TIME_EXPERIENCE**.
+    3.  在“**创建函数**”标题下，选择“**更多模板…**”。
     
-    1.  In the **Value** field, enter **true**.
-
-        > **Note**: The ``DOTNET_SKIP_FIRST_TIME_EXPERIENCE`` application setting tells .NET Core to disable it's built-in NuGet package caching mechanisms. On a temporary compute instance, this would effectively be a waste of time and cause build issues with your Azure Function.
+    4.  选择“**完成并查看模板**”。
     
-    1.  Leave the **deployment slot setting** field set to its default value.
-
-    1.  Select **OK** to close the popup and return to the **Configuration** section.
+    5.  在“**模板**”列表中，选择“**Azure Blob 存储触发器**”。
     
-    1.  Select **Save** at the top of the blade to persist your settings.
+    6.  在“**未安装扩展**”窗口中，选择“**安装**”。
 
-1.  Wait for your application settings to persist before you move forward with the lab.
+> > **注**：安装使用 Azure 存储 blob 所需的扩展最多需要两分钟时间。如果门户没有刷新，只需关闭“**未安装扩展**”弹出窗口并再次选择“**Azure Blob 存储触发器**”即可。
 
-#### Task 3: Author a function to process blobs
+7.  安装成功后，选择“**继续**”。
 
-1.  On the left navigation pane of the portal, select **Resource groups**.
+8.  在“**新建函数**”窗口中，在“**名称**”字段中输入 **ImageManager**。
 
-1.  In the **Resource groups** blade, locate and select the **ManagedPlatform** resource group that you created earlier in this lab.
+9.  在“**新建函数**”窗口中，在“**路径**”字段中输入 **images/{name}**。
 
-1.  In the **ManagedPlatform** blade, select the **imgfunc\*** function app that you created earlier in this lab.
+10. 在“**新建函数**”窗口中，在“**存储帐户连接**”列表中选择 **AzureWebJobsStorage**。
 
-1.  In the **Function App** blade, select **+ New function**.
+11. 在“**新建函数**”窗口中，选择“**创建**”。
 
-1.  In the **New Azure Function** quickstart, perform the following actions:
-    
-    1.  Under the **Choose a Development Environment** header, select **In-Portal**.
-    
-    1.  Select **Continue**.
-    
-    1.  Under the **Create a Function** header, select **More templates…**.
-    
-    1.  Select **Finish and view templates**.
-    
-    1.  In the **Templates** list, select **Azure Blob Storage trigger**.
-    
-    1.  In the **Extensions not Installed** window, select **Install**.
+<!-- end list -->
 
-        > **Note**: It can take up to two minutes to install the extensions needed to work with Azure Storage blobs. If the portal does not refresh, simply close the **Extensions not Installed** pop-up window and select **Azure Blob Storage trigger** again.
+6.  在函数编辑器右侧，选择“**查看文件**”打开选项卡。
 
-    1.  Once the installation has succeeded, select **Continue**.
+7.  在“**查看文件**”选项卡中，选择“**上传**”。
 
-    1.  In the **New Function** window, in the **Name** field, enter **ImageManager**.
+8.  在打开的“文件资源管理器”对话框中，转到 **Allfiles (F):\\Labfiles\\02\\Starter**，选择 **function.proj** 文件，然后选择“**打开**”。
 
-    1.  In the **New Function** window, in the **Path** field, enter **images/{name}**.
+9.  返回“**查看文件**”选项卡，选择 **function.json** 文件以查看编辑器的函数配置。
 
-    1. In the **New Function** window, in the **Storage account connection** list, select **AzureWebJobsStorage**.
+10. 在 JSON 编辑器中，观察当前配置：
 
-    1. In the **New Function** window, select **Create**.
+<!-- end list -->
 
-1.  On the right side of the function editor, select **View files** to open the tab.
-
-1.  In the **View files** tab, select **Add**.
-
-1.  In the filename dialog that appears, enter **function.proj**.
-
-1.  In the file editor, insert this configuration content:
-
-    ```
-    <Project Sdk="Microsoft.NET.Sdk">
-        <PropertyGroup>
-            <TargetFramework>netstandard2.0</TargetFramework>
-        </PropertyGroup>
-        <ItemGroup>
-            <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0006" />
-        </ItemGroup>
-    </Project>
-    ```
-
-1. In the editor, select **Save** button to persist your changes to the configuration.
-
-    > **Note**: This **.proj** file contains the NuGet package reference necessary to import the [SixLabors.ImageSharp](https://www.nuget.org/packages/SixLabors.ImageSharp/1.0.0-beta0006) package.
-    
-1.  Back in the **View files** tab, select the **function.json** file to view the editor for the function’s configuration.
-
-1. In the JSON editor, observe the current configuration:
-
-    ```
     {
       "bindings": [
         {
@@ -632,11 +590,11 @@ In this exercise, you created an Azure Web App and deployed an existing web appl
       ],
       "disabled": false
     }
-    ```
 
-1. Replace the entire contents of the JSON configuration file with the following JSON content:
+11. 使用以下 JSON 内容替换 JSON 配置文件的全部内容：
 
-    ```
+<!-- end list -->
+
     {
       "bindings": [
         {
@@ -655,30 +613,30 @@ In this exercise, you created an Azure Web App and deployed an existing web appl
         }
       ]
     }
-    ```
 
-1. In the editor, select **Save** to persist your changes to the configuration.
+12. 在编辑器中，选择“**保存**”以保留配置更改。
 
-1. Back in the **View files** tab, select the **run.csx** file to return to the editor for the **ImageManager** function.
+13. 返回“**查看文件**”选项卡，选择 **run.csx** 文件以返回 **ImageManager** 函数编辑器。
 
-1. Minimize the **View files** tab.
+14. 最小化“**查看文件**”选项卡。
 
-    > **Note**: You can minimize the tab by selecting the arrow immediately to the right of the tab header.
+> > **注**：你可以通过选择紧靠选项卡标题右侧的箭头来最小化选项卡。
 
-1. In the function editor, observe the example function script:
+15. 在函数编辑器中，观察示例函数脚本：
 
-    ```
+<!-- end list -->
+
     public static void Run(Stream myBlob, string name, ILogger log)
     {
         log.LogInformation($"C# Blob trigger function Processed blob\n Name:{name} \n Size: {myBlob.Length} Bytes");
     }
-    ```
 
-1. **Delete** all the example code.
+16. **删除**所有示例代码。
 
-1. Within the editor, copy and paste the following placeholder function:
+17. 在编辑器中，复制并粘贴以下占位符函数：
 
-    ```
+<!-- end list -->
+
     using SixLabors.ImageSharp;
     using SixLabors.ImageSharp.PixelFormats;
     using SixLabors.ImageSharp.Processing;
@@ -688,41 +646,41 @@ In this exercise, you created an Azure Web App and deployed an existing web appl
     public static void Run(Stream inputBlob, Stream outputBlob, string name, ILogger log)
     {
     }
-    ```
 
-1. Select **Save** to save the script and compile the code.
+18. 选择“**保存**”以保存脚本并编译代码。
 
-1. Add the following line of code within the **Run** method to log information about the function execution:
+19. 在“**运行**”方法中添加以下代码行以记录有关函数执行的信息：
 
-    ```
+<!-- end list -->
+
     log.LogInformation($"C# Blob trigger function Processed blob\n Name:{name} \n Size: {inputBlob.Length} Bytes");
-    ```
 
-1. Add the following **using** block to load the **Stream** for the input blob into the image library:
+20. 添加以下 **using** 块以将输入 blob **流** 载入图像库：
 
-    ```
+<!-- end list -->
+
     using (Image<Rgba32> image = Image.Load(inputBlob))
     {
     }
-    ```
 
-1. Add the following lines of code within the **using** block to mutate the image by resizing the image and applying a grayscale filter:
+21. 添加 **using** 块中的以下代码行，通过重新调整图像大小和应用灰度筛选器来转变图像：
 
-    ```
+<!-- end list -->
+
     image.Mutate(i => 	
         i.Resize(new ResizeOptions { Size = new Size(250, 250), Mode = ResizeMode.Max }).Grayscale()
     );
-    ```
 
-1. Add the following line of code to save the new image to the **Stream** for the output blob:
+22. 添加以下代码行以将新图像保存到输出 blob **流**：
 
-    ```
+<!-- end list -->
+
     image.Save(outputBlob, new JpegEncoder());
-    ```
 
-1. Your **Run** method should now resemble this:
+23. 你的 **Run** 方法现在应该类似于：
 
-    ```
+<!-- end list -->
+
     using SixLabors.ImageSharp;
     using SixLabors.ImageSharp.PixelFormats;
     using SixLabors.ImageSharp.Processing;
@@ -740,126 +698,129 @@ In this exercise, you created an Azure Web App and deployed an existing web appl
             image.Save(outputBlob, new JpegEncoder());
         }
     }
-    ```
 
-1. Select **Save** to save the script and compile the code again.
+24. 选择“**保存**”以再次保存脚本并编译代码。
 
-#### Task 4: Validate the web solution
+#### 任务 3：验证 Web 解决方案
 
-1.  On the left navigation pane of the portal, select **Resource groups**.
+1.  在门户左侧的导航窗格上，选择“**资源组**”。
 
-1.  In the **Resource groups** blade, select the **ManagedPlatform** resource group that you created earlier in this lab.
+2.  在“**资源组**”边栏选项卡中，选择你之前在本实验室中创建的 **ManagedPlatform** 资源组。
 
-1.  In the **ManagedPlatform** blade, select the **imgstor\*** storage account that you created earlier in this lab.
+3.  在“**ManagedPlatform**”边栏选项卡中，选择你之前在本实验室中创建的 **imgstor\*** 存储帐户。
 
-1.  In the **Storage Account** blade, on the left side of the blade, in the **Blob service** section, select the **Blobs** link.
+4.  在“**存储帐户**”边栏选项卡中，在边栏选项卡左侧的“**Blob 服务**”部分，选择“**Blob**”链接。
 
-1.  In the **Blobs** section, select the **images** container.
+5.  在“**Blob**”部分，选择“**images**”容器。
 
-1.  In the **Container** blade, select **Upload**.
+6.  在“**容器**”边栏选项卡中，选择“**上传**”。
 
-1.  In the **Upload blob** window that appears, perform the following actions:
+7.  在显示的“**上传 blob**”窗口中，执行以下操作：
 
-    1.  In the **Files** section, select the **Folder** icon.
+<!-- end list -->
 
-    1.  In the File Explorer dialog box that opens, go to **Allfiles (F):\\Allfiles\\Labs\\02\\Starter\\Images**, select the **veggie.jpg** file, and then select **Open**.
+1.  在“**文件**”部分，选择“**文件夹**”图标。
 
-    1.  Ensure the **Overwrite if files already exist** check box is selected.
+2.  在打开的“文件资源管理器”对话框中，转到 **Allfiles (F):\\Labfiles\\02\\Starter\\Images**，选择 **veggie.jpg** 文件，然后选择“**打开**”。
 
-    1.  Select **Upload**.
+3.  确保“**如果文件已存在，请覆盖**”复选框已选中。
 
-1.  Wait for the blob to be uploaded before you continue with this lab.
+4.  选择“**上传**”。
 
-1.  Close the **Container** blade.
+<!-- end list -->
 
-1. Back in the **Blobs** section, select the **images-thumbnails** container.
+8.  等待 blob 上传完成再继续本实验室。
 
-1. In the **Container** blade, observe the newly created **veggie.jpg** file in the **images-thumbnails** container.
+9.  关闭“**容器**”边栏选项卡。
 
-    > **Note**: It might take one to five minutes for the new image to appear.
+10. 返回“**Blob**”部分，选择“**images-thumbnails**”容器。
 
-1. Select the **veggie.jpg** blob in the **images-thumbnails** container.
+11. 在“**容器**”边栏选项卡中，观察“**images-thumbnails**”容器中新创建的 **veggie.jpg** 文件。
 
-1. In the **Blob** blade, select the **Edit blob** tab.
+> > **注**：新图像可能需要一到五分钟才能显示。
 
-1. Observe the contents of the blob. The webpage will render the image that was uploaded to the container.
+12. 选择 **images-thumbnails** 容器中的 **veggie.jpg** blob。
 
-1. On the left navigation pane of the portal, select **Resource groups**.
+13. 在“**Blob**”边栏选项卡中，选择“**编辑 blob**”选项卡。
 
-1. In the **Resource groups** blade, select the **ManagedPlatform** resource group that you created earlier in this lab.
+14. 观察 blob 内容。网页将呈现上传到容器的图像。
 
-1. In the **ManagedPlatform** blade, select the **imgweb\*** web app that you created earlier in this lab.
+15. 在门户左侧的导航窗格上，选择“**资源组**”。
 
-1. In the **Web App** blade, select **Browse**.
+16. 在“**资源组**”边栏选项卡中，选择你之前在本实验室中创建的 **ManagedPlatform** 资源组。
 
-1. Observe the list of images in the gallery. The list of thumbnails should now be updated with a new thumbnail image.
+17. 在“**ManagedPlatform**”边栏选项卡中，选择你之前在本实验室中创建的 **imgweb\*** Web 应用。
 
-1. At the top of the **Contoso Photo Gallery** webpage, locate the **Upload a new image** section and perform the following actions:
+18. 在“**Web 应用**”边栏选项卡中，选择“**浏览**”。
+
+19. 观察图库中的图像列表。缩略图列表现在应已使用新的缩略图图像进行更新。
+
+20. 在“**Contoso 照片库**”网页顶部，找到“**上传新图像**”部分并执行以下操作：
     
-    1.  Select **Browse**.
+    1.  选择“**浏览**”。
     
-    1.  In the File Explorer dialog box that opens, go to **Allfiles (F):\\Allfiles\\Labs\\02\\Starter\\Images**, select the **blt.jpg** file, and then select **Open**.
+    2.  在打开的“文件资源管理器”对话框中，转到 **Allfiles (F):\\Labfiles\\02\\Starter\\Images**，选择 **blt.jpg** 文件，然后选择“**打开**”。
     
-    1.  Select **Upload**.
+    3.  选择“**上传**”。
 
-1. At the top of the **Contoso Photo Gallery** webpage, locate the **Upload a new image** section and perform the following actions:
+21. 在“**Contoso 照片库**”网页顶部，找到“**上传新图像**”部分并执行以下操作：
     
-    1.  Select **Browse**.
+    4.  选择“**浏览**”。
     
-    1.  In the File Explorer dialog box that opens, go to **Allfiles (F):\\Allfiles\\Labs\\02\\Starter\\Images**, select the **sub.jpg** file, and then select **Open**.
+    5.  在打开的“文件资源管理器”对话框中，转到 **Allfiles (F):\\Labfiles\\02\\Starter\\Images**，选择 **sub.jpg** 文件，然后选择“**打开**”。
     
-    1.  Select **Upload**.
+    6.  选择“**上传**”。
 
-1. At the top of the **Contoso Photo Gallery** webpage, locate the **Upload a new image** section and perform the following actions:
+22. 在“**Contoso 照片库**”网页顶部，找到“**上传新图像**”部分并执行以下操作：
     
-    1.  Select **Browse**.
+    7.  选择“**浏览**”。
     
-    1.  In the File Explorer dialog box that opens, go to **Allfiles (F):\\Allfiles\\Labs\\02\\Starter\\Images**, select the **burger.jpg** file, and then select **Open**.
+    8.  在打开的“文件资源管理器”对话框中，转到 **Allfiles (F):\\Labfiles\\02\\Starter\\Images**，选择 **burger.jpg** 文件，然后选择“**打开**”。
     
-    1.  Select **Upload**.
+    9.  选择“**上传**”。
 
-1. Observe that the list of gallery images has been updated with your new image.
+23. 观察已用新图像更新的图库图像。
 
-1. Observe the list of thumbnails at the top of the page. Refresh your page every minute until your thumbnails have been generated.
+24. 观察页面顶部的缩略图列表。每分钟刷新一次页面，直到生成了所有四个缩略图。
 
-#### Review
+#### 回顾
 
-In this exercise, you created a background processing job in Azure Functions to handle the computationally intensive task of modifying and resizing images.
+在本练习中，你在 Azure Functions 中创建了一个后台处理作业，以处理修改和调整图像大小的计算密集型任务。
 
-### Exercise 4: Clean up subscription 
+### 练习 4：清理订阅 
 
-#### Task 1: Open Cloud Shell
+#### 任务 1：打开 Cloud Shell
 
-1.  At the top of the portal, select the **Cloud Shell** icon to open a new shell instance.
+1.  在门户顶部，选择 **Cloud Shell** 图标打开一个新的 Shell 实例。
 
-1.  In the **Cloud Shell** command prompt at the bottom of the portal, type in the following command and press Enter to list all resource groups in the subscription:
+2.  在门户底部的 **Cloud Shell** 命令提示符中，输入以下命令，然后按 Enter 键列出订阅中的所有资源组：
 
-    ```
+<!-- end list -->
+
     az group list
-    ```
 
-1.  Type in the following command and press Enter to view a list of possible commands to delete a resource group:
+3.  输入以下命令，然后按 Enter 键查看删除资源组的可能命令列表：
 
-    ```
+<!-- end list -->
+
     az group delete --help
-    ```
 
-#### Task 2: Delete resource groups
+#### 任务 2：删除资源组
 
-1.  Type the following command and press Enter to delete the **ManagedPlatform** resource group:
+1.  输入以下命令，然后按 Enter 键删除 **ManagedPlatform** 资源组：
 
-    ```
+<!-- end list -->
+
     az group delete --name ManagedPlatform --no-wait --yes
-    ```
 
-1.  Close the **Cloud Shell** pane at the bottom of the portal.
+2.  关闭门户底部的“**Cloud Shell**”窗格。
 
-#### Task 3: Close active applications
+#### 任务 3：关闭活动应用程序
 
-1.  Close the currently running **Microsoft Edge** application.
+1.  关闭当前正在运行的 **Microsoft Edge** 应用程序。
 
-1.  Close the currently running **Visual Studio Code** application.
+2.  关闭当前正在运行的 **Visual Studio Code** 应用程序。
 
-#### Review
+#### 回顾
 
-In this exercise, you cleaned up your subscription by removing the **resource groups** used in this lab.
+在本练习中，你通过移除本实验室中使用过的 **资源组** 来清理订阅。

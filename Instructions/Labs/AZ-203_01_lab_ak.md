@@ -1,378 +1,393 @@
+﻿---
+实验室：
+    标题：“实验室：使用图像和容器部署计算工作负载”
+    类型：“答案”
+    模块：“模块 1：开发 Azure 基础结构即服务 (IaaS) 计算解决方案”
 ---
-lab:
-    title: 'Lab: Deploying compute workloads by using images and containers'
-    type: 'Answer Key'
-    module: 'Module 1: Develop Azure infrastructure as a service (IaaS) compute solutions'
----
 
-# Lab: Deploying compute workloads by using images and containers
-# Student lab answer key
+# 实验室：使用图像和容器部署计算工作负载
+# 学生实验室答案
 
-## Microsoft Azure user interface
+## Microsoft Azure 用户界面
 
-Given the dynamic nature of Microsoft cloud tools, you might experience Azure user interface (UI) changes after the development of this training content. These changes might cause the lab instructions and lab steps to not match up.
+鉴于 Microsoft 云工具的动态特性，Azure 用户界面 (UI) 在此培训内容开发后可能会发生更改。这些更改可能会导致实验室说明和实验室步骤不匹配。
 
-Microsoft updates this training course as soon as the community brings needed changes to our attention. However, because cloud updates occur frequently, you might encounter UI changes before this training content is updated. **If this occurs, adapt to the changes and work through them in the labs as needed.**
+一旦 Microsoft 通过社区注意到必要更改，将会立即更新此培训课程。但由于云更新频繁，你可能会在此培训内容更新前遇到 UI 更改。**如果发生这种情况，请根据需要适更改并在实验室中完成这些更改。**
 
-## Instructions
+## 说明
 
-### Before you start
+### 开始前
 
-#### Sign in to the lab virtual machine
+#### 登录实验室虚拟机
 
-Sign in to your **Windows 10** virtual machine using the following credentials:
+  - 使用以下凭据登录到 **Windows 10** 虚拟机：
     
--   **Username**: Admin
-
--   **Password**: Pa55w.rd
-
-> **Note**: Lab virtual machine sign in instructions will be provided to you by your instructor.
-
-#### Review installed applications
-
-Observe the taskbar located at the bottom of your **Windows 10** desktop. The taskbar contains the icons for the applications you will use in this lab:
+      - **用户名**：Admin
     
--   Microsoft Edge
+      - **密码**：Pa55w.rd
 
--   File Explorer
+> > **注**：讲师将为你提供实验室虚拟机登录说明。
 
-### Exercise 1: Create a virtual machine (VM) by using the Azure portal
+#### 查看已安装的应用
 
-#### Task 1: Open the Azure portal
-
-1.  On the taskbar, select the **Microsoft Edge** icon.
-
-1.  In the open browser window, navigate to the **Azure portal** ([portal.azure.com](https://portal.azure.com)).
-
-1.  Enter the **email address** for your Microsoft account.
-
-1.  Select **Next**.
-
-1.  Enter the **password** for your Microsoft account.
-
-1.  Select **Sign in**.
-
-    > **Note**: If this is your first time signing in to the **Azure Portal**, a dialog box will appear offering a tour of the portal. Select **Get Started** to begin using the portal.
-
-#### Task 2: Create a resource group
-
-1.  On the navigation menu located on the left side of the portal, select the **+ Create a resource** link.
-
-    > **Note**: If you cannot find the **Create a resource** link, the “Create a resource” icon is a plus-sign character located on the left side of the portal.
-
-1.  At the top of the **New** blade, locate the **Search the Marketplace** text box above the list of featured services.
-
-1.  In the search text box, enter the text **Resource Group** and press Enter.
-
-1.  In the **Everything** search results blade, select the **Resource group** result.
-
-1.  In the **Resource group** blade, select **Create**.
-
-1.  In the additional **Resource group** blade, observe the tabs at the top of the blade, such as **Basics**.
-
-    > **Note**: Each tab represents a step in the workflow to create a new **resource group**. At any time, you can select **Review + create** to skip the remaining tabs.
-
-1.  On the **Basics** tab, perform the following actions:
+  - 观察位于 **Windows 10** 桌面底部的任务栏。任务栏包含将在本实验室中使用的应用程序图标：
     
-    1.  Leave the **Subscription** text box set to its default value.
+      - Microsoft Edge
     
-    1.  In the **Resource group** text box, enter the value **ContainerCompute**.
+      - 文件资源管理器
+
+### 练习 1：使用 Azure 门户创建虚拟机 (VM)
+
+#### 任务 1：打开 Azure 门户
+
+1.  在任务栏上，选择 **Microsoft Edge** 图标。
+
+2.  在打开的浏览器窗口中，导航到 **Azure 门户** ([portal.azure.com](https://portal.azure.com))。
+
+3.  输入 Microsoft 帐户的 **电子邮件地址**。
+
+4.  选择“**下一步**”。
+
+5.  输入 Microsoft 帐户的 **密码**。
+
+6.  选择“**登录**”。
+
+> > 注：如果这是你第一次登录 **Azure 门户**，则会出现一个对话框，提供门户教程。选择 **开始使用** 以开始使用门户。
+
+#### 任务 2：创建资源组
+
+1.  在位于门户左侧的导航菜单上，选择“**+ 创建资源**”链接。
+
+> 注：如果你找不到“**创建资源**”链接，“创建资源”图标是位于门户左侧的加号字符。
+
+2.  在顶部的“**新建**”边栏选项卡，找到特色服务列表上方的“**搜索市场**”文本框。
+
+3.  在搜索文本框中，输入文本 **资源组**，然后按 Enter 键。
+
+4.  在“**全部内容**”搜索结果边栏选项卡中，选择“**资源组**”结果。
+
+5.  在“**资源组**”边栏选项卡中，选择“**创建**”。
+
+6.  在附加“**资源组**”边栏选项卡中，观察边栏选项卡顶部的选项卡，如“**基本**”。
+
+> 注：每个选项卡代表工作流中创建新“**资源组**”的一个步骤。你可以随时选择“**查看 + 创建**”跳过剩余标签。
+
+7.  在“**基本**”选项卡上，执行以下操作：
     
-    1.  In the **Region** drop-down list, select the **(US) East US** location.
+    1.  将“**订阅**”文本框保留设置为默认值。
     
-    1.  Select **Review +** **Create**.
-
-1.  In the **Review + Create** tab, review the options that you selected during the previous steps.
-
-1.  Select **Create** to create the resource group by using your specified configuration.
-
-1. Wait for the creation task to complete before moving forward with this lab.
-
-#### Task 3: Create a Linux virtual machine resource
-
-1.  On the navigation menu located on the left side of the portal, select the **+ Create a resource** link.
-
-1.  At the top of the **New** blade, locate the **Search the Marketplace** text box above the list of featured services.
-
-1.  In the search text box, enter **Ubuntu Server 18** and press Enter.
-
-1.  In the **Everything** search results blade, select the **Ubuntu Server 18.04 LTS** result.
-
-1.  In the **Ubuntu Server 18.04 LTS** blade, select **Create**.
-
-1.  In the **Create a virtual machine** blade, observe the tabs at the top of the blade, such as **Basics** and **Disks**.
-
-    > **Note**: Each tab represents a step in the workflow to create a new **virtual machine**. At any time, you can select **Review + create** to skip the remaining tabs.
-
-1.  In the **Basics** tab, perform the following actions:
+    2.  在“**资源组**”文本框中，输入值 **ContainerCompute**。
     
-    1.  Leave the **Subscription** text box set to its default value.
+    3.  在“**区域**”下拉列表中，选择“**美国东部**”位置。
     
-    1.  In the **Resource group** drop-down list, select the existing **ContainerCompute** option.
+    4.  选择“**查看 +** **创建**”。
 
-    1.  In the **Virtual machine name** text box, enter **simplevm**.
+8.  在“**查看 + 创建**”选项卡中，查看在之前步骤中选择的选项。
+
+9.  选择“**创建**”以使用指定的配置创建资源组。
+
+10. 等待创建任务完成后再继续本实验室。
+
+#### 任务 3：创建 Linux 虚拟机资源
+
+1.  在位于门户左侧的导航菜单上，选择“**+ 创建资源**”链接。
+
+2.  在顶部的“**新建**”边栏选项卡，找到特色服务列表上方的“**搜索市场**”文本框。
+
+3.  在搜索文本框中，输入 **Ubuntu Server 18**，然后按 Enter 键。
+
+4.  在“**全部内容**”搜索结果边栏选项卡中，选择“**Ubuntu Server 18.04 LTS**”结果。
+
+5.  在“**Ubuntu Server 18.04 LTS**”边栏选项卡中，选择“**创建**”。
+
+6.  在“**创建虚拟机**”边栏选项卡中，观察边栏选项卡顶部的选项卡，如“**基本**”和“**磁盘**”。
+
+> 注：每个选项卡代表工作流中创建新“**虚拟机**”的一个步骤。你可以随时选择“**查看 + 创建**”跳过剩余标签。
+
+7.  在“**基本**”选项卡中，执行以下操作：
     
-    1.  In the **Region** drop-down list, select the **(US) East US** location.
-
-    1. In the **Availability options** drop-down list, ensure **No infrastructure redundancy required** is selected.
+    1.  将“**订阅**”文本框保留设置为默认值。
     
-    1.  In the **Image** text box, make sure that the **Ubuntu Server 18.04 LTS** option is selected.
+    2.  在“**资源组**”部分，选择现有的 **ContainerCompute** 选项。
     
-    1.  In the **Size** text box, select the **Change size** link.
-
-1.  In the **Select a VM size** blade, perform the following actions:
-
-    1.  Select the **B1s** option from the list of sizes.
-
-    2.  Press **Select**.
-
-1.  Go back to the **Basics** tab and perform the following actions:
-
-    1.  In the **Authentication type** section, select **Password**.
-
-    1.  In the **Username** text box, enter **Student**.
-
-    1.  In the **Password** and **Confirm password** fields, enter **StudentPa55w.rd**.
-
-    1.  In the **Login with Azure Active Directory (Preview)** section, select **Off**.
-
-    1.  In the **Public inbound ports** section, select **Allow selected ports**.
-
-    1.  In the **Select inbound ports** drop-down list, select only **SSH (22)**.
-
-    1.  Select **Next : Disks \>**.
-
-1. In the **Disks** tab, perform the following actions:
-
-    1.  In the **OS disk type** section, select **Standard SSD**.
-
-    1.  Select **Review + create**.
-
-1. In the **Review + Create** tab, review the options that you selected during the previous steps.
-
-1. Select **Create** to create the VM by using your specified configuration.
-
-1. Wait for the creation task to complete before moving forward with this lab.
-
-#### Task 4: Validate the virtual machine
-
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
-
-1.  In the **Resource groups** blade, locate and select the **ContainerCompute** resource group that you created earlier in this lab.
-
-1.  In the **ContainerCompute** blade, select the **simplevm** VM that you created earlier in this lab.
-
-1.  In the **Virtual Machine** blade, select **Connect**.
-
-1.  In the **Connect to virtual machine** pop-up that appears, perform the following actions:
+    3.  在“**虚拟机名称**”文本框中，输入 **simplevm**。
     
-    1.  In the **IP address** text box, select **Public IP address**.
+    4.  在“**区域**”下拉列表中，选择“**美国东部**”位置。
     
-    2.  In the **Port number** text box, enter **22**.
+    5.  在“**映像**”文本框中，确保“**Ubuntu Server 18.04 LTS**”选项已被选中。
     
-    3.  **Copy** the text in the **Login using VM local account** text box.
+    6.  在“**大小**”文本框中，选择“**更改大小**”链接。
 
-        > **Note**: The command that you copied will connect to the VM by using SSH from a remote computer. You will use this command later in the lab.
+8.  在“**选择 VM 大小**”边栏选项卡中，执行以下操作：
 
-1.  At the top of the portal, select the **Cloud Shell** icon to open a new shell instance.
+<!-- end list -->
 
-    > **Note**: The **Cloud Shell** icon is represented by a greater than symbol and underscore character.
+1.  从大小列表选择“**B1s**”选项。
 
-1.  If this is your first time opening the **Cloud Shell** by using your subscription, a **Welcome to Azure Cloud Shell Wizard** will appear that allows you to configure **Cloud Shell** for first-time usage. Perform the following actions in the wizard:
+2.  按“**选择**”。
+
+<!-- end list -->
+
+9.  回到“**基本**”选项卡并执行以下操作：
+
+<!-- end list -->
+
+1.  在“**验证类型**”部分，选择“**密码**”。
+
+2.  在“**用户名**”文本框中，输入 **Student**。
+
+3.  在“**密码**”和“**确认密码**”字段，输入 **StudentPa55w.rd**。
+
+4.  在“**使用 Azure Active Directory 登录**”部分，选择“**关**”。
+
+5.  在“**公用入站端口**”部分，选择“**允许选定的端口**”。
+
+6.  在“**允许选定的端口**”下拉列表中，仅选择“**SSH (22)**”。
+
+7.  选择“**下一步：**” **Disks \>**。
+
+<!-- end list -->
+
+10. 在“**磁盘**”选项卡中，执行以下操作：
+
+<!-- end list -->
+
+1.  在“**操作系统磁盘类型**”部分，选择“**标准 SSD**”。
+
+2.  选择“**查看 + 创建**”。
+
+<!-- end list -->
+
+11. 在“**查看 + 创建**”选项卡中，查看在之前步骤中选择的选项。
+
+12. 选择“**创建**”以使用指定的配置创建 VM。
+
+13. 等待创建任务完成后再继续本实验室。
+
+#### 任务 4：验证虚拟机
+
+1.  在位于门户左侧的导航菜单上，选择“**资源组**”链接。
+
+2.  在“**资源组**”边栏选项卡中，找到并选择你之前在本实验室中创建的 **ContainerCompute** 资源组。
+
+3.  在“**ContainerCompute**”边栏选项卡中，选择你之前在本实验室中创建的 **simplevm** VM。
+
+4.  在“**虚拟机**”边栏选项卡中，选择“**连接**”。
+
+5.  在显示的“**连接到虚拟机**”弹出窗口中，执行以下操作：
     
-    1.  A dialog box will appear that prompts you to create a new Storage Account to begin using the shell. Accept the default settings and select **Create storage**.
+    1.  在“**IP地址**”文本框中，选择“**公共 IP 地址**”。
     
-    1.  Wait for the **Cloud Shell** to finish its first-time setup procedures before moving forward with the lab.
+    2.  在“**端口号**”文本框中，输入 **22**。
+    
+    3.  **复制**“**使用VM本地帐户登录**”文本框中的文本。
 
-    > **Note**: If you do not see the configuration options for the **Cloud Shell**, this is most likely because you are using an existing subscription with this course's labs. The labs are written from the presumption that you are using a new subscription.
+> 注：你复制的命令将使用 SSH 从远程计算机连接到 VM。你将稍后在实验室中使用此命令。
 
-1.  In the **Cloud Shell** command prompt at the bottom of the portal, **paste** the command you copied earlier in this lab and press Enter to connect to your new VM by using SSH.
+6.  在门户顶部，选择 **Cloud Shell** 图标打开一个新的 Shell 实例。
 
-    > **Note**: This command will be dependent on your username and IP address. For example, if the username is **Student** and the IP address is **40.125.245.5**, the command would be **ssh Student@40.125.245.5**.
+> 注：**Cloud Shell** 图标使用大于符号和下划线字符表示。
 
-1.  The SSH tool will first inform you that the authenticity of the host can’t be established and then ask if you want to continue connecting. Enter **yes** in the prompt and then press Enter to continue connecting to the VM.
+![](media/image1.png)
 
-1. The SSH tool will then ask you for a password. Enter **StudentPa55w.rd** and then press Enter to authenticate with the VM.
+7.  如果这是你第一次使用订阅打开 **Cloud Shell**，将显示**欢迎使用 Azure Cloud Shell 向导**，帮助你在第一次使用时配置 **Cloud Shell**。在向导中执行以下操作：
+    
+    4.  系统提示你在 Bash 或 PowerShell 之间选择时，请选择“**Bash**”选项。
+    
+    5.  将出现一个对话框，提示你创建新的存储帐户以开始使用 Shell。接受默认设置并选择“**创建存储**”。
+    
+    6.  等待 **Cloud Shell** 完成首次设置程序再继续本实验室。
 
-    > **Note**: Characters do not show when typing password. Please be advised.
+> > 注：如果你没有看到 **Cloud Shell** 配置选项，这很可能是因为你在本课程实验室中使用的是现有订阅。实验室是在你使用新订阅的假设下编写的。
 
-1. After you are connected to the VM by using SSH, you will see a prompt for the Bash shell in the VM. In the prompt, type in the following command and press Enter to view the computer name of the Linux VM:
+8.  在门户底部的 **Cloud Shell** 命令提示符中，**粘贴**你之前在本实验室中复制的命令，然后按 Enter 键以使用 SSH 连接到新 VM。
 
-    ```
+> 注：此命令取决于你的用户名和 IP 地址。例如，如果用户名是 **Student**，IP 地址是 **40.125.245.5**，则命令未 **ssh Student@40.125.245.5**。
+
+9.  SSH 工具将先通知你无法建立主机的真实性，然后询问是否要继续连接。在提示符中输入 **yes**，然后按 Enter 键以继续连接到 VM。
+
+10. 然后 SSH 工具会要求你输入密码。输入 **StudentPa55w.rd**，然后按 Enter 键以验证 VM。
+
+> 注：输入密码时不显示字符。请注意。
+
+11. 使用 SSH 连接到 VM 后，将在 VM 中看到 Bash Shell 提示符。在提示符中，输入以下命令并按 Enter 键以查看 Linux VM 的计算机名称：
+
+<!-- end list -->
+
     uname -mnipo
-    ```
 
-12. In the prompt, type in the following command and press Enter to view information about the distribution and operating system of the Linux VM.
+12. 在提示符中，输入以下命令并按 Enter 键以查看有关 Linux VM 分发和操作系统的信息。
 
-    ```
+<!-- end list -->
+
     uname -srv
-    ```
 
-13. Close the **Cloud Shell** pane at the bottom of the portal.
+13. 关闭门户底部的“**Cloud Shell**”窗格。
 
-#### Review
+#### 回顾
 
-In this exercise, you created a new VM manually by using the Azure portal interface and connected to the VM by using the Cloud Shell and SSH.
+在本练习中，你使用 Azure 门户界面手动创建了一个新的 VM，并使用 Cloud Shell 和 SSH 连接到该 VM。
 
-### Exercise 2: Create a virtual machine by using Azure CLI 
+### 练习 2：使用 Azure CLI 创建虚拟机 
 
-#### Task 1: Open Cloud Shell
+#### 任务 1：打开 Cloud Shell
 
-1.  In the top navigation bar in the Azure Portal, select the **Cloud Shell** icon to open a new shell instance.
+1.  在 Azure 门户的顶部导航栏中，选择 **Cloud Shell** 图标打开一个新的 Shell 实例。
 
-1.  Wait for the **Cloud Shell** to finish connecting to an instance before moving forward with the lab.
+2.  等待 **Cloud Shell** 完成连接实例再继续本实验室。
 
-1.  In the **Cloud Shell** command prompt at the bottom of the portal, type the following command and press Enter to view the version of the Azure CLI tool:
+3.  在门户底部的 **Cloud Shell** 命令提示符中，输入以下命令，然后按 Enter 键以查看 Azure CLI 工具的版本：
 
-    ```
+<!-- end list -->
+
     az --version
-    ```
 
-#### Task 2: Use the Azure CLI commands
+#### 任务 2：使用 Azure CLI 命令
 
-1.  Type the following command and press Enter to view a list of subgroups and commands at the root level of the CLI:
+1.  输入以下命令并按 Enter 键以查看 CLI 根级别的子组和命令列表：
 
-    ```
+<!-- end list -->
+
     az --help
-    ```
 
-1.  Type the following command and press Enter to view a list of subgroups and commands for **virtual machines**:
+2.  输入以下命令并按 Enter 键以查看**虚拟机**的子组和命令列表：
 
-    ```
+<!-- end list -->
+
     az vm --help
-    ```
 
-1.  Type the following command and press Enter to view a list of arguments and examples for the **Create Virtual Machine** command:
+3.  输入以下命令并按 Enter 键以查看 **Create Virtual Machine** 命令的参数和示例列表：
 
-    ```
+<!-- end list -->
+
     az vm create --help
-    ```
 
-1.  Type the following command and press Enter to create a new **virtual machine** with the following settings:
+4.  输入以下命令并按 Enter 键以使用以下设置创建新的**虚拟机**：
     
-      - **Resource group**: ContainerCompute
+      - **资源组**：ContainerCompute
     
-      - **Name**: quickvm
+      - **名称**：quickvm
     
-      - **Image**: Debian
+    <!-- end list -->
     
-      - **Username**: Student
+      - **映像**：Debian
     
-      - **Password**: StudentPa55w.rd
+      - **用户名**：Student
+    
+      - **密码**：StudentPa55w.rd
 
-    ```
+<!-- end list -->
+
     az vm create --resource-group ContainerCompute --name quickvm --image Debian --admin-username student --admin-password StudentPa55w.rd
-    ```
 
-    > **Note**: If this command fails with an error indicating `Resource group 'ContainerCompute'` could not be found, it likely means you either made an error naming your resource group at the start of this lab, or you have more than one subscription associated with your login name.  If you named the resource group wrong, substitute the correct name in the command.  If you have more than one subscription, you can use the `az account set --subscription` command to select the proper subscription.
+5.  等待 VM 创建过程完成。该过程完成后，命令将返回一个包含计算机相关详细信息的 JSON 文件。
 
-1.  Wait for the VM creation process to complete. After the process completes, the command will return a JSON file containing details about the machine.
+6.  输入以下命令并按 Enter 键以查看包含有关新创建 VM 的各种元数据的更详细 SON 文件：
 
-1.  Type the following command and press Enter to view a more detailed JSON file that contains various metadata about the newly created VM:
+<!-- end list -->
 
-    ```
     az vm show --resource-group ContainerCompute --name quickvm
-    ```
 
-1.  Type the following command and press Enter to list all the IP addresses associated with the VM:
+7.  输入以下命令并按 Enter 键以列出与 VM 关联的所有 IP 地址：
 
-    ```
+<!-- end list -->
+
     az vm list-ip-addresses --resource-group ContainerCompute --name quickvm
-    ```
 
-1.  Type the following command and press Enter to filter the output to only return the first IP address value:
+8.  输入以下命令并按 Enter 键以筛选输出，以便只返回第一个 IP 地址值：
 
-    ```
+<!-- end list -->
+
     az vm list-ip-addresses --resource-group ContainerCompute --name quickvm --query '[].{ip:virtualMachine.network.publicIpAddresses[0].ipAddress}' --output tsv
-    ```
 
-1.  Type the following command and press Enter to store the results of the previous command in a new Bash shell variable named *ipAddress*:
+9.  输入以下命令并按 Enter 键以将上一个命令的结果存储在名为 *ipAddress* 的新 Bash Shell 变量中：
 
-    ```
+<!-- end list -->
+
     ipAddress=$(az vm list-ip-addresses --resource-group ContainerCompute --name quickvm --query '[].{ip:virtualMachine.network.publicIpAddresses[0].ipAddress}' --output tsv)
-    ```
 
-1. Type the following command and press Enter to print the value of the Bash shell variable *ipAddress*:
+10. 输入以下命令并按 Enter 键以打印 Bash Shell 变量 *ipAddress* 的值：
 
-    ```
+<!-- end list -->
+
     echo $ipAddress
-    ```
 
-1. Type the following command and press Enter to connect to the VM that you created earlier in this lab by using the SSH tool and the IP address stored in the Bash shell variable *ipAddress*:
+11. 输入以下命令并按 Enter 键以通过使用 SSH 工具和存储在 Bash Shell 变量 *ipAddress* 中的 IP 地址连接到之前在本实验室中创建的 VM：
 
-    ```
+<!-- end list -->
+
     ssh student@$ipAddress
-    ```
 
-1. The **SSH** tool will first inform you that the authenticity of the host can’t be established and then ask if you want to continue connecting. Enter **yes** and then press Enter to continue connecting to the VM.
+12. **SSH** 工具将先通知你无法建立主机的真实性，然后询问是否要继续连接。输入 **yes**，然后按 Enter 键以继续连接到 VM。
 
-1. The **SSH** tool will then ask you for a password. Enter **StudentPa55w.rd** and then press Enter to authenticate with the VM.
+13. 然后 **SSH** 工具会要求你输入密码。输入 **StudentPa55w.rd**，然后按 Enter 键以验证 VM。
 
-1. After you connect to the VM using SSH, type the following command and press Enter to view metadata describing the Linux VM:
+14. 使用 SSH 连接到 VM 后，输入以下命令并按 Enter 键以查看描述 Linux VM 的元数据：
 
-    ```
+<!-- end list -->
+
     uname -a
-    ```
 
-1. Close the **Cloud Shell** pane at the bottom of the portal.
+15. 关闭门户底部的“**Cloud Shell**”窗格。
 
-#### Review
+#### 回顾
 
-In this exercise, you used the Azure Cloud Shell to create a VM as part of an automated script.
+在本练习中，你使用了 Azure Cloud Shell 作为自动脚本的一部分创建 VM。
 
-### Exercise 3: Create a Docker container image and deploy it to Azure Container Registry
+### 练习 3：创建 Docker 容器映像并部署到 Azure 容器注册表
 
-#### Task 1: Open Cloud Shell and editor
+#### 任务 1：打开 Cloud Shell 和编辑器
 
-1.  In the top navigation bar in the Azure Portal, select the **Cloud Shell** icon to open a new shell instance.
+1.  在 Azure 门户的顶部导航栏中，选择 **Cloud Shell** 图标打开一个新的 Shell 实例。
 
-1.  Wait for the **Cloud Shell** to finish connecting to an instance before moving on with the lab.
+2.  等待 **Cloud Shell** 完成连接实例再继续进行本实验室。
 
-1.  In the **Cloud Shell** command prompt at the bottom of the portal, type the following command and press **Enter** to move from the root directory to the **\~/clouddrive** directory:
+3.  在门户底部的 **Cloud Shell** 命令提示符中，输入以下命令并按 **Enter** 键以从根目录移动至 **\~/clouddrive** 目录：
 
-    ```
+<!-- end list -->
+
     cd ~/clouddrive
-    ```
 
-1.  Type the following command and press Enter to create a new directory named **ipcheck** within the **\~/clouddrive** directory:
+4.  输入以下命令并按 Enter 键以在 **\~/clouddrive** 目录中创建名为 **ipcheck** 的新目录：
 
-    ```
+<!-- end list -->
+
     mkdir ipcheck
-    ```
 
-1.  Type the following command and press Enter to change the active directory from **\~/clouddrive** to **\~/clouddrive/ipcheck**:
+5.  输入以下命令并按 Enter 键以将活动目录从 **\~/clouddrive** 更改为 **\~/clouddrive/ipcheck**：
 
-    ```
+<!-- end list -->
+
     cd ~/clouddrive/ipcheck
-    ```
 
-1.  Type the following command and press Enter to create a new .NET Core console application in the current directory:
+6.  输入以下命令并按 Enter 键以在当前目录中创建新的 .NET Core 控制台应用程序：
 
-    ```
-    dotnet new console --output . --name ipcheck
-    ```
+<!-- end list -->
 
-1.  Type the following command and press Enter to create a new file in the **\~/clouddrive/ipcheck** directory named **Dockerfile**:
+    dotnet new console --output .--name ipcheck
 
-    ```
+7.  输入以下命令并按 Enter 键以在名为 **Dockerfile** 的 **\~/clouddrive/ipcheck** 目录中创建一个新文件：
+
+<!-- end list -->
+
     touch Dockerfile
-    ```
 
-1.  Type the following command and press Enter to open the embedded graphical editor in the context of the current directory:
+8.  输入以下命令并按 Enter 键以在当前目录的上下文中打开嵌入式图形编辑器：
 
-    ```
+<!-- end list -->
+
     code .
-    ```
 
-#### Task 2: Create and test a .NET Core application
+#### 任务 2：创建并测试 .NET Core 应用程序
 
-1.  Within the graphical editor, locate the **FILES** pane and double-select the **Program.cs** file to open that file in the editor.
+1.  在图形编辑器中，找到“**文件**”窗格并双击选中 **Program.cs** 文件以在编辑器中打开该文件。
 
-1.  Delete the entire contents of the **Program.cs** file.
+2.  删除 **Program.cs** 文件的全部内容。
 
-1.  Copy and paste the following code into the **Program.cs** file:
+3.  将以下代码复制并粘贴到 **Program.cs** 文件中：
 
-    ```
+<!-- end list -->
+
     public class Program
     {
         public static void Main(string[] args)
@@ -393,357 +408,354 @@ In this exercise, you used the Azure Cloud Shell to create a VM as part of an au
             }
         }
     }
-    ```
 
-1.  **Save** the **Program.cs** file by using either the menu in the the graphical editor, or the **Ctrl+S** keyboard shortcut.  Do not close the graphical editor.
+4.  使用图形编辑器中的菜单或 **Ctrl+S** 键盘快捷键 **保存** **Program.cs** 文件。
 
-1.  Back in the command prompt, type the following command and press Enter to execute the application:
+5.  返回命令提示符，输入以下命令并按 Enter 键以执行应用程序：
 
-    ```
+<!-- end list -->
+
     dotnet run
-    ```
 
-1.  Observe the results of the execution. There should be at least one IP address listed for the Cloud Shell instance.
+6.  观察执行结果。应至少列出 Cloud Shell 实例的一个 IP 地址。
 
-1.  Within the graphical editor, locate the **FILES** pane on the left side of the editor and double-select the **Dockerfile** file to open that file in the editor.
+7.  在图形编辑器中，找到编辑器左侧的“**文件**”窗格并双击选中 **Dockerfile** 文件以在编辑器中打开该文件。
 
-8.  Copy and paste the following code into the **Dockerfile** file:
+8.  将以下代码复制并粘贴到 **Dockerfile** 文件中：
 
-    ```
-    FROM mcr.microsoft.com/dotnet/core/sdk:2.2-alpine AS build
+<!-- end list -->
+
+    FROM microsoft/dotnet:2.2-sdk AS build
     WORKDIR /app
-
+    
     COPY *.csproj ./
     RUN dotnet restore
-
-    COPY . ./
-    RUN dotnet publish --configuration Release --output out
-
-    FROM mcr.microsoft.com/dotnet/core/runtime:2.2-alpine
+    
+    COPY ../
+    RUN dotnet publish --configuration Release --output out --runtime ubuntu.18.04-x64 --self-contained
+    
+    FROM microsoft/dotnet:2.2-runtime
     WORKDIR /app
-
     COPY --from=build /app/out .
 
-    ENTRYPOINT ["dotnet", "ipcheck.dll"]
-    ```
+9.  使用图形编辑器中的菜单或 **Ctrl+S** 键盘快捷键 **保存** **Dockerfile** 文件。
 
-1.  **Save** the **Dockerfile** file by using either the menu in the graphical editor or the **Ctrl+S** keyboard shortcut.
+10. 关闭门户底部的“**Cloud Shell**”窗格。
 
-1. Close the **Cloud Shell** pane at the bottom of the portal.
+#### 任务 3：创建 Azure 容器注册表资源
 
-#### Task 3: Create an Azure Container Registry resource
+1.  在位于门户左侧的导航菜单上，选择“**+ 创建资源**”链接。
 
-1.  On the navigation menu located on the left side of the portal, select the **+ Create a resource** link.
+2.  在顶部的“**新建**”边栏选项卡，找到特色服务列表上方的“**搜索市场**”文本框。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** text box above the list of featured services.
+3.  在搜索文本框中，输入 **Container**，然后按 **Enter** 键。
 
-1.  In the search text box, enter **Container Registry** and press **Enter**.
+4.  在“**全部内容**”搜索结果边栏选项卡中，选择“**容器注册表**”结果。
 
-1.  In the **Everything** search results blade, select the **Container Registry** result.
+5.  在“**容器注册表**”边栏选项卡中，选择“**创建**”。
 
-1.  In the **Container Registry** blade, select **Create**.
+6.  在“**创建容器注册表**”边栏选项卡中，执行以下操作：
 
-1.  In the **Create container registry** blade, perform the following actions:
+<!-- end list -->
 
-    1.  In the **Registry name** text box, give your registry a globally unique name.
+1.  在“**注册表名称**”文本框中，为注册表提供全局唯一名称。
 
-        >  Note: The blade will automatically check the name for uniqueness and inform you if you are required to choose a different name.
+> > 注：边栏选项卡将自动检查名称的唯一性，并在需要选择其他名称时通知你。
 
-    1.  Leave the **Subscription** text box set to its default value.
+2.  将“**订阅**”文本框保留设置为默认值。
 
-    1.  In the **Resource group** drop-down list, select the existing **ContainerCompute** option.
+3.  在“**资源组**”下拉列表中，选择现有的 **ContainerCompute** 选项。
 
-    1.  In the **Location** text box, select **East US**.
+4.  在“**位置**”文本框中，选择“**美国东部**”。
 
-    1.  In the **Admin user** section, select **Disable**.
+5.  在“**管理员用户**”部分，选择“**禁用**”。
 
-    1.  In the **SKU** drop-down list, select **Basic**.
+6.  在“**SKU**”下拉列表中，选择“**基本**”。
 
-    1.  Select **Create**.
+7.  选择“**创建**”。
 
-1.  Wait for the creation task to complete before moving forward with this lab.
+<!-- end list -->
 
-#### Task 4: Open Cloud Shell and store Azure Container Registry metadata
+7.  等待创建任务完成后再继续本实验室。
 
-1.  At the top of the portal, select the **Cloud Shell** icon to open a new shell instance.
+#### 任务 4：打开 Cloud Shell 并存储Azure 容器注册表元数据
 
-1.  Wait for the **Cloud Shell** to finish connecting to an instance before moving forward with the lab.
+1.  在门户顶部，选择 **Cloud Shell** 图标打开一个新的 Shell 实例。
 
-1.  In the **Cloud Shell** command prompt at the bottom of the portal, type the following command and press Enter to view a list of all container registries in your subscription:
+2.  等待 **Cloud Shell** 完成连接实例再继续本实验室。
 
-    ```
+3.  在门户底部的 **Cloud Shell** 命令提示符中，输入以下命令，然后按 Enter 键以查看订阅中的所有容器注册表列表：
+
+<!-- end list -->
+
     az acr list
-    ```
 
-1.  Type the following command and press Enter:
+4.  输入以下命令并按 Enter 键：
 
-    ```
+<!-- end list -->
+
     az acr list --query "max_by([], &creationDate).name" --output tsv
-    ```
 
-1.  Type the following command and press Enter:
+5.  输入以下命令并按 Enter 键：
 
-    ```
+<!-- end list -->
+
     acrName=$(az acr list --query "max_by([], &creationDate).name" --output tsv)
-    ```
 
-1.  Type the following command and press Enter:
+6.  输入以下命令并按 Enter 键：
 
-    ```
+<!-- end list -->
+
     echo $acrName
-    ```
 
-#### Task 5: Deploy a Docker container image to the Azure Container Registry
+#### 任务 5：将 Docker 容器映像部署到 Azure 容器注册表
 
-1.  Type the following command and press Enter to change the active directory from **\~/** to **\~/clouddrive/ipcheck**:
+1.  输入以下命令并按 Enter 键以将活动目录从 **\~/** 更改为 **\~/clouddrive/ipcheck**：
 
-    ```
+<!-- end list -->
+
     cd ~/clouddrive/ipcheck
-    ```
 
-1.  Type the following command and press Enter to view the contents of the current directory:
+2.  输入以下命令并按 Enter 键以查看当前目录的内容：
 
-    ```
+<!-- end list -->
+
     dir
-    ```
 
-1.  Type the following command and press Enter to upload the source code to your **Container Registry** and build the container image as an **Azure Container Registry Task**:
+3.  输入以下命令并按 Enter 键以将源代码上传到 **容器注册表** 并将容器映像构建为 **Azure 容器注册表任务**：
 
-    ```
+<!-- end list -->
+
     az acr build --registry $acrName --image ipcheck:latest .
-    ```
 
-1.  Wait for the build task to complete before moving forward with this lab.
+4.  等待构建任务完成后再继续本实验室。
 
-1.  Close the **Cloud Shell** pane at the bottom of the portal.
+5.  关闭门户底部的“**Cloud Shell**”窗格。
 
-#### Task 6: Validate your container image in the Azure Container Registry
+#### 任务 6：在 Azure 容器注册表中验证容器映像
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+1.  在位于门户左侧的导航菜单上，选择“**资源组**”链接。
 
-1.  In the **Resource groups** blade, locate and select the **ContainerCompute** resource group that you created earlier in this lab.
+2.  在“**资源组**”边栏选项卡中，找到并选择你之前在本实验室中创建的 **ContainerCompute** 资源组。
 
-1.  In the **ContainerCompute** blade, select the container registry that you created earlier in this lab.
+3.  在“**ContainerCompute**”边栏选项卡中，选择你之前在本实验室中创建的容器注册表。
 
-1.  In the **Container Registry** blade, locate the **Services** section and select the **Repositories** link.
+4.  在“**容器注册表**”边栏选项卡中，找到“**服务**”部分并选择“**存储库**”链接。
 
-1.  In the **Repositories** section, select the **ipcheck** container image repository.
+5.  在“**存储库**”部分，选择 **ipcheck** 容器映像存储库。
 
-1.  In the **Repository** blade, select the **latest** tag.
+6.  在“**存储库**”边栏选项卡中，选择“**最新**”标记。
 
-1.  Observe the metadata for the version of your container image with the **latest** tag.
+7.  观察具有“**最新**”标记的容器映像版本元数据。
 
-    > **Note**: You can also select the **Run ID** hyperlink to view metadata about the build task.
+> 注：你也可以选择“**运行 ID**”超链接以查看有关构建任务的元数据。
 
-#### Review
+#### 回顾
 
-In this exercise, you created a .NET Core console application to display a machine’s current IP address. You then added the Dockerfile file to the application so that it could be converted into a Docker container image. Finally, you deployed the container image to Azure Container Registry.
+在本练习中，你创建了一个 .NET Core 控制台应用程序来显示计算机的当前 IP 地址。然后，你将 Dockerfile 文件添加到应用程序，以便将其转换为 Docker 容器映像。最后，你将容器映像部署到 Azure 容器注册表。
 
-### Exercise 4: Deploy an Azure container instance 
+### 练习 4：部署 Azure 容器实例 
 
-#### Task 1: Enable Admin User in Azure Container Registry
+#### 任务 1：在 Azure 容器注册表中启用管理员用户
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+1.  在位于门户左侧的导航菜单上，选择“**资源组**”链接。
 
-1.  In the **Resource groups** blade, locate and select the **ContainerCompute** resource group that you created earlier in this lab.
+2.  在“**资源组**”边栏选项卡中，找到并选择你之前在本实验室中创建的 **ContainerCompute** 资源组。
 
-1.  In the **ContainerCompute** blade, select the container registry that you created earlier in this lab.
+3.  在“**ContainerCompute**”边栏选项卡中，选择你之前在本实验室中创建的容器注册表。
 
-1.  In the **Container Registry** blade, select **Update** from the top of the blade.
+4.  在“**容器注册表**”边栏选项卡中，选择“**更新**”。
 
-1.  In the **Update container registry** blade, perform the following actions:
+5.  在“**更新容器注册表**”边栏选项卡中，执行以下操作：
     
-    1.  In the **Admin user** section, select **Enable**.
+    1.  在“**管理员用户**”部分，选择“**启用**”。
     
-    1.  Select **Save**.
+    2.  选择“**保存**”。
+
+6.  关闭“**更新容器注册表**”边栏选项卡。
+
+#### 任务 2：自动将容器映像自动部署到 Azure 容器实例
+
+1.  在“**容器注册表**”边栏选项卡中，找到“**服务**”部分并选择“**存储库**”链接。
+
+2.  在“**存储库**”部分，选择 **ipcheck** 容器映像存储库。
+
+3.  在“**存储库**”边栏选项卡中，选择紧靠“**最新**”标记条目右侧的省略号菜单。
+
+4.  在显示的弹出菜单中，选择“**运行实例**”链接。
+
+5.  在显示的“**创建容器实例**”边栏选项卡中，执行以下操作：
     
-1.  Close the **Update container registry** blade.
-
-#### Task 2: Deploy a container image automatically to an Azure Container instance
-
-1.  In the **Container Registry** blade, locate the **Services** section and select the **Repositories** link.
-
-1.  In the **Repositories** section, select the **ipcheck** container image repository.
-
-1.  In the **Repository** blade, select the ellipsis menu located immediately to the right of the **latest** tag entry.
-
-1.  In the pop-up menu that appears, select the **Run instance** link.
-
-1.  In the **Create container instance** blade that appears, perform the following actions:
+    1.  在“**容器名称**”文本框中，输入 **managedcompute**。
     
-    1.  In the **Container name** text boxtext box, enter **managedcompute**.
+    2.  将“**容器映像**”文本框保留设置为默认值。
     
-    1.  Leave the **Container image** text box set to its default value.
+    3.  在“**操作系统类型**”部分，选择“**Linux**”。
     
-    1.  In the **OS type** section, select **Linux**.
+    4.  将“**订阅**”文本框保留设置为默认值。
     
-    1.  Leave the **Subscription** text box set to its default value.
+    5.  在“**资源组**”拉列表中，选择“**ContainerCompute**”。
     
-    1.  In the **Resource group** drop-down list, select **ContainerCompute**.
+    6.  在“**位置**”下拉列表中，选择“**美国东部**”。
     
-    1.  In the **Location** drop-down list, select **East US**.
+    7.  在“**核心数量**”下拉列表中，选择“**2**”。
     
-    1.  In the **Number of cores** drop-down list, select **2**.
+    8.  在“**内存 (GB)**”文本框中，输入“**4**”。
     
-    1.  In the **Memory (GB)** text box, enter **4**.
+    9.  在“**公共 IP 地址**”部分，选择“**否**”。
     
-    1.  In the **Public IP address** section, select **No**.
+    10. 选择“**确定**”。
+
+6.  等待创建任务完成后再继续本实验室。
+
+#### 任务 3：手动将容器映像部署到 Azure 容器实例
+
+1.  在位于门户左侧的导航菜单上，选择“**资源组**”链接。
+
+2.  在“**资源组**”边栏选项卡中，找到并选择你之前在本实验室中创建的 **ContainerCompute** 资源组。
+
+3.  在“**ContainerCompute**”边栏选项卡中，选择你之前在本实验室中创建的容器注册表。
+
+4.  在“**容器注册表**”边栏选项卡中，找到“**服务**”部分并选择“**访问密钥**”链接。
+
+5.  在“**访问密钥**”部分，复制以下字段的值：
     
-    1. Select **OK**.
-
-1.  Wait for the creation task to complete before moving forward with this lab.
-
-#### Task 3: Deploy a container image manually to an Azure Container instance
-
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
-
-1.  In the **Resource groups** blade, locate and select the **ContainerCompute** resource group that you created earlier in this lab.
-
-1.  In the **ContainerCompute** blade, select the container registry that you created earlier in this lab.
-
-1.  In the **Container Registry** blade, locate the **Settings** section and select the **Access keys** link.
-
-1.  In the **Access Keys** section, record the values for the following fields:
+    1.  **登录服务器**
     
-    1.  **Login server**
+    2.  **用户名**
     
-    1.  **Username**
+    3.  **密码**
+
+> 注：在创建另一个 **容器实例** 时，你之后会用到本实验室中的这些值。
+
+6.  在位于门户左侧的导航菜单上，选择“**+ 创建资源**”链接。
+
+7.  在顶部的“**新建**”边栏选项卡，找到特色服务列表上方的“**搜索市场**”文本框。
+
+8.  在搜索文本框中，输入 **Container**，然后按 **Enter** 键。
+
+9.  在“**全部内容**”搜索结果边栏选项卡中，选择“**容器实例**”结果。
+
+10. 在“**容器实例**”边栏选项卡中，选择“**创建**”。
+
+11. 在附加“**创建容器实例**”边栏选项卡中，观察边栏选项卡顶部的选项卡，如“**基本**”和“**配置**”。
+
+> 注：每个选项卡代表工作流中创建新“**容器实例**”的一个步骤。
+
+12. 在“**基本**”选项卡中，执行以下操作：
     
-    1.  **Password**
-
-        > **Note**: You will use these values later in this lab when you create another **container instance**.
-
-1.  On the navigation menu located on the left side of the portal, select the **+ Create a resource** link.
-
-1.  At the top of the **New** blade, locate the **Search the Marketplace** text box above the list of featured services.
-
-1.  In the search text box, enter **Container instance** and press **Enter**.
-
-1.  In the **Everything** search results blade, select the **Container Instances** result.
-
-1. In the **Container Instances** blade, select **Create**.
-
-1. In the **Create Container Instances** blade, observe the tabs on the left of the blade, such as **Basics** and **Advanced**.
-
-    > **Note**: Each tab represents a step in the workflow to create a new **container instance**.
-
-1. In the **Basics** tab, perform the following actions:
-
-    1. Leave the **Subscription** text box set to its default value.
-
-    1. In the **Resource group** drop-down list, select **ContainerCompute**.
+    4.  在“**容器名称**”文本框中，输入 **manualcompute**。
     
-    1.  In the **Container name** text box, enter **manualcompute**.
-
-    1. In the **Region** drop-down list, select **(US) East US**.
+    5.  在“**容器映像类型**”部分，选择“**专用**”。
     
-    1.  In the **Image type** section, select **Private**.
+    6.  在“**容器映像**”文本框中，输入之前记录的“**登录服务器**”值，然后添加后缀 /**ipcheck:latest**。
+
+> > 注：例如，如果“**登录服务器**”值为 **azadmin.azurecr.io**，则容器映像名称为 **azadmin.azurecr.io/ipcheck:latest**
+
+7.  在“**映像注册表登录服务器**”文本框中，输入之前在本实验室中记录的“**登录服务器**”值。
+
+8.  在“**映像注册表用户名**”文本框中，输入之前在本实验室中记录的“**用户名**”值。
+
+9.  在“**映像注册表密码**”文本框中，输入之前在本实验室中记录的“**密码**”值。
+
+10. 将“**订阅**”文本框保留设置为默认值。
+
+11. 在“**资源组**”拉列表中，选择“**ContainerCompute**”。
+
+12. 在“**位置**”下拉列表中，选择“**美国东部**”。
+
+13. 选择“**确定**”。
+
+<!-- end list -->
+
+13. 在“**配置**”选项卡中，执行以下操作：
     
-    1.  In the **Image name** text box, enter the **Login server** value that you recorded earlier and then add the suffix /**ipcheck:latest**.
-
-        > **Note**: For example, if your **Login server** value is **azadmin.azurecr.io**, then your container image name would be **azadmin.azurecr.io/ipcheck:latest**
-
-    1.  In the **Image registry login server** text box, enter the **Login server** value that you recorded earlier in this lab.
-
-    1.  In the **Image registry user name** text box, enter the **Username** value that you recorded earlier in this lab.
-
-    1.  In the **Image registry password** text box, enter the **Password** value that you recorded earlier in this lab.
-
-    1. In the **OS type** section, select **Linux**.
-
-    1. In the **Size** section, select the **Change size** link.
-
-    1. In the **Change container size** blade, perform the following actions:
-
-        1. In the **Number of CPU cores** textbox, enter **1**.
-
-        1. In the **Memory (GiB)** textbox, enter **1.5**.
-
-        1. Leave the default value for the **GPU type** drop-down list.
-
-        1. Select **Ok**.
+    14. 在“**操作系统类型**”部分，选择“**Linux**”。
     
-    1. Select **Next: Networking**
-
-1. In the **Networking** tab, perform the following actions:
+    15. 在“**核心数量**”下拉列表中，选择“**1**”。
     
-    1. In the **Include Public IP address** section, select **Yes**.
-
-    1. Ensure in the **Ports** section, the port **80** is there, with the port protocol **TCP**.
+    16. 在“**内存 (GB)**”文本框中，输入“**1.5**”。
     
-    1. Leave the **DNS name label** text box empty.
-
-    1. Select **Next: Advanced**.
-
-1. In the **Advanced** tab, perform the following actions:
+    17. 在“**公共 IP 地址**”部分，选择“**是**”。
     
-    1. In the **Restart policy** drop-down list, select **On failure**.
+    18. 将“**DNS 名称标签**”文本框留空。
     
-    1. Leave the **Environment variable** text box empty.
+    19. 在“**端口**”文本框中，输入 **80**。
     
-    1. Leave the **Command override** text box empty.
+    20. 在“**打开其他端口**”部分，选择“**否**”。
+    
+    21. 在“**端口协议**”下拉列表中，选择 **TCP**。
+    
+    22. 在“**重启策略**”下拉列表中，选择“**失败时**”。
+    
+    23. 将“**环境变量**”文本框留空。
+    
+    24. 在“**添加其他环境变量**”部分，选择“**否**”。
+    
+    25. 在“**命令替代**”文本框中，输入 **/ipcheck**。
 
-    1. Select **Review + create**.
+> > 注：该 **ipcheck** 工具是你之前在本实验室中创建的 .NET Core 命令行应用程序。
 
-1. In the **Review + create** tab, review the selected options.
+26. 选择“**确定**”。
 
-1. Select **Create** to create the container instance by using your specified configuration.
+<!-- end list -->
 
-1. Wait for the creation task to complete before moving forward with this lab.
+14. 在“**摘要**”选项卡中，查看选定的选项。
 
-#### Task 4: Validate that the container instance ran successfully
+15. 选择“**确定**”以使用指定配置创建容器实例。
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+16. 等待创建任务完成后再继续本实验室。
 
-1.  In the **Resource groups** blade, locate and select the **ContainerCompute** resource group that you created earlier in this lab.
+#### 任务 4：验证容器实例是否成功运行
 
-1.  In the **ContainerCompute** blade, select the **manualcompute** container instance that you created earlier in this lab.
+1.  在位于门户左侧的导航菜单上，选择“**资源组**”链接。
 
-1.  In the **Container Instance** blade, locate the **Settings** section and select the **Containers** link.
+2.  在“**资源组**”边栏选项卡中，找到并选择你之前在本实验室中创建的 **ContainerCompute** 资源组。
 
-1.  In the **Containers** section, observe the list of **Events**.
+3.  在“**ContainerCompute**”边栏选项卡中，选择你之前在本实验室中创建的 **manualcompute** 容器实例。
 
-1.  Select the **Logs** tab and observe the text logs from the container instance.
-> **Note**: You can also optionally view the **Events** and **Logs** from the **managedcompute** container instance.
+4.  在“**容器实例**”边栏选项卡中，找到“**服务**”部分并选择“**设置**”链接。
 
-> **Note**: After the application finished executing, the container was terminated because it had completed its work.  For the manually created container instance, you indicated that you indicated that a successful exit was acceptable, so the container shows a single execution run.  The automatically created instance did not offer you this option, and assumes the container should always be running, so you will see repeated restarts of the container.
+5.  在“**容器**”部分，查看“**事件**”列表。
 
-#### Review
+> 注：应用程序完成执行后，容器因为已完成工作而终止。
 
-In this exercise, you used multiple methods to deploy a container image to an Azure container instance. By using the manual method, you were also able to customize the deployment further and execute task-based applications as part of a container run.
+#### 回顾
 
-### Exercise 5: Clean up subscription 
+在本练习中，你使用了多种方法将容器映像部署到 Azure 容器实例。通过使用手动方法，你还可以进一步自定义部署并执行基于任务的应用程序作为容器运行的一部分。
 
-#### Task 1: Open Cloud Shell and list resource groups
+### 练习 5：清理订阅 
 
-1.  At the top of the portal, select the **Cloud Shell** icon to open a new shell instance.
+#### 任务 1：打开 Cloud Shell 并列出资源组
 
-1.  In the **Cloud Shell** command prompt at the bottom of the portal, type in the following command and press Enter to list all resource groups in the subscription:
+1.  在门户顶部，选择 **Cloud Shell** 图标打开一个新的 Shell 实例。
 
-    ```
+2.  在门户底部的 **Cloud Shell** 命令提示符中，输入以下命令，然后按 Enter 键列出订阅中的所有资源组：
+
+<!-- end list -->
+
     az group list
-    ```
 
-1.  Type the following command and press Enter to view a list of possible commands to delete a resource group:
+3.  输入以下命令，然后按 Enter 键查看删除资源组的可能命令列表：
 
-    ```
+<!-- end list -->
+
     az group delete --help
-    ```
 
-#### Task 2: Delete resource groups
+#### 任务 2：删除资源组
 
-1.  Type the following command and press Enter to delete the **ContainerCompute** resource group:
+1.  输入以下命令，然后按 Enter 键删除 **ContainerCompute** 资源组：
 
-    ```
+<!-- end list -->
+
     az group delete --name ContainerCompute --no-wait --yes
-    ```
 
-1.  Close the **Cloud Shell** pane at the bottom of the portal.
+2.  关闭门户底部的“**Cloud Shell**”窗格。
 
-#### Task 3: Close active applications
+#### 任务 3：关闭活动应用程序
 
-1.  Close the currently running **Microsoft Edge** application.
+1.  关闭当前正在运行的 **Microsoft Edge** 应用程序。
 
-#### Review
+#### 回顾
 
-In this exercise, you cleaned up your subscription by removing the **resource groups** used in this lab.
+在本练习中，你通过移除本实验室中使用过的 **资源组** 来清理订阅。

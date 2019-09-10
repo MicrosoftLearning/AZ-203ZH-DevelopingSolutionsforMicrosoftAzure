@@ -1,880 +1,857 @@
+﻿---
+实验室：
+    标题：“实验室：跨服务安全访问资源机密”
+    类型：“答案”
+    模块：“模块 4：实现 Azure 安全”
 ---
-lab:
-    title: 'Lab: Access resource secrets securely across services'
-    type: 'Answer Key'
-    module: 'Module 4: Implement Azure security'
----
 
-# Lab: Access resource secrets securely across services
-# Student lab answer key
+# 实验室：跨服务安全访问资源机密
+# 学生实验室答案
 
-## Microsoft Azure user interface
+## Microsoft Azure 用户界面
 
-Given the dynamic nature of Microsoft cloud tools, you might experience Azure user interface (UI) changes after the development of this training content. These changes might cause the lab instructions and lab steps to not match up.
+鉴于 Microsoft 云工具的动态特性，Azure 用户界面 (UI) 在此培训内容开发后可能会发生更改。这些更改可能会导致实验室说明和实验室步骤不匹配。
 
-Microsoft updates this training course as soon as the community brings needed changes to our attention. However, because cloud updates occur frequently, you might encounter UI changes before this training content is updated. **If this occurs, adapt to the changes and work through them in the labs as needed.**
+一旦 Microsoft 通过社区注意到必要更改，将会立即更新此培训课程。但由于云更新频繁，你可能会在此培训内容更新前遇到 UI 更改。**如果发生这种情况，请根据需要适更改并在实验室中完成这些更改。**
 
-## Instructions
+## 说明
 
-### Before you start
+### 开始前
 
-#### Sign in to the lab virtual machine
+#### 登录实验室虚拟机
 
-Sign in to your **Windows 10** virtual machine by using the following credentials:
+  - 使用以下凭据登录到 **Windows 10** 虚拟机：
     
--   **Username**: Admin
-
--   **Password**: Pa55w.rd
-
-> **Note**: Lab virtual machine sign-in instructions will be provided to you by your instructor.
-
-#### Review installed applications
-
-Observe the taskbar located at the bottom of your **Windows 10** desktop. The taskbar contains the icons for the applications you will use in this lab:
+      - **用户名**：Admin
     
--   Microsoft Edge
+      - **密码**：Pa55w.rd
 
--   File Explorer
+> > **注**：讲师将为你提供实验室虚拟机登录说明。
 
-#### Download the lab files
+#### 查看已安装的应用
 
-1.  On the taskbar, select the **Windows PowerShell** icon.
+  - 观察位于 **Windows 10** 桌面底部的任务栏。任务栏包含将在本实验室中使用的应用程序图标：
+    
+      - Microsoft Edge
+    
+      - 文件资源管理器
 
-1.  In the PowerShell command prompt, change the current working directory to the **Allfiles (F):\\** path:
+#### 下载实验室文件
+
+1.  在任务栏上，选择 **Windows PowerShell** 图标。
+
+2.  在 PowerShell 命令提示符中，将当前工作目录更改为 **Allfiles (F):\\** 路径：
 
     ```
     cd F:
     ```
 
-1.  Within the command prompt, enter the following command and press Enter to clone the **microsoftlearning/AZ-203-DevelopingSolutionsforMicrosoftAzure** project hosted on GitHub into the **Allfiles (F):\\** drive:
+3.  在命令提示符中，输入以下命令并按 Enter 键以将 GitHub 上托管的 **microsoftlearning/AZ-203-DevelopingSolutionsForAzure** 项目克隆到 **Labfiles** 目录：
 
     ```
     git clone --depth 1 --no-checkout https://github.com/microsoftlearning/AZ-203-DevelopingSolutionsForMicrosoftAzure .
     ```
 
-1.  Within the command prompt, enter the following command and press **Enter** to check out the lab files necessary to complete the **AZ-203T04** lab:
+4.  在命令提示符中，输入以下命令并按 **Enter** 键以签出完成 **AZ-203.02** 实验室所必需的实验室文件：
 
     ```
     git checkout master -- Allfiles/*
     ```
 
-1.  Close the currently running **Windows PowerShell** command prompt application.
+5.  关闭当前正在运行的 **Windows PowerShell** 命令提示应用程序。
 
-### Exercise 1: Create Azure resources
+### 练习 1：创建 Azure 资源
 
-#### Task 1: Open the Azure portal
+#### 任务 1：打开 Azure 门户
 
-1.  On the taskbar, select the **Microsoft Edge** icon.
+1.  在任务栏上，选择 **Microsoft Edge** 图标。
 
-1.  In the open browser window, navigate to the **Azure portal** ([portal.azure.com](https://portal.azure.com)).
+2.  在打开的浏览器窗口中，导航到 **Azure 门户** ([portal.azure.com](https://portal.azure.com))。
 
-1.  Enter the **email address** for your Microsoft account.
+3.  输入 Microsoft 帐户的 **电子邮件地址**。
 
-1.  Select **Next**.
+4.  选择“**下一步**”。
 
-1.  Enter the **password** for your Microsoft account.
+5.  输入 Microsoft 帐户的 **密码**。
 
-1.  Select **Sign in**.
+6.  选择“**登录**”。
 
-    > **Note**: If this is your first time signing in to the **Azure Portal**, a dialog box will appear offering a tour of the portal. Select **Get Started** to skip the tour and begin using the portal.
+> > 注：如果这是你第一次登录 **Azure 门户**，则会出现一个对话框，提供门户教程。选择“**开始使用**”以跳过教程并开始使用门户。
 
-#### Task 2: Create an Azure Storage account
+#### 任务 2：创建 Azure 存储帐户
 
-1.  In the navigation pane on the left side of the Azure portal, select **All services**.
+1.  在 Azure 门户左侧的导航窗格中，单击“**更多服务**”。
 
-1.  In the **All services** blade, select **Storage Accounts**.
+2.  在“**所有服务**”边栏选项卡中，选择“**存储帐户**”。
 
-1.  In the **Storage accounts** blade, view your list of Storage instances.
+3.  在“**存储帐户**”边栏选项卡中，查看存储实例列表。
 
-1.  At the top of the **Storage accounts** blade, select **+ Add**.
+4.  在“**存储帐户**”边栏选项卡顶部，选择“**添加**”。
 
-1.  In the **Create storage account** blade, observe the tabs at the top of the blade, such as **Basics**.
+5.  在“**创建存储帐户**”边栏选项卡中，观察边栏选项卡顶部的选项卡，如“**基本**”。
 
-  > **Note**: Each tab represents a step in the workflow to create a new **storage account**. At any time, you can select **Review + create** to skip the remaining tabs.
+> 注：每个选项卡代表工作流中创建新“**存储帐户**”的一个步骤。你可以随时选择“**查看 + 创建**”跳过剩余标签。
 
-1.  In the **Basics** tab, perform the following actions:
+6.  在“**基本**”选项卡中，执行以下操作：
     
-    1.  Leave the **Subscription** text box set to its default value.
+    1.  将“**订阅**”文本框保留设置为默认值。
     
-    1.  In the **Resource group** section, select **Create new**, enter **SecureFunction**, and then select **OK**.
+    2.  在“**资源组**”部分，选择“**新建**”，输入 **SecureFunction**，然后选择“**确定**”。
     
-    1.  In the **Storage account** **name** text box, enter **securestor\[your name in lowercase\]**.
+    3.  在“**存储帐户** **名称**”字段中，输入 **securestor\[your name in lowercase\]**。
     
-    1.  In the **Location** drop-down list, select the **(US) East US** region.
+    4.  在“**位置**”下拉列表中，选择“**美国东部**”地区。
     
-    1.  In the **Performance** section, select **Standard**.
+    5.  在“**性能**”部分，选择“**标准**”。
     
-    1.  In the **Account kind** drop-down list, select **StorageV2 (general purpose v2)**.
+    6.  在“**帐户类型**”下拉列表中，选择“**StorageV2（通用 v2）**”。
     
-    1.  In the **Replication** drop-down list, select **Locally-redundant storage (LRS)**.
+    7.  在“**复制**”下拉列表中，选择“**本地冗余存储 (LRS)**”。
     
-    1.  In the **Access tier** section, ensure that **Hot** is selected.
+    8.  在“**访问层**”部分，确保 **Hot** 已选中。
     
-    1.  Select **Review + Create**.
+    9.  选择“**查看 + 创建**”。
 
-1.  In the **Review + Create** tab, review the options that you selected during the previous steps.
+7.  在“**查看 + 创建**”选项卡中，查看在之前步骤中选择的选项。
 
-1.  Select **Create** to create the storage account by using your specified configuration.
+8.  选择“**创建**”以使用指定的配置创建存储帐户。
 
-1.  Wait for the creation task to complete before you move forward with this lab.
+9.  等待创建任务完成后，再继续本实验室。
 
-1. In the navigation pane on the left side of the Azure portal, select **All services**.
+10. 在 Azure 门户左侧的导航窗格中，单击“**更多服务**”。
 
-1. In the **All services** blade, select **Storage Accounts**.
+11. 在“**所有服务**”边栏选项卡中，选择“**存储帐户**”。
 
-1. In the **Storage accounts** blade, select the storage account instance with the prefix **securestor**.
+12. 在“**存储帐户**”边栏选项卡中，选择具有前缀 **securestor** 的存储帐户实例。
 
-1. In the **Storage account** blade, locate the **Settings** section on the left side of the blade and select the **Access keys** link.
+13. 在“**存储帐户**”边栏选项卡中，找到边栏选项卡左侧的“**设置**”部分，选择“**访问密钥**”链接。
 
-1. In the **Access keys** blade, select any one of the keys and record the value in either of the **Connection string** fields. You will use this value later in this lab.
+14. 在“**访问密钥**”边栏选项卡中，选择任意一个密钥并记录“**连接字符串**”字段的任意一个值。你将稍后在本实验室中使用此值。
 
-    > **Note**: It does not matter which connection string you choose to use. They are interchangeable.
+> > 注：选择使用哪个连接字符串无关紧要。它们可以互换。
 
-#### Task 3: Create an Azure Key Vault
+#### 任务 3：创建 Azure 密钥保管库
 
-1.  On the navigation menu located on the left side of the portal, select the **+ Create a resource** link.
+1.  在位于门户左侧的导航菜单上，选择“**+ 创建资源**”链接。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** text box above the list of featured services.
+2.  在顶部的“**新建**”边栏选项卡，找到特色服务列表上方的“**搜索市场**”文本框。
 
-1.  In the search text box, enter **Vault** and then press Enter.
+3.  在搜索文本框中，输入 **Vault**，然后按 Enter 键。
 
-1.  In the **Everything** search results blade, select the **Key Vault** result.
+4.  在“**全部内容**”搜索结果边栏选项卡中，选择“**密钥保管库**”结果。
 
-1.  In the **Key Vault** blade, select **Create**.
+5.  在“**密钥保管库**”边栏选项卡中，选择“**创建**”。
 
-1.  In the **Create key vault** blade, perform the following actions:
+6.  在“**创建密钥保管库**”边栏选项卡中，执行以下操作：
     
-    1.  In the **Name** text box, enter **securevault\[your name in lowercase\]**.
+    1.  在“**名称**”文本框中，输入 **securevault\[your name in lowercase\]**。
     
-    1.  Leave the **Subscription** text box set to its default value.
+    2.  将“**订阅**”文本框保留设置为默认值。
     
-    1.  In the **Resource group** section, select **Use existing**, and then select **SecureFunction** from the list.
+    3.  在“**资源组**”部分，选择“**使用现有**”，然后从列表选择“**SecureFunction**”。
     
-    1.  In the **Location** drop-down list, select **East US**.
+    4.  在“**位置**”下拉列表中，选择“**美国东部**”。
     
-    1.  Leave the **Pricing tier** text box set to its default value.
+    5.  将“**定价层**”文本框保留设置为默认值。
     
-    1.  Leave the **Access policies** text box set to its default value.
+    6.  将“**访问策略**”文本框保留设置为默认值。
     
-    1.  Leave the **Virtual Network Access** text box set to its default value.
+    7.  将“**虚拟网络访问**”文本框保留设置为默认值。
     
-    1.  Select **Create**.
+    8.  选择“**创建**”。
 
-1.  Wait for the creation task to complete before you move forward with this lab.
+7.  等待创建任务完成后，再继续本实验室。
 
-#### Task 4: Create an Azure Function app
+#### 任务 4：创建 Azure 函数应用
 
-1.  On the navigation menu located on the left side of the portal, select the **+ Create a resource** link.
+1.  在位于门户左侧的导航菜单上，选择“**+ 创建资源**”链接。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** text box above the list of featured services.
+2.  在顶部的“**新建**”边栏选项卡，找到特色服务列表上方的“**搜索市场**”文本框。
 
-1.  In the search text box, enter **Function** and then press Enter.
+3.  在搜索文本框中，输入 **Function**，然后按 Enter 键。
 
-1.  In the **Everything** search results blade, select the **Function App** result.
+4.  在“**全部内容**”搜索结果边栏选项卡中，选择“**函数应用**”结果。
 
-1.  In the **Function App** blade, select **Create**.
+5.  在“**函数应用**”边栏选项卡中，选择“**创建**”。
 
-1.  In the **Create function app** blade, perform the following actions:
+6.  在“**创建函数应用**”边栏选项卡中，执行以下操作：
     
-    1.  In the **App name** text box, enter **securefunc\[your name in lowercase\]**.
+    1.  在“**应用名称**”文本框中，输入 **securefunc\[your name in lowercase\]**。
     
-    1.  Leave the **Subscription** text box set to its default value.
+    2.  将“**订阅**”文本框保留设置为默认值。
     
-    1.  In the **Resource group** section, select **Use existing**, and then select **SecureFunction** from the list.
+    3.  在“**资源组**”部分，选择“**使用现有**”，然后从列表选择“**SecureFunction**”。
     
-    1.  In the **OS** section, select **Windows**.
+    4.  在“**操作系统**”部分，选择“**Windows**”。
     
-    1.  In the **Hosting Plan** drop-down list, select **Consumption Plan**.
+    5.  在“**托管计划**”下拉列表中，选择“**消耗计划**”。
     
-    1.  In the **Location** drop-down list, select **East US**.
+    6.  在“**位置**”下拉列表中，选择“**美国东部**”。
     
-    1.  In the **Runtime Stack** drop-down list, select **.NET Core**.
+    7.  在“**运行时堆栈**”下拉列表中，选择“**.NET**”。
     
-    1.  In the **Storage** section, select **Use existing**, and then select **securestor\[your name in lowercase\]** from the list.
+    8.  在“**存储**”部分，选择“**使用现有**”，然后从列表选择“**securestor\[your name in lowercase\]**”。
     
-    1.  Leave the **Application Insights** option set to its default value.
+    9.  将“**Application Insights**”文本框保留设置为默认值。
     
-    1. Select **Create**.
+    10. 选择“**创建**”。
 
-1.  Wait for the creation task to complete before you move forward with this lab.
+7.  等待创建任务完成后，再继续本实验室。
 
-#### Review
+#### 回顾
 
-In this exercise, you created all the resources that you will use for this lab.
+在本练习中，你创建了所有将用于此实验室的资源。
 
-### Exercise 2: Configure secrets and identities 
+### 练习 2：配置机密和标识 
 
-#### Task 1: Configure a system-assigned managed service identity
+#### 任务 1：配置系统分配的托管服务标识
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+1.  在位于门户左侧的导航菜单上，选择“**资源组**”链接。
 
-1.  In the **Resource groups** blade, locate and select the **SecureFunction** resource group that you created earlier in this lab.
+2.  在“**资源组**”边栏选项卡中，找到并选择你之前在本实验室中创建的 **SecureFunction** 资源组。
 
-1.  In the **SecureFunction** blade, select the **securefunc\*** function app that you created earlier in this lab.
+3.  在“**SecureFunction**”边栏选项卡中，选择你之前在本实验室中创建的 **securefunc\*** 函数应用。
 
-1.  In the **Function Apps** blade, select the **Platform features** tab.
+4.  在“**函数应用**”边栏选项卡中，选择“**平台功能**”选项卡。
 
-1.  In the **Platform features** tab, select the **Identity** link located in the **Networking** section.
+5.  在“**平台功能**”选项卡中，选择位于“**网络**”部分的“**标识**”链接。
 
-1.  In the **Identity** blade, locate the **System assigned** tab and then perform the following actions:
+6.  在“**标识**”边栏选项卡中，找到“**系统分配的**”选项卡，然后执行以下操作：
     
-    1.  In the **Status** section, select **On**.
+    1.  在“**状态**”部分，选择“**开**”。
     
-    1.  Select **Save**.
+    2.  选择“**保存**”。
     
-    1.  Select **Yes** in the confirmation dialog.
+    3.  在确认对话框中选择“**是**”。
 
-1.  Wait for the system-assigned managed identity to be created before you move forward with this lab.
+7.  等待系统分配的托管标识创建完成后再继续本实验室。
 
-#### Task 2: Create a Key Vault secret
+#### 任务 2：创建密钥保管库机密
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+1.  在位于门户左侧的导航菜单上，选择“**资源组**”链接。
 
-1.  In the **Resource groups** blade, locate and select the **SecureFunction** resource group that you created earlier in this lab.
+2.  在“**资源组**”边栏选项卡中，找到并选择你之前在本实验室中创建的 **SecureFunction** 资源组。
 
-1.  In the **SecureFunction** blade, select the **securevault\*** Key Vault that you created earlier in this lab.
+3.  在“**SecureFunction**”边栏选项卡中，选择你之前在本实验室中创建的 **securevault\*** 密钥保管库。
 
-1.  In the **Key Vault** blade, select the **Secrets** link located in the **Settings** section.
+4.  在“**密钥保管库**”边栏选项卡中，选择位于“**设置**”部分的“**机密**”链接。
 
-1.  In the **Secrets** pane, select **+ Generate/Import**.
+5.  在“**机密**”窗格中，选择“**生成/导入**”。
 
-1.  In the **Create a secret** blade, perform the following actions:
+6.  在“**创建机密**”边栏选项卡中，执行以下操作：
     
-    1.  In the **Upload options** drop-down list, select **Manual**.
+    1.  在“**上传选项**”下拉列表中，选择“**手动**”。
     
-    1.  In the **Name** text box, enter **storagecredentials**.
+    2.  在“**名称**”文本框中，输入 **storagecredentials**。
     
-    1.  In the **Value** text box, enter the storage account **Connection String** that you recorded earlier in this lab.
+    3.  在“**值**”文本框中，输入之前在本实验室中记录的存储帐户 **连接字符串**。
     
-    1.  Leave the **Content Type** text box set to its default value.
+    4.  将“**内容类型**”文本框保留设置为默认值。
     
-    1.  Leave the **Set activation date** text box set to its default value.
+    5.  将“**设置激活日期**”文本框保留设置为默认值。
     
-    1.  Leave the **Set expiration date** text box set to its default value.
+    6.  将“**设置到期日期**”文本框保留设置为默认值。
     
-    1.  In the **Enabled** section, select **Yes**.
+    7.  在“**启用**”部分，选择“**是**”。
     
-    1.  Select **Create**.
+    8.  选择“**创建**”。
 
-1.  Wait for the secret to be created before you move forward with this lab.
+7.  等待机密创建完成后再继续本实验室。
 
-1.  Back in the **Secrets** pane, select the **storagecredentials** item in the list.
+8.  返回“**机密**”窗格，在列表中选择 **storagecredentials** 项目。
 
-1.  In the **Versions** pane, select the latest version of the **storagecredentials** secret.
+9.  在“**版本**”窗格中，选择最新版本的 **storagecredentials** 机密。
 
-1. In the **Secret Version** pane, perform the following actions.
+10. 在“**机密版本**”窗格中，执行以下操作。
     
-    1.  Observe the metadata for the latest version of the secret.
+    9.  观察最新版本秘密的元数据。
     
-    1. Select **Show secret value** to view the value of the secret.
+    10. 选择“**显示机密值**”以查看机密的值。
     
-    1. Record the value of the **Secret Identifier** text box because you will use this later in the lab.
+    11. 记录“**机密标识符**”文本框的值，稍后将在本实验室中用到。
 
-      > **Note**: You are recording the value of the **Secret Identifier** field, not the **Secret Value** field.
+> > 注：是记录“**机密标识符**”字段中的值，而不是“**机密值**”字段中的值。
 
-#### Task 3: Configure a Key Vault access policy
+#### 任务 3：配置密钥保管库访问策略
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+1.  在位于门户左侧的导航菜单上，选择“**资源组**”链接。
 
-1.  In the **Resource groups** blade, locate and select the **SecureFunction** resource group that you created earlier in this lab.
+2.  在“**资源组**”边栏选项卡中，找到并选择你之前在本实验室中创建的 **SecureFunction** 资源组。
 
-1.  In the **SecureFunction** blade, select the **securevault\*** Key Vault that you created earlier in this lab.
+3.  在“**SecureFunction**”边栏选项卡中，选择你之前在本实验室中创建的 **securevault\*** 密钥保管库。
 
-1.  In the **Key Vault** blade, select the **Access policies** link located in the **Settings** section.
+4.  在“**密钥保管库**”边栏选项卡中，选择位于“**设置**”部分的“**访问策略**”链接。
 
-1.  In the **Access policies** pane, select **+ Add new**.
+5.  在“**访问政策**”窗格中，选择“**新增**”。
 
-1.  In the **Add access policy** blade, perform the following actions:
+6.  在“**添加访问策略**”边栏选项卡中，执行以下操作：
     
-    1.  Select the **Select principal** link.
+    1.  选择“**选择主体**”链接。
     
-    1.  In the **Principal** blade, locate and select the service principal named **securefunc\[your name in lowercase\]**, and then select **Select**.
+    2.  在“**主体**”边栏选项卡中，找到并选择名为 **securefunc\[your name in lowercase\]** 的服务主体，然后选择“**选择**”。
     
-    1.  Leave the **Key permissions** list set to its default value.
+    3.  将“**密钥权限**”列表保留设置为默认值。
     
-    1.  In the **Secret permissions** drop-down list, select the **GET** permission.
+    4.  在“密钥权限”下拉列表中，选择 GET 权限。
     
-    1.  Leave the **Certificate permissions** list set to its default value.
+    5.  将“**证书权限**”列表保留设置为默认值。
     
-    1.  Leave the **Authorized application** text box set to its default value.
+    6.  将“**授权应用程序**”文本框保留设置为默认值。
     
-    1.  Select **OK**.
+    7.  选择“**确定**”。
 
-1.  Back in the **Access policies** pane, select **Save**.
+7.  返回“**访问策略**”窗格，选择“**保存**”。
 
-1.  Wait for your changes to the access policies to be saved before you move forward with this lab.
+8.  等待访问策略更改保存后再继续本实验室。
 
-#### Review
+#### 回顾
 
-In this exercise, you created a server-assigned managed service identity for your function app and then gave that identity the appropriate permissions to get the value of a secret in your Key Vault. Finally, you created a secret that you will use within your function app.
+在本练习中，你为函数应用创建了服务器分配的托管服务标识，然后为该标识提供了相应的权限，以获取密钥保管库中的机密值。最后，你创建了一个将在函数应用中使用的机密。
 
-### Exercise 3: Write function app code 
+### 练习 3：编写函数应用代码 
 
-#### Task 1: Create a .NET Core application setting
+#### 任务 1：创建密钥保管库派生的应用程序设置 
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+1.  在位于门户左侧的导航菜单上，选择“**资源组**”链接。
 
-1.  In the **Resource groups** blade, locate and select the **SecureFunction** resource group that you created earlier in this lab.
+2.  在“**资源组**”边栏选项卡中，找到并选择你之前在本实验室中创建的 **SecureFunction** 资源组。
 
-1.  In the **SecureFunction** blade, select the **securefunc\*** function app that you created earlier in this lab.
+3.  在“**SecureFunction**”边栏选项卡中，选择你之前在本实验室中创建的 **securefunc\*** 函数应用。
 
-1.  In the **Function App** blade, select the **Platform features** tab.
+4.  在“**函数应用**”边栏选项卡中，选择“**平台功能**”选项卡。
 
-1.  In the **Platform features** tab, select the **Configuration** link located in the **General Settings** section.
+5.  在“**平台功能**”选项卡中，选择位于“**常规设置**”部分的“**应用程序设置**”链接。
 
-1.  In the **Configuration** section, perform the following actions:
+6.  在“**应用程序设置**”选项卡中，执行以下操作：
     
-    1.  Select the **Application settings** tab.
+    1.  向下滚动直到看见“**应用程序设置**”部分。
     
-    1.  Select **+ New application setting**.
+    2.  选择“**+ 添加新设置**”。
     
-    1.  In the **Add/Edit application setting** popup that appears, in the **Name** field, enter **DOTNET_SKIP_FIRST_TIME_EXPERIENCE**.
+    3.  在“**输入名称**”文本框中，输入 **StorageConnectionString**。
     
-    1.  In the **Value** field, enter **true**.
+    4.  在“**输入值**”文本框中，使用下列语法构造一个值：**@Microsoft.KeyVault(SecretUri=\<Secret Identifier\>)**
 
-        > **Note**: The ``DOTNET_SKIP_FIRST_TIME_EXPERIENCE`` application setting tells .NET Core to disable it's built-in NuGet package caching mechanisms. On a temporary compute instance, this would effectively be a waste of time and cause build issues with your Azure Function.
-    
-    1.  Leave the **deployment slot setting** field set to its default value.
+> > 注：你需要使用以上语法构建一个**机密标识符**引用。例如，如果机密标识符为 **https://securevaultstudent.vault.azure.net/secrets/storagecredentials/17b41386df3e4191b92f089f5efb4cbf**，则值为 **@Microsoft.KeyVault(SecretUri= https://securevaultstudent.vault.azure.net/secrets/storagecredentials/17b41386df3e4191b92f089f5efb4cbf)**
 
-    1.  Select **OK** to close the popup and return to the **Configuration** section.
-    
-    1.  Select **Save** at the top of the blade to persist your settings.
+5.  将“**槽设置**”文本框保留设置为默认值。
+
+6.  滚动回选项卡顶部，然后选择“**保存**”。
 
-1.  Wait for your application settings to persist before you move forward with the lab.
+<!-- end list -->
 
-#### Task 2: Create a Key Vault-derived application setting 
+7.  等待应用程序设置保存后再继续此实验室。
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+#### 任务 2：创建 HTTP 触发的函数
 
-1.  In the **Resource groups** blade, locate and select the **SecureFunction** resource group that you created earlier in this lab.
+1.  在位于门户左侧的导航菜单上，选择“**资源组**”链接。
 
-1.  In the **SecureFunction** blade, select the **securefunc\*** function app that you created earlier in this lab.
+2.  在“**资源组**”边栏选项卡中，找到并选择你之前在本实验室中创建的 **SecureFunction** 资源组。
 
-1.  In the **Function App** blade, select the **Platform features** tab.
+3.  在“**SecureFunction**”边栏选项卡中，选择你之前在本实验室中创建的 **securefunc\*** 函数应用。
 
-1.  In the **Platform features** tab, select the **Configuration** link located in the **General Settings** section.
+4.  在“**函数应用**”边栏选项卡中，选择“**+ 新建函数**”。
 
-1.  In the **Configuration** section, perform the following actions:
+5.  在“**新建 Azure 函数**”快速入门中，执行以下操作：
     
-    1.  Select the **Application settings** tab.
+    1.  在“**选择开发环境**”标题下，选择“**在门户**”。
     
-    1.  Select **+ New application setting**.
+    2.  选择“**继续**”。
     
-    1.  In the **Add/Edit application setting** popup that appears, in the **Name** field, enter **StorageConnectionString**.
+    3.  在“**选择函数**”标题下，选择“**更多模板…**”。
     
-    1.  In the **Value** field, construct a value by using the following syntax: **@Microsoft.KeyVault(SecretUri=\<Secret Identifier\>)**
-
-      > **Note**: You will need to build a reference to your **Secret Identifier** by using the above syntax. For example, if your Secret Identifier is **https://securevaultstudent.vault.azure.net/secrets/storagecredentials/17b41386df3e4191b92f089f5efb4cbf**, then your value would be **@Microsoft.KeyVault(SecretUri= https://securevaultstudent.vault.azure.net/secrets/storagecredentials/17b41386df3e4191b92f089f5efb4cbf)**
+    4.  选择“**完成并查看模板**”。
     
-    1.  Leave the **deployment slot setting** field set to its default value.
-
-    1.  Select **OK** to close the popup and return to the **Configuration** section.
+    5.  在“**模板**”下拉列表中，选择“**HTTP 触发器**”。
+    
+    6.  在“**新函数**”弹出窗口中，找到“**名称**”文本框并输入 **FileParser**。
     
-    1.  Select **Save** at the top of the blade to persist your settings.
+    7.  在“**新函数**”弹出窗口中，找到“**授权级别**”列表并选择“**匿名**”。
+    
+    8.  在“**新建函数**”弹出窗口中，选择“**创建**”。
 
-1.  Wait for your application settings to persist before you move forward with the lab.
+6.  在函数编辑器中，观察示例函数脚本：
 
-#### Task 3: Create a HTTP-triggered function
+\#r "Newtonsoft.Json"
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+using System.Net;
 
-1.  In the **Resource groups** blade, locate and select the **SecureFunction** resource group that you created earlier in this lab.
+using Microsoft.AspNetCore.Mvc;
 
-1.  In the **SecureFunction** blade, select the **securefunc\*** function app that you created earlier in this lab.
+using Microsoft.Extensions.Primitives;
 
-1.  In the **Function App** blade, select **+ New function**.
+using Newtonsoft.Json;
 
-1.  In the **New Azure Function** quickstart, perform the following actions:
-    
-    1.  Under the **Choose a Development Environment** header, select **In-Portal**.
-    
-    1.  Select **Continue**.
-    
-    1.  Under the **Choose a Function** header, select **More templates…**.
-    
-    1.  Select **Finish and view templates**.
-    
-    1.  In the **Templates** drop-down list, select **HTTP trigger**.
-    
-    1.  In the **New Function** pop-up, locate the **Name** text box and enter **FileParser**.
-    
-    1.  In the **New Function** pop-up, locate the **Authorization level** list and select **Anonymous**.
-    
-    1.  In the **New Function** pop-up, select **Create**.
+public static async Task\<IActionResult\> Run(HttpRequest req, ILogger log)
 
-1.  In the function editor, observe the example function script:
+{
 
-    ```
-    #r "Newtonsoft.Json"
+log.LogInformation("C\# HTTP trigger function processed a request.");
 
-    using System.Net;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Primitives;
-    using Newtonsoft.Json;
+string name = req.Query\["name"\];
 
-    public static async Task<IActionResult> Run(HttpRequest req, ILogger log)
-    {
+string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
-        log.LogInformation("C\# HTTP trigger function processed a request.");
+dynamic data = JsonConvert.DeserializeObject(requestBody);
 
-        string name = req.Query\["name"\];
+name = name ?? data?.name;
 
-        string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+return name \!= null
 
-        dynamic data = JsonConvert.DeserializeObject(requestBody);
+? (ActionResult)new OkObjectResult($"Hello, {name}")
 
-        name = name ?? data?.name;
+: new BadRequestObjectResult("Please pass a name on the query string or in the request body");
 
-        return name != null
-            ? (ActionResult)new OkObjectResult($"Hello, {name}")
-            : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
-    }
-    ```
+}
 
-1.  **Delete** all the example code.
+7.  **删除** 所有示例代码。
 
-1.  Within the function editor, copy and paste the following placeholder function:
+8.  在函数编辑器中，复制并粘贴以下占位符函数：
 
-    ```
-    using System.Net;
-    using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
-    public static async Task<IActionResult> Run(HttpRequest req)
-    {
-        return new OkObjectResult("Test Successful");
-    }
-    ```
+using Microsoft.AspNetCore.Mvc;
 
-1.  Select **Save and run** to save the script and perform a test execution of the function.
+public static async Task\<IActionResult\> Run(HttpRequest req)
 
-1. The **Test** and **Logs** panes will automatically appear when the script executes for the first time.
+{
 
-1. Observe the **Output** text box in the **Test** pane. You should now see the value **Test Successful** returned from the function.
+return new OkObjectResult("Test Successful");
 
-#### Task 4: Test the Key Vault-derived application setting
+}
 
-1.  Delete the existing code within the **Run** method of the script.
+9.  选择“**保存并运行**”以保存脚本并执行函数的测试执行。
 
-1.  The **Run** method should now look like this:
+10. 脚本第一次执行时，“**测试**”和“**日志**”窗格将自动显示。
 
-    ```
-    using System.Net;
-    using Microsoft.AspNetCore.Mvc;
+11. 观察“**测试**”窗格中的“**输出**”文本框。你现在应该看到函数返回“**测试成功**”值。
 
-    public static async Task<IActionResult> Run(HttpRequest req)
-    {
+#### 任务 3：测试应用程序设置
 
-    }
-    ```
+1.  删除脚本 **Run** 方法中的现有代码。
 
-1.  Add the following line of code to get the value of the **StorageConnectionString** application setting by using the **Environment.GetEnvironmentVariable** method:
+2.  **Run** 方法现在应该类似于：
 
-    ```
-    string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
-    ```
+using System.Net;
 
-1.  Add the following line of code to return the value of the **connectionString** variable by using the **OkObjectResult** class constructor:
-   
-    ```
-    return new OkObjectResult(connectionString);
-    ```
-    
-1.  The **Run** method should now look like this:
+using Microsoft.AspNetCore.Mvc;
+
+public static async Task\<IActionResult\> Run(HttpRequest req)
+
+{
+
+}
+
+3.  添加以下代码行，以通过使用 **Environment.GetEnvironmentVariable** 方法获取 **StorageConnectionString** 应用程序设置的值：
+
+string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
+
+4.  添加以下代码行，以通过使用 **OkObjectResult** 类构造函数返回 **connectionString** 变量的值：
+
+return new OkObjectResult(connectionString);
+
+5.  **Run** 方法现在应该类似于：
 
-    ```
-    using System.Net;
-    using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
-    public static async Task<IActionResult> Run(HttpRequest req)
-    {
-        string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
-        return new OkObjectResult(connectionString);
-    }
-    ```
+using Microsoft.AspNetCore.Mvc;
 
-1.  Select **Save and run** to save the script and perform a test execution of the function.
+public static async Task\<IActionResult\> Run(HttpRequest req)
 
-1.  Observe the **Output** text box in the **Test** pane. You should now see the connection string returned from the function.
+{
 
-#### Review
+string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
 
-In this exercise, you securely used a service identity to read the value of a secret stored in **Azure Key Vault** and return that value as the result of an **Azure Function**.
+return new OkObjectResult(connectionString);
 
-### Exercise 4: Access Storage Account blobs
+}
 
-#### Task 1: Upload a sample storage blob
+6.  选择“**保存并运行**”以保存脚本并执行函数的测试执行。
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+7.  观察“**测试**”窗格中的“**输出**”文本框。你现在应该看到函数返回的连接字符串。
 
-1.  In the **Resource groups** blade, locate and select the **SecureFunction** resource group that you created earlier in this lab.
+#### 回顾
 
-1.  In the **SecureFunction** blade, select the **securestor\*** storage account that you created earlier in this lab.
+在本练习中，你安全地使用了服务标识读取 **Azure 密钥保管库**中存储的机密值并将该值作为 **Azure Function** 的结果返回。
 
-1.  In the **Storage account** blade, select the **Blobs** link located in the **Blob service** section on the left side of the blade.
+### 练习 4：访问存储帐户 blob
 
-1.  In the **Blobs** section, select **+ Container**.
+#### 任务 1：上传示例存储 blob
 
-1.  In the **New container** pop-up, perform the following actions:
+1.  在位于门户左侧的导航菜单上，选择“**资源组**”链接。
+
+2.  在“**资源组**”边栏选项卡中，找到并选择你之前在本实验室中创建的 **SecureFunction** 资源组。
+
+3.  在“**SecureFunction**”边栏选项卡中，选择你之前在本实验室中创建的 **securestor\*** 存储帐户。
+
+4.  在“**存储帐户**”边栏选项卡中，选择位于边栏选项卡左侧“**Blob 服务**”部分的“**Blob**”链接。
+
+5.  在“**Blob**”部分，选择“**+ 容器**”。
+
+6.  在“**新建容器**”弹出窗口中，执行以下操作：
     
-    1.  In the **Name** text box, enter **drop**.
+    1.  在“**名称**”文本框中，输入 **drop**。
     
-    1.  In the **Public access level** drop-down list, select **Blob (anonymous read access for blobs only)**.
+    2.  在“**公共访问级别**”下拉列表中，选择“**Blob（仅限 blob 匿名读取访问）**”。
     
-    1.  Select **OK**.
+    3.  选择“**确定**”。
 
-1.  Back in the **Blobs** section, select the newly created **drop** container.
+7.  返回“**Blob**”部分，选择新创建的“**drop**”容器。
 
-1.  In the **Container** blade, select **Upload**.
+8.  在“**容器**”边栏选项卡中，选择“**上传**”。
 
-1.  In the **Upload blob** pop-up, perform the following actions:
+9.  在“**上传 blob**”弹出窗口中，执行以下操作：
     
-    1.  In the **Files** section, select the **Folder** icon.
+    4.  在“**文件**”部分，选择“**文件夹**”图标。
     
-    1.  In the File Explorer dialog box, go to **Allfiles (F):\\Allfiles\\Labs\\04\\Starter**, select the **records.json** file, and then select **Open**.
+    5.  在“文件资源管理器”对话框中，转到 **Allfiles (F):\\Labfiles\\04\\Starter**，选择 **records.json** 文件，然后选择“**打开**”。
     
-    1.  Ensure that **Overwrite if files already exist** is selected.
+    6.  确保“**如果文件已存在，请覆盖**”已选中。
     
-    1.  Select **Upload**.
+    7.  选择“**上传**”。
 
-1. Wait for the blob to be uploaded before you continue with this lab.
+10. 等待 blob 上传完成再继续本实验室。
 
-1. Back in the **Container** blade, select the **records.json** blob from the list of blobs.
+11. 返回“**容器**”边栏选项卡，从 blob 列表选择 **records.json** blob。
 
-1. In the **Blob** blade, view the blob metadata.
+12. 在“**Blob**”边栏选项卡中，查看 blob 元数据。
 
-1. Copy the **URL** for the blob.
+13. 复制 blob 的 **URL**。
 
-1. On the taskbar, right-select the **Microsoft Edge** icon and then select **New window**.
+14. 在任务栏上，右键选择 **Microsoft Edge** 图标，然后选择“**新窗口**”。
 
-1. In the new browser window, navigate to the **URL** that you copied for the blob.
+15. 在新的浏览器窗口中，导航到你复制的 blob **URL**。
 
-1. You should now see the **JSON** contents of the blob. Close the browser window showing the **JSON** contents.
+16. 你现在应该看到 blob 的 **JSON** 内容。关闭显示 **JSON** 内容的浏览器窗口。
 
-1. Return to the browser window with the **Azure portal.**
+17. 返回 **Azure 门户**浏览器窗口。
 
-1. Close the **Blob** blade.
+18. 关闭“**Blob**”边栏选项卡。
 
-1. Back in the **Container** blade, select **Change access level policy** located at the top of the blade.
+19. 返回“**容器**”边栏选项卡，选择位于边栏选项卡顶部的“**更改访问级别策略**”。
 
-1. In the **Change access level** pop-up that appears, perform the following actions:
+20. 在显示的“**更改访问级别**”弹出窗口中，执行以下操作：
     
-    1.  In the **Public access level** drop-down list, select **Private (no anonymous access)**.
+    8.  在“**公共访问级别**”下拉列表中，选择“**专用（无匿名访问）**”。
     
-    1.  Select **OK**.
+    9.  选择“**确定**”。
 
-1. On the taskbar, right-select the **Microsoft Edge** icon and then select **New window**.
+21. 在任务栏上，右键选择 **Microsoft Edge** 图标，然后选择“**新窗口**”。
 
-1. In the new browser window, navigate to the **URL** that you copied for the blob.
+22. 在新的浏览器窗口中，导航到你复制的 blob **URL**。
 
-1. You should now see an error message indicating that the resource was not found.
+23. 你现在应看到一条指示找不到资源的错误消息。
 
-    > **Note**: If you do not see the error message, your browser might have cached the file. Use **Ctrl+F5** to refresh the page until you see the error message.
+> > 注：如果你没有看到错误消息，则浏览器可能已缓存该文件。使用 **Ctrl+F5** 刷新页面，直到看到错误消息。
 
-#### Task 2: Pull the Storage Account SDK from NuGet
+#### 任务 2：配置存储帐户 DK
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+1.  在位于门户左侧的导航菜单上，选择“**资源组**”链接。
 
-1.  In the **Resource groups** blade, locate and select the **SecureFunction** resource group that you created earlier in this lab.
+2.  在“**资源组**”边栏选项卡中，找到并选择你之前在本实验室中创建的 **SecureFunction** 资源组。
 
-1.  In the **SecureFunction** blade, select the **securefunc\*** function app that you created earlier in this lab.
+3.  在“**SecureFunction**”边栏选项卡中，选择你之前在本实验室中创建的 **securefunc\*** 函数应用。
 
-1.  In the **Function App** blade, locate and select the existing **FileParser** function to open the editor for the function.
+4.  在“**函数应用**”功能选项卡中，找到并选择现有的 **FileParser** 函数以打开函数编辑器。
 
-    > **Note**: You might need to expand the **Functions** option in the menu on the left side of the blade.
+> > 注：你可能需要在边栏选项卡左侧的菜单中展开“**函数**”选项。
 
-1.  On the right side of the editor, select **View files** to open the tab.
+5.  在编辑器右侧，选择“**查看文件**”打开选项卡。
 
-1.  In the **View files** tab, select **Add**.
+6.  在“**查看文件**”选项卡中，选择“**上传**”。
 
-1.  In the filename dialog that appears, enter **function.proj**.
+7.  在打开的“文件资源管理器”对话框中，转到 **Allfiles (F):\\Labfiles\\04\\Starter**，选择 **function.proj** 文件，然后选择“**打开**”。
 
-1.  In the file editor, insert this configuration content:
+8.  选择 **function.proj** 文件以查看文件内容。
 
-    ```
-    <Project Sdk="Microsoft.NET.Sdk">
-        <PropertyGroup>
-            <TargetFramework>netstandard2.0</TargetFramework>
-        </PropertyGroup>
-        <ItemGroup>
-            <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.0.0" />
-        </ItemGroup>
-    </Project>
-    ```
+9.  选择 **run.csx** 文件以返回 **FileParser** 函数编辑器。
 
-1. In the editor, select **Save** button to persist your changes to the configuration.
+10. 最小化“**查看文件**”选项卡。
 
-    > **Note**: This **.proj** file contains the NuGet package reference necessary to import the [SixLabors.ImageSharp](https://www.nuget.org/packages/Microsoft.Azure.Storage.Blob/11.0.0) package.
+> > 注：你可以通过选择紧靠选项卡标题右侧的箭头来最小化选项卡。
 
-1.  Select the **function.proj** file to view the contents of the file.
+11. 在编辑器中，删除脚本 **Run** 方法中的现有代码。
 
-1.  Select the **run.csx** file to return to the editor for the **FileParser** function.
+12. 在代码文件顶部，添加以下代码行以为 **Microsoft.WindowsAzure.Storage** 命名空间创建 **using** 块：
 
-1. Minimize the **View files** tab.
+using Microsoft.WindowsAzure.Storage;
 
-    > **Note**: You can minimize the tab by selecting the arrow immediately to the right of the tab header.
+13. 添加以下代码行以为 **Microsoft.WindowsAzure.Storage.Blob** 命名空间创建 **using** 块：
 
-1. Within the editor, delete the existing code within the **Run** method of the script.
+using Microsoft.WindowsAzure.Storage.Blob;
 
-1. At the top of the code file, add the following line of code to create a **using** block for the **Microsoft.Azure.Storage** namespace:
+14. **Run** 方法现在应该类似于：
 
-    ```
-    using Microsoft.Azure.Storage;
-    ```
+using System.Net;
 
-1. Add the following line of code to create a **using** block for the **Microsoft.Azure.Storage.Blob** namespace:
+using Microsoft.AspNetCore.Mvc;
 
-    ```
-    using Microsoft.Azure.Storage.Blob;
-    ```
+using Microsoft.WindowsAzure.Storage;
 
-1. The **Run** method should now look like this:
+using Microsoft.WindowsAzure.Storage.Blob;
 
-    ```
-    using System.Net;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Azure.Storage;
-    using Microsoft.Azure.Storage.Blob;
-    
-    public static async Task<IActionResult> Run(HttpRequest req)
-    {
+public static async Task\<IActionResult\> Run(HttpRequest req)
 
-    }
-    ```
+{
 
-#### Task 3: Write storage account code
+}
 
-1.  Add the following line of code within the **Run** method to get the value of the **StorageConnectionString** application setting by using the **Environment.GetEnvironmentVariable** method:
+#### 任务 3：编写存储帐户代码
 
-    ```
-    string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
-    ```
+1.  在 **Run** 方法中添加以下代码行，以通过使用 **Environment.GetEnvironmentVariable** 方法获取 **StorageConnectionString** 应用程序设置的值：
 
-1.  Add the following line of code to create a new instance of the **CloudStorageAccount** class by using the **CloudStorageAccount.Parse** static method, passing in your *connectionString* variable:
+string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
 
-    ```
-    CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
-    ```
+2.  添加以下代码行，以使用 **CloudStorageAccount.Parse** 静态方法创建一个 **CloudStorageAccount** 类新实例，传入 *connectionString* 变量：
 
-1.  Add the following line of code to use the **CloudStorageAccount.CreateCloudBlobClient** method to create a new instance of the **CloudBlobClient** class that will give you access to blobs in your storage account:
+CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
 
-    ```
-    CloudBlobClient blobClient = account.CreateCloudBlobClient();
-    ```
+3.  添加以下代码行，以使用 **CloudStorageAccount.CreateCloudBlobClient** 方法创建一个让你在存储帐户中访问 blob 的 **CloudBlobClient** 类新实例：
 
-1.  Add the following line of code to use the **CloudBlobClient.GetContainerReference** method, while passing in the **drop** container name to create a new instance of the **CloudBlobContainer** class that references the container that you created earlier in this lab:
+CloudBlobClient blobClient = account.CreateCloudBlobClient();
 
-    ```
-    CloudBlobContainer container = blobClient.GetContainerReference("drop");
-    ```
+4.  添加以下代码行，以在传入 **drop** 容器名称时使用 **CloudBlobClient.GetContainerReference** 方法创建一个引用之前在本实验室中创建的容器的 **CloudBlobContainer** 类新实例：
 
-1.  Add the following line of code to use the **CloudBlobContainer.GetBlockBlobReference** method, while passing in the **records.json** blob name to create a new instance of the **CloudBlockBlob** class that references the blob that you uploaded earlier in this lab:
+CloudBlobContainer container = blobClient.GetContainerReference("drop");
 
-    ```
-    CloudBlockBlob blob = container.GetBlockBlobReference("records.json");
-    ```
-    
-1.  The **Run** method should now look like this:
+5.  添加以下代码行，以在传入 **records.json** blob 名称时使用 **CloudBlobContainer.GetBlockBlobReference** 方法创建一个引用之前在本实验室中上传的 blob 的 **CloudBlockBlob** 类新实例：
 
-    ```
-    using System.Net;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Azure.Storage;
-    using Microsoft.Azure.Storage.Blob;
+CloudBlockBlob blob = container.GetBlockBlobReference("records.json");
 
-    public static async Task<IActionResult> Run(HttpRequest req)
-    {
-        string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
-        CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
-        CloudBlobClient blobClient = account.CreateCloudBlobClient();
-        CloudBlobContainer container = blobClient.GetContainerReference("drop");
-        CloudBlockBlob blob = container.GetBlockBlobReference("records.json");
-    }
-    ```
+6.  **Run** 方法现在应该类似于：
 
-#### Task 4: Download a blob
+using System.Net;
 
-1.  Add the following line of code to use the **CloudBlockBlob.DownloadTextAsync** method to download the contents of the referenced blob asynchronously and store the result in a string variable named *content*:
+using Microsoft.AspNetCore.Mvc;
 
-    ```
-    string content = await blob.DownloadTextAsync();
-    ```
+using Microsoft.WindowsAzure.Storage;
 
-1.  Add the following line of code to return the value of the *content* variable by using the **OkObjectResult** class constructor:
+using Microsoft.WindowsAzure.Storage.Blob;
 
-    ```
-    return new OkObjectResult(content);
-    ```
+public static async Task\<IActionResult\> Run(HttpRequest req)
 
-1.  The **Run** method should now look like this:
+{
 
-    ```
-    using System.Net;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Azure.Storage;
-    using Microsoft.Azure.Storage.Blob;
+string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
 
-    public static async Task<IActionResult> Run(HttpRequest req)
-    {
-        string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
-        CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
-        CloudBlobClient blobClient = account.CreateCloudBlobClient();
-        CloudBlobContainer container = blobClient.GetContainerReference("drop");
-        CloudBlockBlob blob = container.GetBlockBlobReference("records.json");
-        string content = await blob.DownloadTextAsync();
-        return new OkObjectResult(content);
-    }
-    ```
+CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
 
-1.  Select **Save and run** to save the script and perform a test execution of the function.
+CloudBlobClient blobClient = account.CreateCloudBlobClient();
 
-1.  Observe the **Output** text box in the **Test** pane. You should now see the content of the **$/drop/records.json** blob stored in your **storage account**.
+CloudBlobContainer container = blobClient.GetContainerReference("drop");
 
-#### Task 5: Generate a Shared Access Signature (SAS)
+CloudBlockBlob blob = container.GetBlockBlobReference("records.json");
 
-1.  **Delete** the following lines of code:
+}
 
-    ```
-    string content = await blob.DownloadTextAsync();
+#### 任务 4：下载一个 blob
 
-    return new OkObjectResult(content);
-    ```
+1.  添加以下代码行，以使用 **CloudBlockBlob.DownloadTextAsync** 方法以异步方式下载引用的 blob 内容，并将结果存储在名为 *content* 的字符串变量中：
 
-1.  The **Run** method should now look like this:
+string content = await blob.DownloadTextAsync();
 
-    ```
-    using System.Net;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Azure.Storage;
-    using Microsoft.Azure.Storage.Blob;
-    
-    public static async Task<IActionResult> Run(HttpRequest req)
-    {
-        string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
-        CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
-        CloudBlobClient blobClient = account.CreateCloudBlobClient();
-        CloudBlobContainer container = blobClient.GetContainerReference("drop");
-        CloudBlockBlob blob = container.GetBlockBlobReference("records.json");
-    }
-    ```
+2.  添加以下代码行，以通过使用 **OkObjectResult** 类构造函数返回 *content* 变量的值：
+
+return new OkObjectResult(content);
+
+3.  **Run** 方法现在应该类似于：
+
+using System.Net;
+
+using Microsoft.AspNetCore.Mvc;
+
+using Microsoft.WindowsAzure.Storage;
+
+using Microsoft.WindowsAzure.Storage.Blob;
+
+public static async Task\<IActionResult\> Run(HttpRequest req)
+
+{
+
+string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
+
+CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
+
+CloudBlobClient blobClient = account.CreateCloudBlobClient();
+
+CloudBlobContainer container = blobClient.GetContainerReference("drop");
+
+CloudBlockBlob blob = container.GetBlockBlobReference("records.json");
+
+string content = await blob.DownloadTextAsync();
+
+return new OkObjectResult(content);
+
+}
 
-1.  Add the following line of code to create a new instance of the **SharedAccessPolicy** class with the following settings:
+4.  选择“**保存并运行**”以保存脚本并执行函数的测试执行。
+
+5.  观察“**测试**”窗格中的“**输出**”文本框。你现在应该看到**存储帐户**中存储的 **$/drop/records.json** blob 内容。
+
+#### 任务 5：创建共享访问签名 (SAS)
+
+1.  **删除**以下代码行：
+
+string content = await blob.DownloadTextAsync();
+
+return new OkObjectResult(content);
+
+2.  **Run** 方法现在应该类似于：
+
+using System.Net;
+
+using Microsoft.AspNetCore.Mvc;
+
+using Microsoft.WindowsAzure.Storage;
+
+using Microsoft.WindowsAzure.Storage.Blob;
+
+public static async Task\<IActionResult\> Run(HttpRequest req)
+
+{
+
+string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
+
+CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
+
+CloudBlobClient blobClient = account.CreateCloudBlobClient();
+
+CloudBlobContainer container = blobClient.GetContainerReference("drop");
+
+CloudBlockBlob blob = container.GetBlockBlobReference("records.json");
+
+}
+
+3.  添加以下代码行，以使用以下设置创建一个新的 **SharedAccessPolicy** 类实例：
     
-      - **Permission**: Read
+      - **权限**：读取
     
-      - **Service Scope**: Blob
+      - **服务范围**：Blob
     
-      - **Resource Types**: Object
+      - **资源类型**：Object
     
-      - **Expiration Time**: 2 Hours
+      - **到期时间**：2 小时
     
-      - **Protocol:** HTTPS Only
+      - **协议:** 仅 HTTPS
 
-    ```
-    SharedAccessAccountPolicy policy = new SharedAccessAccountPolicy()
-    {
-        Permissions = SharedAccessAccountPermissions.Read,
-        Services = SharedAccessAccountServices.Blob,
-        ResourceTypes = SharedAccessAccountResourceTypes.Object,
-        SharedAccessExpiryTime = DateTime.UtcNow.AddHours(2),
-        Protocols = SharedAccessProtocol.HttpsOnly
-    };
-    ```
+SharedAccessAccountPolicy policy = new SharedAccessAccountPolicy()
 
-1.  Add the following line of code to use the **CloudStorageAccount.GetSharedAcessSignature** method to generate a new **Shared Access Signature (SAS) token** by using the provided policy, and then store the result in a string variable named *sasToken*:
+{
 
-    ```
-    string sasToken = account.GetSharedAccessSignature(policy);
-    ```
+Permissions = SharedAccessAccountPermissions.Read,
 
-1.  Add the following line of code to concatenate the value of the **CloudBlockBlob.Uri** property and the *sasToken* string variable, and store the result in a new variable named *secureBlobUrl*:
+Services = SharedAccessAccountServices.Blob,
 
-    ```
-    string secureBlobUrl = $"{blob.Uri}{sasToken}";
-    ```
+ResourceTypes = SharedAccessAccountResourceTypes.Object,
 
-1.  Add the following line of code to return the value of the *secureBlobUrl* variable by using the **OkObjectResult** class constructor:
+SharedAccessExpiryTime = DateTime.UtcNow.AddHours(2),
 
-    ```
-    return new OkObjectResult(secureBlobUrl);
-    ```
+Protocols = SharedAccessProtocol.HttpsOnly
 
-1.  The **Run** method should now look like this:
+};
 
-    ```
-    using System.Net;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Azure.Storage;
-    using Microsoft.Azure.Storage.Blob;
+4.  添加以下代码行以使用 **CloudStorageAccount.GetSharedAcessSignature** 方法通过使用提供的策略生成新的 **共享访问签名 (SAS)** 令牌，然后将结果存储在名为 *sasToken* 的字符串变量中：
 
-    public static async Task<IActionResult> Run(HttpRequest req)
-    {
-        string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
-        CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
-        CloudBlobClient blobClient = account.CreateCloudBlobClient();
-        CloudBlobContainer container = blobClient.GetContainerReference("drop");
-        CloudBlockBlob blob = container.GetBlockBlobReference("records.json");
-        SharedAccessAccountPolicy policy = new SharedAccessAccountPolicy()
-        {
-            Permissions = SharedAccessAccountPermissions.Read,
-            Services = SharedAccessAccountServices.Blob,
-            ResourceTypes = SharedAccessAccountResourceTypes.Object,
-            SharedAccessExpiryTime = DateTime.UtcNow.AddHours(2),
-            Protocols = SharedAccessProtocol.HttpsOnly
-        };
-        string sasToken = account.GetSharedAccessSignature(policy);
-        string secureBlobUrl = $"{blob.Uri}{sasToken}";
-        return new OkObjectResult(secureBlobUrl);
-    }
-    ```
+string sasToken = account.GetSharedAccessSignature(policy);
 
-1.  Select **Save and run** to save the script and perform a test execution of the function.
+5.  添加以下代码行以连接 **CloudBlockBlob.Uri** 属性的值和 *sasToken* 字符串变量，并将结果储存在名为 *secureBlobUrl* 的新变量中：
 
-1.  Observe the **Output** text box in the **Test** pane. You should now see a unique **Secure URL** that can be used to access the secured blob. Record this **URL** because you will need to use it in the next step of this lab.
+string secureBlobUrl = $"{blob.Uri}{sasToken}";
 
-1. On the taskbar, right-select the **Microsoft Edge** icon and then select **New window**.
+6.  添加以下代码行，以通过使用 **OkObjectResult** 类构造函数返回 *secureBlobUrl* 变量的值：
 
-1. In the new browser window, navigate to the **Secure** **URL** that you copied for the blob.
+return new OkObjectResult(secureBlobUrl);
 
-1. You should now see the **JSON** contents of the blob. Close the browser window showing the **JSON** contents.
+7.  **Run** 方法现在应该类似于：
 
-1. Return to the browser window with the **Azure portal.**
+using System.Net;
 
-#### Review
+using Microsoft.AspNetCore.Mvc;
 
-In this exercise, you used C\# code to access a storage account securely, download the contents of a blob, and then generate a SAS token that can be used to access the blob securely on another client.
+using Microsoft.WindowsAzure.Storage;
 
-### Exercise 5: Clean up subscription 
+using Microsoft.WindowsAzure.Storage.Blob;
 
-#### Task 1: Open Azure Cloud Shell and list resource groups
+public static async Task\<IActionResult\> Run(HttpRequest req)
 
-1.  In the top navigation bar in the Azure Portal, select the **Cloud Shell** icon to open a new shell instance.
+{
 
-1.  In the **Cloud Shell** command prompt at the bottom of the portal, type in the following command and press Enter to list all resource groups in the subscription:
+string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
 
-    ```
-    az group list
-    ```
+CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
 
-1.  In the prompt, type the following command and press Enter to view a list of possible commands to delete a resource group:
+CloudBlobClient blobClient = account.CreateCloudBlobClient();
 
-    ```
-    az group delete --help
-    ```
+CloudBlobContainer container = blobClient.GetContainerReference("drop");
 
-#### Task 2: Delete resource group
+CloudBlockBlob blob = container.GetBlockBlobReference("records.json");
 
-1.  In the prompt, type the following command and press Enter to delete the **SecureFunction** resource group:
+SharedAccessAccountPolicy policy = new SharedAccessAccountPolicy()
 
-    ```
-    az group delete --name SecureFunction --no-wait --yes
-    ```
-    
-1.  Close the **Cloud Shell** pane at the bottom of the portal.
+{
+
+Permissions = SharedAccessAccountPermissions.Read,
+
+Services = SharedAccessAccountServices.Blob,
+
+ResourceTypes = SharedAccessAccountResourceTypes.Object,
+
+SharedAccessExpiryTime = DateTime.UtcNow.AddHours(2),
+
+Protocols = SharedAccessProtocol.HttpsOnly
+
+};
+
+string sasToken = account.GetSharedAccessSignature(policy);
+
+string secureBlobUrl = $"{blob.Uri}{sasToken}";
+
+return new OkObjectResult(secureBlobUrl);
+
+}
+
+8.  选择“**保存并运行**”以保存脚本并执行函数的测试执行。
+
+9.  观察“**测试**”窗格中的“**输出**”文本框。你现在应看到可用于访问安全 blob 的唯一 **安全 URL**。记录此 **URL**，稍后将在本实验室的下一个步骤中用到。
+
+10. 在任务栏上，右键选择 **Microsoft Edge** 图标，然后选择“**新窗口**”。
+
+11. 在新的浏览器窗口中，导航到你复制的 **安全****URL**。
+
+12. 你现在应该看到 blob 的 **JSON** 内容。关闭显示 **JSON** 内容的浏览器窗口。
+
+13. 返回 **Azure 门户**浏览器窗口。
+
+#### 回顾
+
+在本练习中，你使用了 C\# 代码安全访问存储帐户、下载 blob 内容并生成可用于在另一个客户端上安全访问 blob 的 SAS 令牌。
+
+### 练习 5：清理订阅 
+
+#### 任务 1：打开 Azure Cloud Shell 并列出资源组
+
+1.  在 Azure 门户的顶部导航栏中，选择 **Cloud Shell** 图标打开一个新的 Shell 实例。
+
+2.  在门户底部的 **Cloud Shell** 命令提示符中，输入以下命令，然后按 Enter 键列出订阅中的所有资源组：
+
+az group list
+
+3.  在提示符中，输入以下命令，然后按 Enter 键查看删除资源组的可能命令列表：
+
+az group delete --help
+
+#### 任务 2：删除资源组
+
+1.  在提示符中，输入以下命令，然后按 Enter 键删除 **SecureFunction** 资源组：
+
+az group delete --name SecureFunction --no-wait --yes
+
+2.  关闭门户底部的“**Cloud Shell**”窗格。
 
-#### Task 3: Close active application
+#### 任务 3：关闭活动应用程序
 
-> Close the currently running **Microsoft Edge** application.
+> 关闭当前正在运行的 **Microsoft Edge** 应用程序。
 
-#### Review
+#### 回顾
 
-In this exercise, you cleaned up your subscription by removing the **resource groups** used in this lab.
+在本练习中，你通过移除本实验室中使用过的 **资源组** 来清理订阅。

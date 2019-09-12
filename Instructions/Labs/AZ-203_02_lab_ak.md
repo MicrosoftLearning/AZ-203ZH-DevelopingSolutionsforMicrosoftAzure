@@ -1,8 +1,8 @@
 ﻿---
-实验室：
-    标题：“实验室：在 Azure 平台即服务 (PaaS) 产品上构建 Web 应用程序”
-    类型：“答案”
-    模块：“模块 2：开发 Azure 平台即服务 (PaaS) 计算解决方案”
+lab:
+    title: '实验室：在 Azure 平台即服务 (PaaS) 产品上构建 Web 应用程序'
+    type: '答案'
+    module: '模块 2：开发 Azure 平台即服务 (PaaS) 计算解决方案'
 ---
 
 # 实验室：在 Azure 平台即服务 (PaaS) 产品上构建 Web 应用程序
